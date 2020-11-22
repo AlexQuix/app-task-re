@@ -1,0 +1,210 @@
+@media(max-width: 500px){
+    *{
+        font-size: 16px;
+    }
+
+
+
+
+    /* CONTAINER NAVEGATION */
+    #container-nav > nav > ul{
+        padding: 0px 20px;
+    }
+    /* CONT NAVEGATION BUTTON SEARCH */
+    #container-nav > nav > ul > #link-search > a{
+        height: 35px;
+    }
+    #container-nav > nav > ul > #link-search > a > input{
+        width: 0px;
+        padding: 0px;
+        font-size: 1rem;
+        transition: 0.5s;
+    }
+    #container-nav > nav > ul > #link-search > a > span{
+        width: 45px;
+        padding: 6px;
+    }
+
+    
+
+
+    /* CONTAINER FILTER SEARCH */
+    #contaner-filter-search{
+        padding: 10px 20px;
+    }
+    /* ALL INPUTS RHE FILTER */
+    #contaner-filter-search > ul{
+        width: 100%;
+        height: 100vh;
+        margin-top: 0px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        position: absolute;
+        top: 0px;
+        left: -100%;
+        z-index: 900;
+        background: var(--ligh-color-second);
+        transition: 0.5s;
+    }
+    #contaner-filter-search > ul li,
+    #contaner-filter-search > ul > #select-priority{
+        width: 80%;
+        margin: 10px 0px 20px;
+        border-right: none;
+    }
+    #contaner-filter-search > ul li > input,
+    #contaner-filter-search > ul > #select-priority > label{
+        font-size: 1.2rem;
+        padding-left: 20px;
+    }
+    #contaner-filter-search > ul > #select-priority > label > select{
+        width: 100%;
+        padding: 3px 10px;
+        margin-left: 10px;
+        font-size: 1.2rem;
+        font-weight: 500;
+        border: none;
+        outline: none;
+        color: var(--dark-color-theme);
+        background: #fff;
+    }
+    #contaner-filter-search > ul #btn-filter-search > button{
+        font-size: 1.3rem;
+    }
+    #contaner-filter-search > ul #btn-filter-search > button > svg{
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+    /* CONT TITLE FILTER */
+    #contaner-filter-search > ul > #cont-title-filter{
+        display: block;
+    }
+    #contaner-filter-search > ul > #cont-title-filter > header > h1{
+        width: 100%;
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    /* CONT BUTTON CLOSE */
+    #contaner-filter-search > ul > #cont-btn-close{
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: 40px;
+        right: 20px;
+        outline: none;
+        background: none;
+        border: none;
+        display: block;
+    }
+    #contaner-filter-search > ul > #cont-btn-close > svg{
+        width: 100%;
+        height: 100%;
+        fill: var(--dark-color-second);
+        transition: 0.5s;
+    } 
+    #contaner-filter-search > ul > #cont-btn-close:hover > svg{
+        fill: #ED1A72;
+    }
+
+
+
+    
+
+    /* CONTAINER TASKS */
+    #container-task{
+        width: 100%;
+        padding: 20px 0px;
+    }
+    /* CONT NAME THE LIST TASK */
+    #container-task > #cont-all-task-lists .cont-list-task > #name-list-task{
+        margin-left: 20px;
+    }
+    /* CONTAINER ALL TASKS */
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task{
+        padding: 20px;
+    }
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task::before{
+        border: none;
+        border-top: 3px solid var(--dark-color-theme);
+        border-bottom: 3px solid var(--dark-color-theme);
+        border-radius: 0px;
+    }
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task{
+        height: 40px;
+        margin-bottom: 0px;
+        position: relative;
+        transition: 0.5s;
+    }
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task > #cont-task-inf > #btn-complete-task{
+        width: 50px;
+        height: 40px;
+    }
+    /* BUTTON VISIBLE CONTENT CONFIGURATION */
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task > #cont-btn-visible-configuration{
+        cursor: pointer;
+        width: 70px;
+        height: 100%;
+        padding: 10px 20px;
+        outline: none;
+        background: none;
+        border: none;
+        display: block;
+    }
+    /* CONFIGURATION BUTTONS */
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task > #cont-btns-config{
+        width: 100%;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background: rgb(240, 240, 240);
+        z-index: -1;
+        transition: 0.5s;
+    }
+    /* LIST OF THE PRIORITYS */
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task > #cont-btns-config > #list-options-priority{
+        top: 40px;
+    }
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task > #cont-btns-config > #btn-read-task::before,
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task > #cont-btns-config > #btn-priority-task::before{
+        height: 40px;
+        top: 0px;
+    }
+
+
+
+    
+    /* FORM CREATE NEW TASK */
+    #container-task > #form-create-new-task{
+        width: 100%;
+        height: 100vh;
+        font-size: 22px;
+        position: fixed;
+        top: 0px;
+        right: -110%;
+        display: flex;
+        transition: 0.7s;
+    }
+    #container-task > #form-create-new-task > form{
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+        place-content: center;
+    }
+    #container-task > #form-create-new-task > form > #form-inputs label > input{
+        font-size: 1.1rem;
+    }
+    #container-task > #form-create-new-task > form > #btn-close{
+        top: 20px;
+        right: 20px;
+    }
+    #container-task > #form-create-new-task > form > #btn-close > svg{
+        width: 1.7rem;
+        height: 1.7rem;
+    }
+}
