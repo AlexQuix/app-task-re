@@ -1,7 +1,13 @@
+import 'regenerator-runtime';
+import 'core-js';
+
 import express from "express";
 import path from "path";
 import morgan from "morgan";
 import cors from "cors";
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 // INITIALIZERS
 const app = express();
