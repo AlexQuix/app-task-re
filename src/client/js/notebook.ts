@@ -1,7 +1,7 @@
 import { debug } from 'webpack';
 import TASK from './task';
 
-interface IContentTask{
+interface IContentTask {
     notebook: string;
     title: string;
     priority: string;
@@ -10,60 +10,60 @@ interface IContentTask{
 
 
 // NOTEBOOK
-abstract class Form{
-    static btnVisibleForm:HTMLButtonElement = document.querySelector<HTMLButtonElement>("#container-task > #btn-create-new-list-task > button");
-    static containerForm:HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
-    static contForm:HTMLFormElement = Form.containerForm.querySelector<HTMLFormElement>("form");
-    static btnCloseForm:HTMLButtonElement = Form.contForm.querySelector<HTMLButtonElement>("#btn-close");
-    static btnCreateNewNotebook:HTMLButtonElement = Form.contForm.querySelector("#btn-add-notebook");
-    static contentNotebook:HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task");
-    static startForm(){
+abstract class Form {
+    static btnVisibleForm: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#container-task > #btn-create-new-list-task > button");
+    static containerForm: HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
+    static contForm: HTMLFormElement = Form.containerForm.querySelector<HTMLFormElement>("form");
+    static btnCloseForm: HTMLButtonElement = Form.contForm.querySelector<HTMLButtonElement>("#btn-close");
+    static btnCreateNewNotebook: HTMLButtonElement = Form.contForm.querySelector("#btn-add-notebook");
+    static startForm() {
         Form.visibleForm();
         Form.closeForm();
         Notebook.createNotebook();
         TASK.startForm();
     }
-    static visibleForm(){
-        Form.btnVisibleForm.onclick = ()=>{
+    static visibleForm() {
+        Form.btnVisibleForm.onclick = () => {
             Notebook.closeAll();
-            if(getComputedStyle(Form.containerForm).left !== "0px"){
+            if (getComputedStyle(Form.containerForm).left !== "0px") {
                 Form.containerForm.style.left = "0px";
                 Form.containerForm.style.background = "#000a";
             }
         }
     }
-    static closeForm(){
-        Form.btnCloseForm.onclick = (e)=>{
+    static closeForm() {
+        Form.btnCloseForm.onclick = (e) => {
             e.preventDefault();
-            if(getComputedStyle(Form.containerForm).left === "0px"){
+            if (getComputedStyle(Form.containerForm).left === "0px") {
                 Form.containerForm.style.left = "-100%";
                 Form.containerForm.style.background = "transparent";
             }
         }
     }
-    static getForm(){
+    static getForm() {
         let name = Form.contForm.querySelector<HTMLInputElement>("#name").value;
         return name;
     }
-    static sendForm(){
-        
+    static sendForm() {
+
     }
 }
 
 
-class Notebook extends Form{
-    protected contentNotebook:HTMLDivElement
-    constructor(){
+class Notebook extends Form {
+    static contentNotebook: HTMLDivElement = document.querySelector<HTMLDivElement>('#container-task > #cont-all-task-lists');;
+    protected contentAllTasks: HTMLDivElement;
+    constructor() {
         super();
-        this.contentNotebook = document.querySelector<HTMLDivElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task");
+        this.contentAllTasks = document.querySelector<HTMLDivElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task");
         this.start();
     }
-    start(){
+    start() {
         this.createTask();
     }
-    createTask(){
+    createTask() {
         let btnAddTask = document.querySelector<HTMLButtonElement>("#container-task > #form-create-new-task > form > #btn-add-task");
-        btnAddTask.onclick = (e)=>{
+        btnAddTask.onclick = (e) => {
             debugger;
             e.preventDefault();
             let form = TASK.getFormTask();
@@ -71,27 +71,29 @@ class Notebook extends Form{
             Notebook.closeAll();
         }
     }
-    addTaksInsideNotebook(task:IContentTask){
+    addTaksInsideNotebook(task: IContentTask) {
         // Create Content HMTL OF Task
         let taskHTML = (document.createElement("task") as HTMLDivElement);
         taskHTML.className = "cont-task";
         taskHTML.dataset.id = "1u98uhfqerf";
         taskHTML.innerHTML = TASK.taskHTML(task);
         // ADD CONTENT TASK WITHIN CONTENT LIST TASK
-        this.contentNotebook.appendChild(taskHTML);
+        this.contentAllTasks.appendChild(taskHTML);
         new TASK(taskHTML);
     };
-    static createNotebook(){
-        this.btnCreateNewNotebook.onclick = ()=>{
+    static createNotebook() {
+        this.btnCreateNewNotebook.onclick = (e) => {
+            debugger;
+            e.preventDefault();
             let nameNotebook = this.getForm();
-            let structureHTML = Notebook.notebookHTML();
+            let structureHTML = Notebook.HTMLNotebook();
             let notebook = document.createElement("list-task");
             notebook.className = 'cont-list-task';
             notebook.innerHTML = structureHTML;
-            this.contentNotebook.innerHTML += notebook.innerHTML
+            this.contentNotebook.appendChild(notebook);
         }
     }
-    static notebookHTML():string{
+    static HTMLNotebook(): string {
         return `
             <div id="name-list-task">
                 <div id="name-list-task-flex">
@@ -117,10 +119,10 @@ class Notebook extends Form{
             </button>
         `
     }
-    static closeAll():void{
+    static closeAll(): void {
         let ulPriorityArray = document.querySelectorAll<HTMLUListElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task > #cont-btns-config > #list-options-priority");
-        for(let ulPriority of ulPriorityArray){
-            ulPriority.style.right = "-500px"; 
+        for (let ulPriority of ulPriorityArray) {
+            ulPriority.style.right = "-500px";
         }
 
         let contForm = document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task");
@@ -130,12 +132,12 @@ class Notebook extends Form{
         contFormCreate.style.left = "-100%";
         contFormCreate.style.background = "transparent";
 
-        if(matchMedia("(max-width: 500px)").matches){
+        if (matchMedia("(max-width: 500px)").matches) {
             let contTaskArray = document.querySelectorAll<HTMLDivElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task");
-            for(let contTask of contTaskArray){
+            for (let contTask of contTaskArray) {
                 let contTaskConfiguration = (contTask.children[2] as HTMLDivElement);
 
-                if(getComputedStyle(contTask).marginBottom !== "0px"){
+                if (getComputedStyle(contTask).marginBottom !== "0px") {
                     contTaskConfiguration.style.zIndex = "-1";
                     contTask.style.marginBottom = "0px";
                     contTaskConfiguration.style.top = "0px";

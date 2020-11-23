@@ -13,7 +13,7 @@ import NOTEBOOK from './js/notebook';
 
 
 // INITIALIZER APP
-function initApp(){
+function initApp() {
     handleContentNavegation();
     handleContentFilter();
     handleContentTask();
@@ -22,11 +22,11 @@ function initApp(){
 
 
 // HANDLE CONTAINER NAVEGATION
-function handleContentNavegation():void{
+function handleContentNavegation(): void {
     let contInputSearch = document.querySelector<HTMLInputElement>("#container-nav > nav > ul > #link-search > a > input");
-    if(matchMedia("(max-width: 500px)").matches){
+    if (matchMedia("(max-width: 500px)").matches) {
         let btnSearch = document.querySelector<HTMLSpanElement>("#container-nav > nav > ul > #link-search > a > span");
-        btnSearch.onclick = ()=>{
+        btnSearch.onclick = () => {
             contInputSearch.style.width = "200px";
             contInputSearch.style.padding = "5px 20px";
             contInputSearch.style.paddingRight = "70px";
@@ -37,13 +37,13 @@ function handleContentNavegation():void{
 
 
 // HANDLE CONTAINER FILTER
-function handleContentFilter():void{
+function handleContentFilter(): void {
     RESPONSIVE.visibleULFilter();
 }
 
 
 //HANDLE CONTAINER TASK
-function handleContentTask():void{
+function handleContentTask(): void {
     NOTEBOOK.startForm();
     RESPONSIVE.EnableConfigTask();
     new NOTEBOOK().start();
