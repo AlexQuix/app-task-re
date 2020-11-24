@@ -28,9 +28,10 @@ app.use(cors());
 
 
 //ROUTES
-import {route, taskRoute} from "./routes/index";
-app.use(route);
-app.use("/api/task", taskRoute);
+import pages from "./routes/index";
+import restAPI from './routes/restapi';
+app.use(pages);
+app.use("/api", restAPI);
 
 
 app.listen(app.get("port"), ()=>{

@@ -19,7 +19,6 @@ abstract class Form {
     static startForm() {
         Form.visibleForm();
         Form.closeForm();
-        Notebook.createNotebook();
         TASK.startForm();
     }
     static visibleForm() {
@@ -40,26 +39,50 @@ abstract class Form {
             }
         }
     }
-    static getForm() {
+    static async getForm() {
         let name = Form.contForm.querySelector<HTMLInputElement>("#name").value;
-        return name;
+        let json = JSON.stringify({
+            name
+        })
+        return await Notebook.sendData('POST', json);
     }
     static sendForm() {
 
+    }
+    static async fetchData(method:string, params?:string){
+        let res = await fetch(`/api/notebooks/${params}`, {
+            method
+        });
+        let json = res.json();
+        console.log(json)
+    }
+    static async sendData(method: string, body: string):Promise<any>{
+        let res = await fetch(`/api/notebooks`, {
+            method,
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body
+        });
+        let json = await res.json();
+        return json.ops[0];
     }
 }
 
 
 class Notebook extends Form {
-    static contentNotebook: HTMLDivElement = document.querySelector<HTMLDivElement>('#container-task > #cont-all-task-lists');;
+    protected contNotebook:HTMLDivElement;
+    protected contentAllNotebook: HTMLDivElement = document.querySelector<HTMLDivElement>('#container-task > #cont-all-task-lists');
     protected contentAllTasks: HTMLDivElement;
-    constructor() {
+    constructor(id:string) {
         super();
-        this.contentAllTasks = document.querySelector<HTMLDivElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task");
+        this.contNotebook = document.querySelector<HTMLDivElement>(id);
+        this.contentAllTasks = this.contNotebook.querySelector<HTMLDivElement>(`#cont-all-task`);
         this.start();
     }
     start() {
         this.createTask();
+        this.createNotebook();
     }
     createTask() {
         let btnAddTask = document.querySelector<HTMLButtonElement>("#container-task > #form-create-new-task > form > #btn-add-task");
@@ -80,17 +103,22 @@ class Notebook extends Form {
         // ADD CONTENT TASK WITHIN CONTENT LIST TASK
         this.contentAllTasks.appendChild(taskHTML);
         new TASK(taskHTML);
-    };
-    static createNotebook() {
-        this.btnCreateNewNotebook.onclick = (e) => {
+    }
+    createNotebook() {
+        Form.btnCreateNewNotebook.onclick = async (e) => {
             debugger;
             e.preventDefault();
-            let nameNotebook = this.getForm();
+            let json = await Form.getForm();
+
             let structureHTML = Notebook.HTMLNotebook();
+
             let notebook = document.createElement("list-task");
             notebook.className = 'cont-list-task';
+            notebook.id = (json._id as string);
             notebook.innerHTML = structureHTML;
-            this.contentNotebook.appendChild(notebook);
+
+            this.contentAllNotebook.appendChild(notebook);
+            new Notebook(json._id);
         }
     }
     static HTMLNotebook(): string {
@@ -118,32 +146,6 @@ class Notebook extends Form {
                 <p>Create new task</p>
             </button>
         `
-    }
-    static closeAll(): void {
-        let ulPriorityArray = document.querySelectorAll<HTMLUListElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task > #cont-btns-config > #list-options-priority");
-        for (let ulPriority of ulPriorityArray) {
-            ulPriority.style.right = "-500px";
-        }
-
-        let contForm = document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task");
-        contForm.style.right = "-110%";
-
-        let contFormCreate = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
-        contFormCreate.style.left = "-100%";
-        contFormCreate.style.background = "transparent";
-
-        if (matchMedia("(max-width: 500px)").matches) {
-            let contTaskArray = document.querySelectorAll<HTMLDivElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task");
-            for (let contTask of contTaskArray) {
-                let contTaskConfiguration = (contTask.children[2] as HTMLDivElement);
-
-                if (getComputedStyle(contTask).marginBottom !== "0px") {
-                    contTaskConfiguration.style.zIndex = "-1";
-                    contTask.style.marginBottom = "0px";
-                    contTaskConfiguration.style.top = "0px";
-                }
-            }
-        }
     }
 }
 

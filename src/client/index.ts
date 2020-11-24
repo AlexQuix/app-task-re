@@ -1,6 +1,3 @@
-import 'regenerator-runtime';
-import 'core-js';
-
 // //CSS
 // import './style/home.css';
 // import './style/responsive.css'

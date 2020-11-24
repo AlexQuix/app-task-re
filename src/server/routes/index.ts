@@ -1,19 +1,17 @@
 import {Router} from "express";
 
 // CONTROLLER
-import Controller from "../controllers/index";
+import index from "../controllers/index";
 
 const route = Router();
-const taskRoute = Router();
+
 
 
 // ROUTES
-route.get("/", Controller.index);
+route.get("/", index);
 
 
-// CRUD OPERATION
-taskRoute.get("/:id", Controller.read);
-taskRoute.post("/", Controller.create);
 
 
-export {route, taskRoute};
+
+export default route;
