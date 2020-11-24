@@ -1,5 +1,9 @@
 import { debug } from 'webpack';
 import TASK from './task';
+import FORM from './components/formNotebook';
+import App from './app';
+
+const Form = new FORM();
 
 interface IContentTask {
     notebook: string;
@@ -9,92 +13,32 @@ interface IContentTask {
 }
 
 
-// NOTEBOOK
-abstract class Form {
-    static btnVisibleForm: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#container-task > #btn-create-new-list-task > button");
-    static containerForm: HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
-    static contForm: HTMLFormElement = Form.containerForm.querySelector<HTMLFormElement>("form");
-    static btnCloseForm: HTMLButtonElement = Form.contForm.querySelector<HTMLButtonElement>("#btn-close");
-    static btnCreateNewNotebook: HTMLButtonElement = Form.contForm.querySelector("#btn-add-notebook");
-    static startForm() {
-        Form.visibleForm();
-        Form.closeForm();
-        TASK.startForm();
-    }
-    static visibleForm() {
-        Form.btnVisibleForm.onclick = () => {
-            Notebook.closeAll();
-            if (getComputedStyle(Form.containerForm).left !== "0px") {
-                Form.containerForm.style.left = "0px";
-                Form.containerForm.style.background = "#000a";
-            }
-        }
-    }
-    static closeForm() {
-        Form.btnCloseForm.onclick = (e) => {
-            e.preventDefault();
-            if (getComputedStyle(Form.containerForm).left === "0px") {
-                Form.containerForm.style.left = "-100%";
-                Form.containerForm.style.background = "transparent";
-            }
-        }
-    }
-    static async getForm() {
-        let name = Form.contForm.querySelector<HTMLInputElement>("#name").value;
-        let json = JSON.stringify({
-            name
-        })
-        return await Notebook.sendData('POST', json);
-    }
-    static sendForm() {
-
-    }
-    static async fetchData(method:string, params?:string){
-        let res = await fetch(`/api/notebooks/${params}`, {
-            method
-        });
-        let json = res.json();
-        console.log(json)
-    }
-    static async sendData(method: string, body: string):Promise<any>{
-        let res = await fetch(`/api/notebooks`, {
-            method,
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body
-        });
-        let json = await res.json();
-        return json.ops[0];
-    }
-}
 
 
-class Notebook extends Form {
-    protected contNotebook:HTMLDivElement;
-    protected contentAllNotebook: HTMLDivElement = document.querySelector<HTMLDivElement>('#container-task > #cont-all-task-lists');
-    protected contentAllTasks: HTMLDivElement;
-    constructor(id:string) {
-        super();
+
+class Notebook {
+    private contNotebook: HTMLDivElement;
+    private contentAllTasks: HTMLDivElement;
+    static contentAllNotebook: HTMLDivElement = document.querySelector<HTMLDivElement>('#container-task > #cont-all-task-lists');
+    constructor(id: string) {
         this.contNotebook = document.querySelector<HTMLDivElement>(id);
         this.contentAllTasks = this.contNotebook.querySelector<HTMLDivElement>(`#cont-all-task`);
         this.start();
     }
-    start() {
+    private start() {
         this.createTask();
-        this.createNotebook();
     }
-    createTask() {
+    private createTask() {
         let btnAddTask = document.querySelector<HTMLButtonElement>("#container-task > #form-create-new-task > form > #btn-add-task");
         btnAddTask.onclick = (e) => {
             debugger;
             e.preventDefault();
-            let form = TASK.getFormTask();
-            this.addTaksInsideNotebook(form);
-            Notebook.closeAll();
+            // let form = TASK.getFormTask();
+            // this.addTaksInsideNotebook(form);
+            // App.closeAll();
         }
     }
-    addTaksInsideNotebook(task: IContentTask) {
+    private addTaksInsideNotebook(task: IContentTask) {
         // Create Content HMTL OF Task
         let taskHTML = (document.createElement("task") as HTMLDivElement);
         taskHTML.className = "cont-task";
@@ -104,24 +48,21 @@ class Notebook extends Form {
         this.contentAllTasks.appendChild(taskHTML);
         new TASK(taskHTML);
     }
-    createNotebook() {
-        Form.btnCreateNewNotebook.onclick = async (e) => {
-            debugger;
-            e.preventDefault();
-            let json = await Form.getForm();
 
-            let structureHTML = Notebook.HTMLNotebook();
+    static async insertNotebook() {
+        let json = await Form.getForm();
 
-            let notebook = document.createElement("list-task");
-            notebook.className = 'cont-list-task';
-            notebook.id = (json._id as string);
-            notebook.innerHTML = structureHTML;
+        let structureHTML = Notebook.structureHTML();
 
-            this.contentAllNotebook.appendChild(notebook);
-            new Notebook(json._id);
-        }
+        let notebook = document.createElement("list-task");
+        notebook.className = 'cont-list-task';
+        notebook.id = (json._id as string);
+        notebook.innerHTML = structureHTML;
+
+        this.contentAllNotebook.appendChild(notebook);
+        new Notebook(json._id);
     }
-    static HTMLNotebook(): string {
+    private static structureHTML(): string {
         return `
             <div id="name-list-task">
                 <div id="name-list-task-flex">

@@ -1,4 +1,13 @@
-class App{
+import NOTEBOOK from "./notebook";
+
+class App {
+    constructor() {
+        this.start();
+    }
+    private start() {
+        new NOTEBOOK('prueba4000');
+    }
+
     static closeAll(): void {
         let ulPriorityArray = document.querySelectorAll<HTMLUListElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task > #cont-btns-config > #list-options-priority");
         for (let ulPriority of ulPriorityArray) {

@@ -6,7 +6,7 @@
 // JS
 import Navegation from './js/navegation';
 import RESPONSIVE from './js/responsive';
-import NOTEBOOK from './js/notebook';
+import App from './js/app';
 
 
 // INITIALIZER APP
@@ -41,9 +41,8 @@ function handleContentFilter(): void {
 
 //HANDLE CONTAINER TASK
 function handleContentTask(): void {
-    NOTEBOOK.startForm();
+    new App();
     RESPONSIVE.EnableConfigTask();
-    new NOTEBOOK().start();
 };
 
 
