@@ -5,7 +5,7 @@
 
 // JS
 import Navegation from './js/navegation';
-import RESPONSIVE from './js/responsive';
+import RESPONSIVE from './js/components/responsive';
 import App from './js/app';
 
 

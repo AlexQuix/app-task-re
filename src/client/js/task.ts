@@ -1,8 +1,15 @@
-import RESPONSIVE from './responsive';
-import NOTEBOOK from './notebook';
+import RESPONSIVE from './components/responsive';
+import FORM from './components/formTask';
+import App from './app';
 
+const Form = new FORM();
 
-
+interface IContentTask {
+    notebook: string;
+    title: string;
+    priority: string;
+    description: string;
+}
 
 
 // TASK
@@ -46,7 +53,7 @@ abstract class OptionPriority {
     priorityOptionsEnable(): void {
 
         this.btnPriorityTaskHTML.onclick = (e) => {
-            NOTEBOOK.closeAll();
+            App.closeAll();
             // ELEMENT UL VISIBLE
             this.ULPriorityHTML.style.right = "0px";
             // ALL ELEMENTS LI OF THE ELEMENT UL
@@ -64,16 +71,18 @@ abstract class OptionPriority {
 }
 
 class Task extends OptionPriority {
+    private contentAllTasks:HTMLDivElement;
     constructor(
-        readonly taskHTML: HTMLDivElement
+        readonly contNotebook: HTMLDivElement
     ) {
         super();
+        this.contentAllTasks = this.contNotebook.querySelector<HTMLDivElement>(`#cont-all-task`);;
         // CONTENT TAG COLOR
-        this.tagColorHTML = this.taskHTML.querySelector<HTMLDivElement>("#cont-task-inf > #cont-tag-color");
+        this.tagColorHTML = this.contNotebook.querySelector<HTMLDivElement>("#cont-task-inf > #cont-tag-color");
         // LIST OPTIONS OF PRIORITY
-        this.ULPriorityHTML = this.taskHTML.querySelector<HTMLUListElement>("#cont-btns-config > #list-options-priority");
+        this.ULPriorityHTML = this.contNotebook.querySelector<HTMLUListElement>("#cont-btns-config > #list-options-priority");
         // BUTTOM PRIORITY
-        this.btnPriorityTaskHTML = this.taskHTML.querySelector<HTMLButtonElement>("#cont-btns-config > #btn-priority-task");
+        this.btnPriorityTaskHTML = this.contNotebook.querySelector<HTMLButtonElement>("#cont-btns-config > #btn-priority-task");
 
         // INITIALIZERS
         this.start();
@@ -82,8 +91,22 @@ class Task extends OptionPriority {
         this.priorityOptionsEnable();
         this.findPriorityValue();
     }
+    static async fetchDataOfTask(id:string){
+        let json = await Form.fetchData('GET', id);
+        console.log(json);
+    }
+    private insertTask(task: IContentTask) {
+        // Create Content HMTL OF Task
+        let taskHTML = (document.createElement("task") as HTMLDivElement);
+        taskHTML.className = "cont-task";
+        taskHTML.dataset.id = "1u98uhfqerf";
+        taskHTML.innerHTML = Task.structureHTML(task);
+        // ADD CONTENT TASK WITHIN CONTENT LIST TASK
+        this.contentAllTasks.appendChild(taskHTML);
+        new Task(taskHTML);
+    }
     // BUTTONS OF THE TASK
-    static taskHTML(task: IContentTask): string {
+    private static structureHTML(task: IContentTask): string {
         return `
                     <!-- CONTAINER TASK INFORMATION -->
                     <div id="cont-task-inf">

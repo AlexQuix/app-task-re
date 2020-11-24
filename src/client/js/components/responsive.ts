@@ -1,4 +1,5 @@
-import NOTEBOOK from "./notebook";
+import App from "../app";
+import NOTEBOOK from "../notebook";
 
 
 // RESPONSIVE APP
@@ -8,7 +9,7 @@ class ResponsiveContent{
             let btnTaskConfigArray = document.querySelectorAll<HTMLButtonElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task #cont-btn-visible-configuration");
             btnTaskConfigArray.forEach(btnTaskConfig=>{
                 btnTaskConfig.onclick = (e)=>{
-                    NOTEBOOK.closeAll();
+                    App.closeAll();
                     let elementButton = (e.currentTarget as HTMLButtonElement);
                     let elementTask = elementButton.parentElement;
                     let elementTaskBtnConfig = (elementTask.children[2] as HTMLDivElement);

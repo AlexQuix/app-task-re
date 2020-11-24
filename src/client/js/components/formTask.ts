@@ -1,3 +1,6 @@
+import RESPONSIVE from './responsive'
+import App from "../app";
+
 // INTERFACES
 interface IContentTask {
     notebook: string;
@@ -6,11 +9,24 @@ interface IContentTask {
     description: string;
 }
 
-abstract class Form {
-    static start() {
-        Form.visible();
+class Form {
+    constructor(){
+        this.start();
     }
-    static getFormTask(): IContentTask {
+    private start() {
+        this.visible();
+    }
+    private btnCreateTask() {
+        let btnAddTask = document.querySelector<HTMLButtonElement>("#container-task > #form-create-new-task > form > #btn-add-task");
+        btnAddTask.onclick = (e) => {
+            debugger;
+            e.preventDefault();
+            // let form = TASK.getFormTask();
+            // this.addTaksInsideNotebook(form);
+            // App.closeAll();
+        }
+    }
+    private getForm(): IContentTask {
         let formTaks = document.querySelector<HTMLFormElement>("#container-task > #form-create-new-task > form");
 
         let notebook = formTaks.querySelector<HTMLInputElement>("#notebook").value;
@@ -20,20 +36,38 @@ abstract class Form {
 
         return { notebook, title, priority, description };
     }
-    static sendFormTask() {
+     sendForm() {
         let btnAddTask = document.querySelector<HTMLButtonElement>("#container-task > #form-create-new-task > form > #btn-add-task");
         btnAddTask.onclick = (e) => {
             e.preventDefault();
-            let form = Task.getFormTask();
+            let form = this.getForm();
         }
     }
-    static visible(): void {
+    async fetchData(method: string, params: string) {
+        let res = await fetch(`/api/notebooks/${params}`, {
+            method
+        });
+        let json = await res.json();
+        return json;
+    }
+    private async sendData(method: string, body: string): Promise<any> {
+        let res = await fetch(`/api/tasks`, {
+            method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body
+        });
+        let json = await res.json();
+        return json.ops[0];
+    }
+    private visible(): void {
         let contFormCreateTask = document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task")
         let btnCreateTask = document.querySelector<HTMLButtonElement>("#container-task > #cont-all-task-lists .cont-list-task > #btn-create-new-task");
         let btnCloseForm = contFormCreateTask.querySelector<HTMLButtonElement>("#form-create-new-task > form > #btn-close");
         btnCreateTask.onclick = (e) => {
             e.preventDefault();
-            NOTEBOOK.closeAll();
+            App.closeAll();
             RESPONSIVE.visibleFormTask();
         }
         btnCloseForm.onclick = (e) => {

@@ -4,8 +4,12 @@ class App {
     constructor() {
         this.start();
     }
-    private start() {
-        new NOTEBOOK('prueba4000');
+    private async start() {
+        let json = {
+            _id: 'prueba4000',
+            name: 'Prestamos'
+        }
+        await NOTEBOOK.fetchDataOfNotebook();
     }
 
     static closeAll(): void {

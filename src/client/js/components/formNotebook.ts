@@ -14,6 +14,7 @@ class Form {
     private start() {
         this.visible();
         this.close();
+        this.btnHandleOnclick();
     }
     private visible() {
         this.btnVisible.onclick = () => {
@@ -33,27 +34,28 @@ class Form {
             }
         }
     }
-    async getForm() {
+    private async getForm() {
         let name = this.contForm.querySelector<HTMLInputElement>("#name").value;
         let json = JSON.stringify({
             name
         })
         return await this.sendData('POST', json);
     }
-    async btnCreateNotebook() {
+    private async btnHandleOnclick() {
         this.btnCreateNewNotebook.onclick = async (e) => {
             e.preventDefault();
-            NOTEBOOK.insertNotebook();
+            let json = await this.getForm();
+            await NOTEBOOK.insertNotebook(json);
         }
     }
-    async fetchData(method: string, params?: string) {
+    async fetchData(method: string, params: string = '') {
         let res = await fetch(`/api/notebooks/${params}`, {
             method
         });
         let json = res.json();
-        console.log(json)
+        return json;
     }
-    private async sendData(method: string, body: string): Promise<any> {
+    async sendData(method: string, body: string): Promise<any> {
         let res = await fetch(`/api/notebooks`, {
             method,
             headers: {
