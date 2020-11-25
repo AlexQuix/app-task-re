@@ -1,6 +1,6 @@
 import { debug } from 'webpack';
 import TASK from './task';
-import FORM from './components/formNotebook';
+import FORM from './components/notebook.form';
 
 interface IContentNotebook {
     _id:string;

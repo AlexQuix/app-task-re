@@ -1,6 +1,4 @@
 import { debug } from 'webpack';
-import task from '../../server/modules/restapi/task';
-import RESPONSIVE from './components/responsive';
 import FORM from './components/task.form';
 import BtnOptions from './components/task.options';
 
@@ -60,7 +58,7 @@ class Task {
         }
     }
     static async consultData(notebook: IContentNotebook) {
-        debugger;
+        
         let result = await FORM.fetchData('GET', notebook._id);
         if (result[0]) {
             for (let json of result) {
@@ -70,10 +68,12 @@ class Task {
         new FORM(notebook);
     }
     static async createTask(notebookData: IContentNotebook) {
+        console.log('create task: \n' + JSON.stringify(notebookData, null, 2));
         let inputForm = FORM.getValuesForm(notebookData._id);
         let json = JSON.stringify(inputForm);
         let result = await FORM.sendData('POST', json);
         new Task(result);
+        //new Form(notebookData)
     }
 
     private static structureHTML(task: IContentTask): string {
