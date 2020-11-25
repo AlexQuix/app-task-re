@@ -39,19 +39,19 @@ class Form {
     private visible(e): void {
         e.preventDefault();
         Form.contForm.querySelector<HTMLSpanElement>("#name-notebook").innerHTML = this.notebookData.name;
-        Form.btnCreateTask.onclick = Form.handleCreateTask.bind(this);
+        Form.btnCreateTask.onclick = Form.handleBtnCreateTask.bind(this);
         if (!Form.isVisible) {
             Form.isVisible = true;
             App.closeEverything();
-            RESPONSIVE.visibleFormTask();
+            RESPONSIVE.handleTaskFormContent(Form.contParent);;
         }
     }
-    private static handleCreateTask(this,e){
+    private static handleBtnCreateTask(this,e){
             console.log(this)
             e.preventDefault();
             TASK.createTask(this.notebookData);
             Form.isVisible = false;
-            RESPONSIVE.visibleFormTask();
+            Form.hidden();
     }
     static getValuesForm(id: string): IContentTask {
         let title = Form.contForm.querySelector<HTMLInputElement>("#title").value;
@@ -86,9 +86,9 @@ class Form {
         }
         return json.ops[0];
     }
-    private static hidden(e) {
-        e.preventDefault();
-        RESPONSIVE.visibleFormTask();
+    private static hidden(e?) {
+        (e.target)?e.preventDefault():undefined;
+        RESPONSIVE.handleTaskFormContent(Form.contParent);
         Form.isVisible = false;
     }
 }

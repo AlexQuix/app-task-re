@@ -1,10 +1,33 @@
+import e from "express";
 import App from "../app";
-import NOTEBOOK from "../notebook";
+
 
 
 // RESPONSIVE APP
-class ResponsiveContent{
-    static EnableConfigTask(){
+class Responsive{
+    contFormTask: HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task");
+    constructor(){
+        Task = {
+            form: {
+                isEnable:false,
+                element: document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task"),
+                adaptContent: this.handleTaskFormContent
+            },
+            btn: {
+               isEnable:false,
+               element:document.querySelectorAll<HTMLButtonElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task #cont-btn-visible-configuration"),
+               adaptContent: this.enableResponsive
+            }
+        }
+        this.start();
+    }
+    start(){
+        this.enableResponsive();
+        this.handleTaskFormContent(this.contFormTask);
+        this.handleFilterContent();
+    }
+    enableResponsive(){
+        console.log(matchMedia("(max-width:500px)"))
         if(matchMedia("(max-width:500px)")){
             let btnTaskConfigArray = document.querySelectorAll<HTMLButtonElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task #cont-btn-visible-configuration");
             btnTaskConfigArray.forEach(btnTaskConfig=>{
@@ -31,19 +54,19 @@ class ResponsiveContent{
             })
         }
     }
-    static visibleFormTask(){
-        let contForm = document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task");
-        if(getComputedStyle(contForm).right === "0px" || getComputedStyle(contForm).right === "40px"){
-            contForm.style.right = "-110%";
+    handleTaskFormContent(form:HTMLDivElement){
+        
+        if(getComputedStyle(form).right === "0px" || getComputedStyle(form).right === "40px"){
+            form.style.right = "-110%";
         }else{
             if(matchMedia("(max-width:500px)").matches){
-                contForm.style.right = "0px";
+                form.style.right = "0px";
             }else{
-                contForm.style.right = "40px";
+                form.style.right = "40px";
             }
         }
     }
-    static visibleULFilter(){
+    handleFilterContent(){
         let contInputsFilter = document.querySelector<HTMLUListElement>("#contaner-filter-search > ul");
         if(matchMedia("(max-width: 500px)").matches){
             let btnFilterVisible = document.querySelector<HTMLDivElement>("#contaner-filter-search > #cont-btn-filter");
@@ -59,4 +82,5 @@ class ResponsiveContent{
 };
 
 
-export default ResponsiveContent;
+
+export default new Responsive();

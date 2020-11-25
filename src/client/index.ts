@@ -14,7 +14,7 @@ function initApp() {
     handleContentNavegation();
     handleContentFilter();
     handleContentTask();
-    matchMedia("(max-width: 500px)").onchange = initApp;
+    matchMedia("(max-width: 500px)").onchange = RESPONSIVE.start;
 }
 
 
@@ -35,14 +35,14 @@ function handleContentNavegation(): void {
 
 // HANDLE CONTAINER FILTER
 function handleContentFilter(): void {
-    RESPONSIVE.visibleULFilter();
+    RESPONSIVE.handleFilterContent();
 }
 
 
 //HANDLE CONTAINER TASK
 function handleContentTask(): void {
     new App();
-    RESPONSIVE.EnableConfigTask();
+    RESPONSIVE.enableResponsive();
 };
 
 
