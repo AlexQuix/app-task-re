@@ -13,28 +13,29 @@ interface IContentTask {
     _id_notebook: string;
 }
 interface IContentNotebook {
-    _id:string;
-    name:string;
+    _id: string;
+    name: string;
 }
 
 
 
 
 // ELEMENTS TASKS
-class Task{
-    private contNotebook:HTMLDivElement;
-    private contTask:HTMLDivElement;
-    private contentStorageTasks:HTMLDivElement;
+class Task {
+    private contNotebook: HTMLDivElement;
+    private contTask: HTMLDivElement;
+    private contentStorageTasks: HTMLDivElement;
     constructor(
-        private values:IContentTask
+        private values: IContentTask
     ) {
         this.contNotebook = document.getElementById('notebook-' + values._id_notebook) as HTMLDivElement;
         this.contentStorageTasks = this.contNotebook.querySelector<HTMLDivElement>(`#cont-all-task`);
         this.appendChild();
         this.start();
     }
-    start() {;
-        new BtnOptions(this.contTask, this.values, this.updateData.bind(this));
+    start() {
+        ;
+        new BtnOptions(this.contTask, this.values, this.updateData.bind(this), this.deleteData.bind(this));
     }
     private appendChild() {
         let contTask = (document.createElement("task") as HTMLDivElement);
@@ -46,27 +47,35 @@ class Task{
 
         this.contTask = document.getElementById('task-' + this.values._id) as HTMLDivElement;
     }
-    private async updateData(tasks:IContentTask){
-        debugger;
+    private async updateData(tasks: IContentTask) {
         this.values = tasks;
         let body = JSON.stringify(tasks);
         let result = await FORM.sendData('PUT', body);
-        console.log(result);
     }
-    static async consultData(notebook:IContentNotebook){
+    private async deleteData(id: string) {
+        let uri = '/api/tasks/'
+        let result = await FORM.fetchData('DELETE', id, uri);
+        if (result.n && result.ok) {
+            this.contTask.remove();
+        }
+    }
+    static async consultData(notebook: IContentNotebook) {
+        debugger;
         let result = await FORM.fetchData('GET', notebook._id);
-        for(let json of result){
-            new Task(json);
+        if (result[0]) {
+            for (let json of result) {
+                new Task(json);
+            }
         }
         new FORM(notebook);
     }
-    static async createTask(notebookData:IContentNotebook){
+    static async createTask(notebookData: IContentNotebook) {
         let inputForm = FORM.getValuesForm(notebookData._id);
         let json = JSON.stringify(inputForm);
         let result = await FORM.sendData('POST', json);
         new Task(result);
     }
-    
+
     private static structureHTML(task: IContentTask): string {
         return `
                     <!-- CONTAINER TASK INFORMATION -->

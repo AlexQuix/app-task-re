@@ -10,23 +10,22 @@ type IContentTask = {
     description: string;
 }
 interface IContentNotebook {
-    _id:string;
-    name:string;
+    _id: string;
+    name: string;
 }
 
 class Form {
-    private contNotebook:HTMLDivElement;
-    private btnVisibleForm:HTMLButtonElement;
-    private NotebookID:string;
-    private notebookData:IContentNotebook;
+    private contNotebook: HTMLDivElement;
+    private btnVisibleForm: HTMLButtonElement;
+    private notebookData: IContentNotebook;
 
-    private static contParent:HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task");
-    private static contForm:HTMLFormElement = Form.contParent.querySelector<HTMLFormElement>("form");
+    private static contParent: HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task");
+    private static contForm: HTMLFormElement = Form.contParent.querySelector<HTMLFormElement>("form");
     private static btnCreateTask = Form.contForm.querySelector<HTMLButtonElement>("#btn-add-task");
     private static btnClose = Form.contForm.querySelector<HTMLButtonElement>("#btn-close");
-    private static isVisible:boolean = false;
+    private static isVisible: boolean = false;
 
-    constructor(notebook:IContentNotebook){
+    constructor(notebook: IContentNotebook) {
         this.notebookData = notebook;
         this.contNotebook = document.getElementById('notebook-' + this.notebookData._id) as HTMLDivElement;
         this.btnVisibleForm = this.contNotebook.querySelector<HTMLButtonElement>("#btn-create-new-task");
@@ -34,31 +33,33 @@ class Form {
     }
     private start() {
         this.btnVisibleForm.onclick = this.visible.bind(this);
-        Form.btnCreateTask.onclick = (e)=>{
+        Form.btnCreateTask.onclick = (e) => {
             e.preventDefault();
             TASK.createTask(this.notebookData);
+            Form.isVisible = false;
+            RESPONSIVE.visibleFormTask();
         }
         Form.btnClose.onclick = Form.hidden
     }
-    static getValuesForm(id:string): IContentTask {
+    static getValuesForm(id: string): IContentTask {
         let title = Form.contForm.querySelector<HTMLInputElement>("#title").value;
         let priority = Form.contForm.querySelector<HTMLSelectElement>("#priority").value;
         let description = Form.contForm.querySelector<HTMLTextAreaElement>("#description").value;
         let _id_notebook = id;
 
-        return {_id_notebook, title, priority, description };
+        return { _id_notebook, title, priority, description };
     }
-    private visible(e): void {       
+    private visible(e): void {
         e.preventDefault();
         Form.contForm.querySelector<HTMLSpanElement>("#name-notebook").innerHTML = this.notebookData.name;
-        if(!Form.isVisible){
+        if (!Form.isVisible) {
             Form.isVisible = true;
             App.closeEverything();
             RESPONSIVE.visibleFormTask();
         }
     }
-    static async fetchData(method: string, params: string) {
-        let res = await fetch(`/api/notebooks/${params}`, {
+    static async fetchData(method: string, params: string = '', uri = '/api/notebooks/') {
+        let res = await fetch(uri + params, {
             method
         });
         let json = await res.json();
@@ -73,15 +74,15 @@ class Form {
             body
         });
         let json = await res.json();
-        if(method === 'PUT'){
+        if (method === 'PUT') {
             return json;
         }
         return json.ops[0];
     }
-    private static hidden(e){
-            e.preventDefault();
-            RESPONSIVE.visibleFormTask(); 
-            Form.isVisible = false;
+    private static hidden(e) {
+        e.preventDefault();
+        RESPONSIVE.visibleFormTask();
+        Form.isVisible = false;
     }
 }
 

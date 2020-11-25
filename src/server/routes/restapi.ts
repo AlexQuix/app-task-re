@@ -1,13 +1,15 @@
-import {Router} from "express";
+import { Router } from "express";
 
 const route = Router();
 
 // REST API OF TASKS
 import Task from '../modules/restapi/task'
 
+route.get("/tasks/:id", Task.findOne);
 route.get("/tasks", Task.find);
 route.post("/tasks", Task.create);
 route.put('/tasks', task.updata);
+route.delete('/tasks/:id', task.delete);
 
 
 // REST API OF NOTEBOOK

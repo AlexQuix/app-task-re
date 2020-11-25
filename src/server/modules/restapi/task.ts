@@ -10,6 +10,12 @@ interface Task {
 }
 
 class Tasks {
+    async findOne(req: Request, res: Response) {
+        const [tasks,] = await collections;
+        let { id } = req.params;
+        const result = await tasks.find({ _id: new ObjectId(id) });
+        res.send(result);
+    }
     async find(req: Request, res: Response) {
         const [tasks,] = await collections;
         const cursor = await tasks.find({});
@@ -23,8 +29,8 @@ class Tasks {
     }
     async updata(req: Request, res: Response) {
         const [tasks,] = await collections;
-        let {_id, title, description, priority} = req.body;
-        let query = {_id: new ObjectId(_id)};
+        let { _id, title, description, priority } = req.body;
+        let query = { _id: new ObjectId(_id) };
         let data = {
             $set: {
                 title,
@@ -33,6 +39,12 @@ class Tasks {
             }
         };
         const result = await tasks.updateOne(query, data);
+        res.send(result);
+    }
+    async delete(req: Request, res: Response) {
+        const [tasks,] = await collections;
+        let { id } = req.params;
+        const result = await tasks.deleteOne({ _id: new ObjectId(id) });
         res.send(result);
     }
 }
