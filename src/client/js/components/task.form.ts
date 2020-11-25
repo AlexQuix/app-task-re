@@ -1,5 +1,5 @@
-import RESPONSIVE from './responsive'
 import App from "../app";
+import Task from "../task";
 import TASK from '../task';
 
 // INTERFACES
@@ -43,15 +43,19 @@ class Form {
         if (!Form.isVisible) {
             Form.isVisible = true;
             App.closeEverything();
-            RESPONSIVE.handleTaskFormContent(Form.contParent);;
+            Form.Responsive();;
         }
     }
-    private static handleBtnCreateTask(this,e){
-            console.log(this)
-            e.preventDefault();
-            TASK.createTask(this.notebookData);
-            Form.isVisible = false;
-            Form.hidden();
+    static Responsive(){
+        // if(getComputedStyle(Form.contParent).right === "0px" || getComputedStyle(Form.contParent).right === "40px"){
+        //     Form.contParent.style.right = "-110%";
+        // }else{
+            if(matchMedia("(max-width:500px)").matches){
+                Form.contParent.style.right = "0px";
+            }else{
+                Form.contParent.style.right = "40px";
+            }
+        //  }
     }
     static getValuesForm(id: string): IContentTask {
         let title = Form.contForm.querySelector<HTMLInputElement>("#title").value;
@@ -88,8 +92,15 @@ class Form {
     }
     private static hidden(e?) {
         (e.target)?e.preventDefault():undefined;
-        RESPONSIVE.handleTaskFormContent(Form.contParent);
+        Form.contParent.style.right = "-110%";
         Form.isVisible = false;
+    }
+    private static handleBtnCreateTask(this,e){
+        console.log(this)
+        e.preventDefault();
+        TASK.createTask(this.notebookData);
+        Form.isVisible = false;
+        Form.hidden();
     }
 }
 

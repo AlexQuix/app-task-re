@@ -133,6 +133,31 @@ class BtnOptions extends Priority {
         super(contTask, taskData, update, deleteData);
         new Read(contTask, taskData);
     }
+    static enableWorkButtons(){
+        let btnTaskConfigArray = document.querySelectorAll<HTMLButtonElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task #cont-btn-visible-configuration");
+        btnTaskConfigArray.forEach(btnTaskConfig=>{
+            btnTaskConfig.onclick = (e)=>{
+                //App.closeEverything();
+                let elementButton = (e.currentTarget as HTMLButtonElement);
+                let elementTask = elementButton.parentElement;
+                let elementTaskBtnConfig = (elementTask.children[2] as HTMLDivElement);
+
+                if(getComputedStyle(elementTask).marginBottom === "0px"){
+                    elementTask.style.marginBottom = "50px";
+                    elementTaskBtnConfig.style.top = "40px";
+                    setTimeout(()=>{
+                        if(elementTaskBtnConfig.style.top === "40px"){
+                            elementTaskBtnConfig.style.zIndex = "initial";
+                        }
+                    }, 500);
+                }else{
+                    elementTaskBtnConfig.style.zIndex = "-1";
+                    elementTask.style.marginBottom = "0px";
+                    elementTaskBtnConfig.style.top = "0px";
+                }
+            };
+        });
+    }
 }
 
 

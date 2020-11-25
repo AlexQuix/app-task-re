@@ -1,4 +1,7 @@
 import NOTEBOOK from "./notebook";
+import TASK from './task';
+import FILTER from './filter';
+import NAVEGATION from './navegation';
 
 class App {
     constructor() {
@@ -6,6 +9,14 @@ class App {
     }
     private async start() {
         await NOTEBOOK.consultData();
+        App.adaptViewport();
+    }
+    static adaptViewport(){
+        if(matchMedia("(max-width: 500px)").matches){
+            TASK.Responsive();
+            FILTER.Responsive();
+            NAVEGATION.Responsive();
+        }
     }
     static closeEverything(): void {
         //NOTEBOOKS

@@ -15,14 +15,11 @@ interface IContentNotebook {
     name: string;
 }
 
-
-
-
 // ELEMENTS TASKS
 class Task {
     private contNotebook: HTMLDivElement;
     private contTask: HTMLDivElement;
-    private contentStorageTasks: HTMLDivElement;
+    private contentStorageTasks: HTMLDivElement
     constructor(
         private values: IContentTask
     ) {
@@ -57,6 +54,9 @@ class Task {
             this.contTask.remove();
         }
     }
+    static Responsive(){
+            BtnOptions.enableWorkButtons();
+    }
     static async consultData(notebook: IContentNotebook) {
         
         let result = await FORM.fetchData('GET', notebook._id);
@@ -75,7 +75,6 @@ class Task {
         new Task(result);
         //new Form(notebookData)
     }
-
     private static structureHTML(task: IContentTask): string {
         return `
                     <!-- CONTAINER TASK INFORMATION -->
