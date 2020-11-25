@@ -21,6 +21,20 @@ class Tasks {
         const result = await tasks.insertOne(req.body);
         res.send(result);
     }
+    async updata(req: Request, res: Response) {
+        const [tasks,] = await collections;
+        let {_id, title, description, priority} = req.body;
+        let query = {_id: new ObjectId(_id)};
+        let data = {
+            $set: {
+                title,
+                description,
+                priority
+            }
+        };
+        const result = await tasks.updateOne(query, data);
+        res.send(result);
+    }
 }
 
 

@@ -1,52 +1,85 @@
 import { debug } from 'webpack';
 import TASK from './task';
 import FORM from './components/formNotebook';
-import App from './app';
 
-const Form = new FORM();
-
-interface IContentTask {
-    notebook: string;
-    title: string;
-    priority: string;
-    description: string;
+interface IContentNotebook {
+    _id:string;
+    name:string;
 }
 
 
-
-
-
 class Notebook {
-    protected NotebookID:string;
+    private json:IContentNotebook;
     private contNotebook: HTMLDivElement;
-    private contentAllTasks: HTMLDivElement;
-    static contentAllNotebook: HTMLDivElement = document.querySelector<HTMLDivElement>('#container-task > #cont-all-task-lists');
-    constructor(id: string) {
-        this.NotebookID = id;
-        this.contNotebook = document.getElementById(id) as HTMLDivElement;
+    private btnEdit:HTMLButtonElement;
+    private btnDelete:HTMLButtonElement;
+    private contNotebookName:HTMLButtonElement;
+    private static contentStorageNotebooks: HTMLDivElement = document.querySelector<HTMLDivElement>('#container-task > #cont-all-task-lists');
+    constructor(json: IContentNotebook) {
+        this.json = json;
+        this.contNotebook = document.getElementById('notebook-' + this.json._id) as HTMLDivElement;
+        this.btnEdit = this.contNotebook.querySelector('#name-list-task > #name-list-task-flex > #btns-confg-list-task button:nth-child(1)');
+        this.btnDelete = this.contNotebook.querySelector('#name-list-task > #name-list-task-flex > #btns-confg-list-task button:nth-child(2)')
+        this.contNotebookName = this.contNotebook.querySelector('#name-list-task > #name-list-task-flex > header > h1');
         this.start();
     }
     private async start() {
-        await TASK.fetchDataOfTask(this.NotebookID);
+        await TASK.consultData(this.json);
+        this.btnEdit.onclick = this.updateData.bind(this);
+        this.btnDelete.onclick = this.deleteData.bind(this);
     }
-    static async fetchDataOfNotebook(){
-        let json = await Form.fetchData('GET');
-        for(let notebook of json){
-            Notebook.insertNotebook(notebook)
+    private async updateData(e){
+        let value = prompt('Change the name notebook');
+        if(value){
+            this.json.name = value;
+            let body = JSON.stringify(this.json);
+            let result = await FORM.sendData('PUT', body);
+            if(result.n && result.nModified && result.ok){
+                this.contNotebookName.innerHTML = value;
+                alert('Has cambiado el nombre de tu Notebook');
+            }
         }
     }
-    static async insertNotebook(json) {
-        let structureHTML = Notebook.structureHTML(json);
+    private async deleteData(e){
+        let value = prompt(`Estas seguro que quieres eliminar este Notebook \n Escribe "${this.json.name}" para confirmar`);
+        if(this.json.name === 'My task'){
+            alert('Este notebook no se eliminar');
+        }else{
+            if(value === this.json.name){
+                let result = await FORM.fetchData("DELETE", this.json._id);
+                if(result.n && result.ok){
+                    this.contNotebook.remove();
+                    alert('Has eliminado el Notebook ' + this.json.name);
+                }
+            }
+        }
 
-        let notebook = document.createElement("list-task");
-        notebook.className = 'cont-list-task';
-        notebook.id = (json._id as string);
-        notebook.innerHTML = structureHTML;
-
-        this.contentAllNotebook.appendChild(notebook);
-        new Notebook(json._id);
     }
-    private static structureHTML(json): string {
+    static async createNotebook(e){
+        e.preventDefault();
+        let json = await FORM.getForm();
+        await Notebook.appendChild(json);
+        await new Notebook(json);
+    }
+    static async consultData(){
+        let json = await FORM.fetchData('GET');
+        for(let notebook of json){
+            Notebook.appendChild(notebook);
+            new Notebook(notebook);
+        }
+        new FORM();
+    }
+    static async appendChild(json:IContentNotebook) {
+        let innerNotebook = Notebook.innerHTML(json);
+
+        let contNotebook = document.createElement("list-task");
+        contNotebook.className = 'cont-list-task';
+        contNotebook.id = 'notebook-' + (json._id);
+        contNotebook.innerHTML = innerNotebook;
+
+        Notebook.contentStorageNotebooks.appendChild(contNotebook);
+    }
+    private static innerHTML(json): string {
         return `
             <div id="name-list-task">
                 <div id="name-list-task-flex">

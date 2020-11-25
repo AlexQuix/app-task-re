@@ -23,29 +23,29 @@ class Notebook{
     }
     async create(req: Request, res: Response) {
         const [, notebooks] = await collections;
-        let result = await notebooks.insertOne(req.body);
-        res.send(result);
+        let answer = await notebooks.insertOne(req.body);
+        res.send(answer);
     }
     async update(req: Request, res: Response){
         const [, notebooks] = await collections;
         let query = {
-            _id: new ObjectId(req.body.id)
+            _id: new ObjectId(req.body._id)
         };
         let update = {
             $set: {
                 name: req.body.name
             }
         }
-        let result = await notebooks.updateOne(query,update);
-        res.send(result);
+        let answer = await notebooks.updateOne(query,update);
+        res.send(answer.result);
     }
     async delete(req: Request, res: Response){
         const [tasks, notebooks] = await collections;
         let query = {_id: new ObjectId(req.params.id)};
         let queryTask = {_id_notebook: req.params.id};
-        let result = await notebooks.deleteOne(query);
-        let resultTask = await tasks.deleteMany(queryTask);
-        res.send({result, resultTask});
+        let answer = await (await notebooks.deleteOne(query)).result;
+        await (await tasks.deleteMany(queryTask)).result;
+        res.send(answer);
     }
 }
 

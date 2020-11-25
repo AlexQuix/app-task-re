@@ -7,10 +7,12 @@ import Task from '../modules/restapi/task'
 
 route.get("/tasks", Task.find);
 route.post("/tasks", Task.create);
+route.put('/tasks', task.updata);
 
 
 // REST API OF NOTEBOOK
 import Notebook from '../modules/restapi/notebook';
+import task from "../modules/restapi/task";
 
 route.get("/notebooks", Notebook.find);
 route.get("/notebooks/:id", Notebook.findOne);

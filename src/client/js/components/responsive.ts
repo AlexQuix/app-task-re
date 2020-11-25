@@ -9,7 +9,7 @@ class ResponsiveContent{
             let btnTaskConfigArray = document.querySelectorAll<HTMLButtonElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task #cont-btn-visible-configuration");
             btnTaskConfigArray.forEach(btnTaskConfig=>{
                 btnTaskConfig.onclick = (e)=>{
-                    App.closeAll();
+                    App.closeEverything();
                     let elementButton = (e.currentTarget as HTMLButtonElement);
                     let elementTask = elementButton.parentElement;
                     let elementTaskBtnConfig = (elementTask.children[2] as HTMLDivElement);

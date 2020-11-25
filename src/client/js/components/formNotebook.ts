@@ -3,59 +3,53 @@ import App from "../app";
 
 // NOTEBOOK
 class Form {
-    private btnVisible: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#container-task > #btn-create-new-list-task > button");
-    private container: HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
-    private contForm: HTMLFormElement = this.container.querySelector<HTMLFormElement>("form");
-    private btnClose: HTMLButtonElement = this.contForm.querySelector<HTMLButtonElement>("#btn-close");
-    private btnCreateNewNotebook: HTMLButtonElement = this.contForm.querySelector("#btn-add-notebook");
+    private static btnVisible: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#container-task > #btn-create-new-list-task > button");
+    private static contParent: HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
+    private static contForm: HTMLFormElement = Form.contParent.querySelector<HTMLFormElement>("form");
+    private static btnClose: HTMLButtonElement = Form.contForm.querySelector<HTMLButtonElement>("#btn-close");
+    private static btnCreateNotebook: HTMLButtonElement = Form.contForm.querySelector("#btn-add-notebook");
     constructor() {
         this.start();
     }
     private start() {
-        this.visible();
-        this.close();
-        this.btnHandleOnclick();
+        Form.btnCreateNotebook.onclick = NOTEBOOK.createNotebook;
+        Form.btnClose.onclick = Form.close;
+        Form.btnVisible.onclick = Form.visible
     }
-    private visible() {
-        this.btnVisible.onclick = () => {
-            App.closeAll();
-            if (getComputedStyle(this.container).left !== "0px") {
-                this.container.style.left = "0px";
-                this.container.style.background = "#000a";
+    private static visible() {
+            App.closeEverything();
+            if (getComputedStyle(Form.contParent).left !== "0px") {
+                Form.contParent.style.left = "0px";
+                Form.contParent.style.background = "#000a";
             }
-        }
     }
-    private close() {
-        this.btnClose.onclick = (e) => {
+    private static close(e) {
             e.preventDefault();
-            if (getComputedStyle(this.container).left === "0px") {
-                this.container.style.left = "-100%";
-                this.container.style.background = "transparent";
+            if (getComputedStyle(Form.contParent).left === "0px") {
+                Form.contParent.style.left = "-100%";
+                Form.contParent.style.background = "transparent";
             }
-        }
     }
-    private async getForm() {
-        let name = this.contForm.querySelector<HTMLInputElement>("#name").value;
+    static async getForm() {
+        let input = Form.contForm.querySelector<HTMLInputElement>("#name");
         let json = JSON.stringify({
-            name
-        })
-        return await this.sendData('POST', json);
-    }
-    private async btnHandleOnclick() {
-        this.btnCreateNewNotebook.onclick = async (e) => {
-            e.preventDefault();
-            let json = await this.getForm();
-            await NOTEBOOK.insertNotebook(json);
+            name: input.value
+        });
+        App.closeEverything();
+        let result = await this.sendData('POST', json);
+        if(result.n && result.ok){
+            input.value = '';
+            return result.ops[0];
         }
     }
-    async fetchData(method: string, params: string = '') {
+    static async fetchData(method: string, params: string = '') {
         let res = await fetch(`/api/notebooks/${params}`, {
             method
         });
         let json = res.json();
         return json;
     }
-    async sendData(method: string, body: string): Promise<any> {
+    static async sendData(method: string, body: string): Promise<any> {
         let res = await fetch(`/api/notebooks`, {
             method,
             headers: {
@@ -64,7 +58,7 @@ class Form {
             body
         });
         let json = await res.json();
-        return json.ops[0];
+        return json;
     }
 }
 
