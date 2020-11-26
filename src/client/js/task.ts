@@ -29,7 +29,6 @@ class Task {
         this.start();
     }
     start() {
-        ;
         new BtnOptions(this.contTask, this.values, this.updateData.bind(this), this.deleteData.bind(this));
     }
     private appendChild() {
@@ -54,11 +53,11 @@ class Task {
             this.contTask.remove();
         }
     }
-    static Responsive(){
-            BtnOptions.enableWorkButtons();
+    static Responsive() {
+        //BtnOptions.enableWorkButtons();
     }
     static async consultData(notebook: IContentNotebook) {
-        
+
         let result = await FORM.fetchData('GET', notebook._id);
         if (result[0]) {
             for (let json of result) {
@@ -73,7 +72,6 @@ class Task {
         let json = JSON.stringify(inputForm);
         let result = await FORM.sendData('POST', json);
         new Task(result);
-        //new Form(notebookData)
     }
     private static structureHTML(task: IContentTask): string {
         return `

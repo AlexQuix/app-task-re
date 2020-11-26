@@ -1,6 +1,10 @@
 {
-    "ignore": ["node_modules"],
+    "ignore": [
+        "node_modules"
+    ],
     "ext": ".ts",
-    "watch": ["src/client/*"],
-    "exec": "npm run build"
+    "watch": [
+        "src/server/*"
+    ],
+    "exec": "npm run build && npm start"
 }

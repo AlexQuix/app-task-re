@@ -4,7 +4,6 @@
 
 
 // JS
-import Navegation from './js/navegation';
 import App from './js/app';
 
 

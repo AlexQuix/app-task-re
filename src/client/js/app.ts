@@ -11,9 +11,9 @@ class App {
         await NOTEBOOK.consultData();
         App.adaptViewport();
     }
-    static adaptViewport(){
-        if(matchMedia("(max-width: 500px)").matches){
-            TASK.Responsive();
+    static adaptViewport() {
+        if (matchMedia("(max-width: 500px)").matches) {
+            //TASK.Responsive();
             FILTER.Responsive();
             NAVEGATION.Responsive();
         }
@@ -37,12 +37,14 @@ class App {
         if (matchMedia("(max-width: 500px)").matches) {
             let contTaskArray = document.querySelectorAll<HTMLDivElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task");
             for (let contTask of contTaskArray) {
-                let contTaskConfiguration = (contTask.children[2] as HTMLDivElement);
-
-                if (getComputedStyle(contTask).marginBottom !== "0px") {
-                    contTaskConfiguration.style.zIndex = "-1";
-                    contTask.style.marginBottom = "0px";
-                    contTaskConfiguration.style.top = "0px";
+                if (contTask.dataset.isEnabled !== 'true') {
+                    let contTaskConfig = (contTask.children[2] as HTMLDivElement);
+                    console.log(contTaskConfig);
+                    if (getComputedStyle(contTask).marginBottom !== "0px") {
+                        contTaskConfig.style.zIndex = "-1";
+                        contTask.style.marginBottom = "0px";
+                        contTaskConfig.style.top = "0px";
+                    }
                 }
             }
         }

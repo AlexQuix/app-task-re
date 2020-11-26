@@ -51,13 +51,13 @@ class Completed {
 }
 
 class Priority extends Completed {
-    protected contPriorityTag: HTMLDivElement;
-    protected btnPriority: HTMLButtonElement;
-    protected contPriorityOptions: HTMLUListElement;
-    protected contPriorityNotOptionSVG: string;
-    protected contPriorityOptionSVG: string;
+    private contPriorityTag: HTMLDivElement;
+    private btnPriority: HTMLButtonElement;
+    private contPriorityOptions: HTMLUListElement;
+    private contPriorityNotOptionSVG: string;
+    private contPriorityOptionSVG: string;
     constructor(
-        contTask: HTMLDivElement,
+        protected contTask: HTMLDivElement,
         protected taskData: ITaskData,
         protected update: (data: ITaskData) => Promise<void>,
         protected deleteData: (id: string) => Promise<void>
@@ -102,6 +102,7 @@ class Priority extends Completed {
         }
     }
     private async showPriorityOptions() {
+        this.contTask.dataset.isEnabled = 'true';
         App.closeEverything();
         // ELEMENT UL VISIBLE
         this.contPriorityOptions.style.right = "0px";
@@ -109,6 +110,8 @@ class Priority extends Completed {
         let contAllLI = this.contPriorityOptions.querySelectorAll<HTMLLIElement>("#cont-btns-config > #list-options-priority li");
         for (let contLI of contAllLI) {
             contLI.onclick = async (e) => {
+                this.contTask.dataset.isEnabled = 'false';
+                App.closeEverything();
                 let li = (e.currentTarget as HTMLLIElement);
                 this.changePriorityFlag(li);
                 // ELEMENT UL HIDDEN
@@ -124,39 +127,38 @@ class Priority extends Completed {
 
 // OPTIONS OF TASKS
 class BtnOptions extends Priority {
+    private contConfig: HTMLDivElement;
+    private btnConfig: HTMLButtonElement;
     constructor(
-        contTask: HTMLDivElement,
+        public contTask: HTMLDivElement,
         taskData: ITaskData,
         update: (data: ITaskData) => Promise<void>,
         deleteData: (id: string) => Promise<void>
     ) {
         super(contTask, taskData, update, deleteData);
         new Read(contTask, taskData);
+        this.contConfig = contTask.querySelector('#cont-btns-config');
+        this.btnConfig = contTask.querySelector('#cont-btn-visible-configuration');
+        this.contTask.dataset.isEnabled = 'false';
+        this.btnConfig.onclick = this.enableWorkButton.bind(this);
     }
-    static enableWorkButtons(){
-        let btnTaskConfigArray = document.querySelectorAll<HTMLButtonElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task #cont-btn-visible-configuration");
-        btnTaskConfigArray.forEach(btnTaskConfig=>{
-            btnTaskConfig.onclick = (e)=>{
-                //App.closeEverything();
-                let elementButton = (e.currentTarget as HTMLButtonElement);
-                let elementTask = elementButton.parentElement;
-                let elementTaskBtnConfig = (elementTask.children[2] as HTMLDivElement);
-
-                if(getComputedStyle(elementTask).marginBottom === "0px"){
-                    elementTask.style.marginBottom = "50px";
-                    elementTaskBtnConfig.style.top = "40px";
-                    setTimeout(()=>{
-                        if(elementTaskBtnConfig.style.top === "40px"){
-                            elementTaskBtnConfig.style.zIndex = "initial";
-                        }
-                    }, 500);
-                }else{
-                    elementTaskBtnConfig.style.zIndex = "-1";
-                    elementTask.style.marginBottom = "0px";
-                    elementTaskBtnConfig.style.top = "0px";
-                }
-            };
-        });
+    private enableWorkButton(e) {
+        App.closeEverything();
+        if (e) {
+            if (getComputedStyle(this.contTask).marginBottom === "0px") {
+                this.contTask.style.marginBottom = "50px";
+                this.contConfig.style.top = "40px";
+                setTimeout(() => {
+                    if (this.contConfig.style.top === "40px") {
+                        this.contConfig.style.zIndex = "initial";
+                    }
+                }, 500);
+            } else {
+                this.contConfig.style.zIndex = "-1";
+                this.contTask.style.marginBottom = "0px";
+                this.contConfig.style.top = "0px";
+            }
+        }
     }
 }
 
