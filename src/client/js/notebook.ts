@@ -9,14 +9,16 @@ interface IContentNotebook {
 
 
 class Notebook {
+    private isConsultTask:boolean;
     private json:IContentNotebook;
     private contNotebook: HTMLDivElement;
     private btnEdit:HTMLButtonElement;
     private btnDelete:HTMLButtonElement;
     private contNotebookName:HTMLButtonElement;
     private static contentStorageNotebooks: HTMLDivElement = document.querySelector<HTMLDivElement>('#container-task > #cont-all-task-lists');
-    constructor(json: IContentNotebook) {
+    constructor(json: IContentNotebook, isConsultTask:boolean = true) {
         this.json = json;
+        this.isConsultTask = isConsultTask;
         this.contNotebook = document.getElementById('notebook-' + this.json._id) as HTMLDivElement;
         this.btnEdit = this.contNotebook.querySelector('#name-list-task > #name-list-task-flex > #btns-confg-list-task button:nth-child(1)');
         this.btnDelete = this.contNotebook.querySelector('#name-list-task > #name-list-task-flex > #btns-confg-list-task button:nth-child(2)')
@@ -24,7 +26,9 @@ class Notebook {
         this.start();
     }
     private async start() {
-        await TASK.consultData(this.json);
+        if(this.isConsultTask){
+            await TASK.consultData(this.json);
+        }
         this.btnEdit.onclick = this.updateData.bind(this);
         this.btnDelete.onclick = this.deleteData.bind(this);
     }
@@ -54,6 +58,9 @@ class Notebook {
             }
         }
 
+    }
+    static removeAll(){
+        Notebook.contentStorageNotebooks.innerHTML = '';
     }
     static async createNotebook(e){
         e.preventDefault();

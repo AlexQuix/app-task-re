@@ -9,6 +9,7 @@ class App {
     }
     private async start() {
         await NOTEBOOK.consultData();
+        new FILTER();
         App.adaptViewport();
     }
     static adaptViewport() {

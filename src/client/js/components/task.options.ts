@@ -3,7 +3,6 @@ import App from "../app";
 
 interface ITaskData {
     _id: string;
-    notebook: string;
     title: string;
     priority: string;
     description: string;

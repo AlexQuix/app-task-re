@@ -24,6 +24,9 @@ route.delete('/notebooks/:id', Notebook.delete);
 
 // REST API OF SEARCH
 import Search from "../modules/restapi/search";
+
 route.get('/search', Search.find);
+
+
 
 export default route;

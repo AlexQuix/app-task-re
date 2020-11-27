@@ -4,7 +4,6 @@ import BtnOptions from './components/task.options';
 
 interface IContentTask {
     _id: string;
-    notebook: string;
     title: string;
     priority: string;
     description: string;

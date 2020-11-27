@@ -1,4 +1,4 @@
-import { Request, Response, Send } from "express";
+import { query, Request, Response, Send } from "express";
 import { Db, ObjectID, Collection, ObjectId } from "mongodb";
 import collections from "../../database";
 
@@ -24,62 +24,77 @@ type DataTask = {
 }
 
 class Filter {
+    static queryTaks = {}
     async find(req: Request, res: Response) {
-        const collectionArray = await collections;
-        let senddata: SendData = await this.analizedQuery(req.query as RequestQuery);
+        let senddata: SendData = await Filter.analizedQuery(req.query as RequestQuery);
         res.send(senddata);
     }
-    private async analizedQuery(resQuery: RequestQuery) {
-        let sendData: SendData;
-        let queryTask: any[] = [
-            {
-                name: {
-                    $regex: resQuery.name_task
+    static async analizedQuery(resQuery: RequestQuery) {
+        let sendData = {} as SendData;
+        let queryTask:any = {
+            $and: [
+                {
+                    title: {
+                        $regex: (resQuery.name_task)?resQuery.name_task:""
+                    }
+                },
+                {
+                    priority: {
+                        $regex: ""
+                    }
                 }
-            },
-            {
-                priority: {
-                    $regex: resQuery.priority
-                }
-            }
-        ]
-
+            ]
+        };
         if (resQuery.name_notebook) {
-            let notebookArray: DataNotebook[] = await this.executeAction('notebbok', resQuery);
-
-            notebookArray.forEach(async (notebook) => {
-                queryTask.push({ _id_notebook: new ObjectId(notebook._id) });
-                notebook.list_task = await this.executeAction('task', queryTask);
-            })
-            sendData.notebook = notebookArray;
+            let datanotebook: DataNotebook[] = [];
+            let notebookArray: DataNotebook[] = await Filter.executeAction('notebook', resQuery);
+            if(notebookArray[0]){
+                if(resQuery.name_task || resQuery.priority){
+                    for(let notebook of notebookArray){
+                        queryTask.$and.push({ _id_notebook: notebook._id });
+                        notebook.list_task = await Filter.executeAction('task', queryTask);
+                        datanotebook.push(notebook);
+                    }
+                }else{
+                    for(let notebook of notebookArray){
+                        queryTask = { _id_notebook: notebook._id.toString() };
+                        notebook.list_task = await Filter.executeAction('task', queryTask);
+                        datanotebook.push(notebook);
+                    }   
+                }
+                sendData.notebook = datanotebook;
+            }
         }
         else if (resQuery.name_task || resQuery.priority) {
-            sendData.task = await this.executeAction('task', queryTask);
+            sendData.task = await Filter.executeAction('task', queryTask);
         }
 
         return sendData;
     }
-    private async executeAction(action: string, query: RequestQuery | any) {
+    static async executeAction(action: string, query: RequestQuery | any) {
         switch (action) {
             case 'notebook':
-                return await this.checkOutNotebook(query.name_notebook);
+                return await Filter.checkOutNotebook(query.name_notebook);
             case 'task':
-                return await this.checkOutTask(query);
+                return await Filter.checkOutTask(query);
         }
     }
-    private async checkOutTask(queryTask) {
+    static async checkOutTask(queryTask) {
+        console.log(queryTask)
         const [task] = await collections;
-        let cursor = await task.find({ $and: queryTask });
-        return await cursor.toArray();
+        let cursor = await task.find(queryTask);
+        let taskArray = await cursor.toArray();
+        return taskArray;
     }
-    private async checkOutNotebook(name: string) {
+    static async checkOutNotebook(name: string) {
         const [, cltNotebook] = await collections;
         const cursor = await cltNotebook.find({
             name: {
                 $regex: name
             }
         });
-        return await cursor.toArray();
+        let notebookArray = await cursor.toArray();
+        return notebookArray;
     }
 }
 
