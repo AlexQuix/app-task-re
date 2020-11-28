@@ -36,6 +36,7 @@ const Client = {
     // new HTMLWebpackPlugin({
     //   template: "./src/client/views/index.html",
     //   filename: "views/index.ejs",
+    //   inject: false
     // }),
     // new MiniCSSExtractPlugin({
     //   filename: "/public/style/bundle.css",

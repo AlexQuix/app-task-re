@@ -3,6 +3,25 @@ import TASK from './task';
 import FILTER from './filter';
 import NAVEGATION from './navegation';
 
+
+type SendData = {
+    notebook: DataNotebook[];
+    task: DataTask[];
+}
+type DataNotebook = {
+    _id: string;
+    name: string;
+    list_task?: DataTask[];
+}
+type DataTask = {
+    _id: string;
+    title: string;
+    priority: string;
+    description: string;
+    _id_notebook: string;
+}
+
+
 class App {
     constructor() {
         this.start();
@@ -10,7 +29,30 @@ class App {
     private async start() {
         await NOTEBOOK.consultData();
         new FILTER();
+        new NAVEGATION();
         App.adaptViewport();
+    }
+    static evaluationForInsert(json: SendData) {
+        NOTEBOOK.removeAll();
+        if (json.notebook && json.notebook[0]) {
+            for (let datanotebook of json.notebook) {
+                NOTEBOOK.appendChild(datanotebook);
+                new NOTEBOOK(datanotebook, false);
+                if (datanotebook.list_task && datanotebook.list_task[0]) {
+                    TASK.insertTask(datanotebook.list_task, datanotebook);
+                }
+            }
+        } else if (json.task && json.task[0]) {
+            console.log(json.task);
+            let datanotebook = {
+                _id: "test",
+                name: "Results"
+            };
+            NOTEBOOK.appendChild(datanotebook);
+            TASK.insertTask(json.task, datanotebook);
+        } else {
+
+        }
     }
     static adaptViewport() {
         if (matchMedia("(max-width: 500px)").matches) {
@@ -52,4 +94,5 @@ class App {
     }
 }
 
+export type { SendData }
 export default App;

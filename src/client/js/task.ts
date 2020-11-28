@@ -16,13 +16,15 @@ interface IContentNotebook {
 
 // ELEMENTS TASKS
 class Task {
+    static isTestNotebook: boolean = false;
     private contNotebook: HTMLDivElement;
     private contTask: HTMLDivElement;
     private contentStorageTasks: HTMLDivElement
     constructor(
         private values: IContentTask
     ) {
-        this.contNotebook = document.getElementById('notebook-' + values._id_notebook) as HTMLDivElement;
+        let uri = (Task.isTestNotebook) ? 'test' : values._id_notebook;
+        this.contNotebook = document.getElementById('notebook-' + uri) as HTMLDivElement;
         this.contentStorageTasks = this.contNotebook.querySelector<HTMLDivElement>(`#cont-all-task`);
         this.appendChild();
         this.start();
@@ -56,7 +58,7 @@ class Task {
         //BtnOptions.enableWorkButtons();
     }
     static async consultData(notebook: IContentNotebook) {
-
+        Task.isTestNotebook = false;
         let result = await FORM.fetchData('GET', notebook._id);
         if (result[0]) {
             for (let json of result) {
@@ -65,8 +67,19 @@ class Task {
         }
         new FORM(notebook);
     }
+    static insertTask(list_task, datanotebook) {
+        if (datanotebook._id !== 'test') {
+            new FORM(datanotebook);
+        } else {
+            Task.isTestNotebook = true;
+        };
+        for (let datatask of list_task) {
+            new Task(datatask);
+        }
+    }
     static async createTask(notebookData: IContentNotebook) {
         console.log('create task: \n' + JSON.stringify(notebookData, null, 2));
+        Task.isTestNotebook = false;
         let inputForm = FORM.getValuesForm(notebookData._id);
         let json = JSON.stringify(inputForm);
         let result = await FORM.sendData('POST', json);
