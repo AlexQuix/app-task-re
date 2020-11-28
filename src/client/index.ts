@@ -1,5 +1,5 @@
 // //CSS
-// import './style/home.css';
+import './style/home.css';
 // import './style/responsive.css'
 
 

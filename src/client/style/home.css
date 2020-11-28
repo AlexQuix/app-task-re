@@ -219,6 +219,24 @@ body{
 
 
 
+#cont-not-result{
+    width: 100%;
+}
+#cont-not-result > h1{
+    font-size: 1rem;
+    font-style: italic;
+    margin-bottom: 20px;
+    color: var(--dark-color-second);
+}
+#cont-not-result > span{
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: underline;
+    color: var(--medium-color-theme);
+}
+#cont-not-result > span:hover{
+    color: var(--dark-color-theme);
+}
 
 
 
@@ -233,11 +251,12 @@ body{
 #container-task > #cont-all-task-lists .cont-list-task{
     display: block;
     width: 100%;
+    margin-bottom: 30px;
     position: relative;
 }
 
 
-/* CONT NAME THE LIST TASK */
+/* CONT NAME THE NOTEBOOK */
 #container-task > #cont-all-task-lists .cont-list-task > #name-list-task{
     display: inline-block;
     margin-left: 40px;

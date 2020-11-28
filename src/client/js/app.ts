@@ -51,7 +51,7 @@ class App {
             NOTEBOOK.appendChild(datanotebook);
             TASK.insertTask(json.task, datanotebook);
         } else {
-
+            NOTEBOOK.showNotResult();
         }
     }
     static adaptViewport() {

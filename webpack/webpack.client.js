@@ -38,9 +38,9 @@ const Client = {
     //   filename: "views/index.ejs",
     //   inject: false
     // }),
-    // new MiniCSSExtractPlugin({
-    //   filename: "/public/style/bundle.css",
-    // }),
+    new MiniCSSExtractPlugin({
+      filename: "/public/style/bundle.css",
+    }),
     //new Analyzer({ analyzerPort: "auto" })
   ],
   resolve: {

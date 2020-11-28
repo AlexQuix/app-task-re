@@ -62,6 +62,19 @@ class Notebook {
     static removeAll() {
         Notebook.contentStorageNotebooks.innerHTML = '';
     }
+    static showNotResult(){
+        let div = document.createElement('div');
+        div.id = 'cont-not-result';
+        div.innerHTML = '<h1>Not Result</h1>'
+        let span = document.createElement('span');
+        span.innerHTML = 'Do you want to show all Notebook?';
+        span.onclick = ()=>{
+            Notebook.consultData();
+            div.remove();
+        }
+        div.appendChild(span);
+        this.contentStorageNotebooks.appendChild(div);
+    }
     static async createNotebook(e) {
         e.preventDefault();
         let json = await FORM.getForm();
