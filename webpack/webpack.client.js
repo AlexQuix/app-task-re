@@ -33,11 +33,11 @@ const Client = {
     rules: [CSSLoader, JsLoader],
   },
   plugins: [
-    // new HTMLWebpackPlugin({
-    //   template: "./src/client/views/index.html",
-    //   filename: "views/index.ejs",
-    //   inject: false
-    // }),
+    new HTMLWebpackPlugin({
+      template: "./src/client/views/index.html",
+      filename: "views/index.ejs",
+      inject: false,
+    }),
     new MiniCSSExtractPlugin({
       filename: "/public/style/bundle.css",
     }),

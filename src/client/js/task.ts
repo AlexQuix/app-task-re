@@ -1,6 +1,7 @@
 import { debug } from 'webpack';
 import FORM from './components/task.form';
 import BtnOptions from './components/task.options';
+import NOTEBOOK from './notebook';
 
 interface IContentTask {
     _id: string;
@@ -12,6 +13,7 @@ interface IContentTask {
 interface IContentNotebook {
     _id: string;
     name: string;
+    isTask?: boolean;
 }
 
 // ELEMENTS TASKS
@@ -42,30 +44,8 @@ class Task {
 
         this.contTask = document.getElementById('task-' + this.values._id) as HTMLDivElement;
     }
-    private async updateData(tasks: IContentTask) {
-        this.values = tasks;
-        let body = JSON.stringify(tasks);
-        let result = await FORM.sendData('PUT', body);
-    }
-    private async deleteData(id: string) {
-        let uri = '/api/tasks/'
-        let result = await FORM.fetchData('DELETE', id, uri);
-        if (result.n && result.ok) {
-            this.contTask.remove();
-        }
-    }
-    static Responsive() {
-        //BtnOptions.enableWorkButtons();
-    }
-    static async consultData(notebook: IContentNotebook) {
-        Task.isTestNotebook = false;
-        let result = await FORM.fetchData('GET', notebook._id);
-        if (result[0]) {
-            for (let json of result) {
-                new Task(json);
-            }
-        }
-        new FORM(notebook);
+    static Responsive(action:'visible' | 'hidden'){
+        FORM.Responsive(action);
     }
     static insertTask(list_task, datanotebook) {
         if (datanotebook._id !== 'test') {
@@ -77,13 +57,51 @@ class Task {
             new Task(datatask);
         }
     }
+    private checkIsTask(){
+        if(!this.contentStorageTasks.innerText){
+            NOTEBOOK.handleIsTask(false, this.values._id_notebook);
+        }
+    }
+    private async updateData(tasks: IContentTask) {
+        this.values = tasks;
+        let body = JSON.stringify(tasks);
+        let result = await FORM.sendData('PUT', body);
+    }
+    private async deleteData(id: string) {
+        let uri = '/api/tasks/'
+        let result = await FORM.fetchData('DELETE', id, uri);
+        if (result.n && result.ok) {
+            this.contTask.remove();
+            this.checkIsTask();
+        }
+    }
+    static async consultData(notebook: IContentNotebook) {
+        Task.isTestNotebook = false;
+        let result = await FORM.fetchData('GET', notebook._id);
+        if (result[0]) {
+            for (let json of result) {
+                new Task(json);
+            }
+            notebook.isTask = true;
+            new FORM(notebook);
+            return true;
+        }else{
+            notebook.isTask = false;
+            new FORM(notebook);
+            return false;
+        }
+        
+    }
     static async createTask(notebookData: IContentNotebook) {
-        console.log('create task: \n' + JSON.stringify(notebookData, null, 2));
         Task.isTestNotebook = false;
         let inputForm = FORM.getValuesForm(notebookData._id);
         let json = JSON.stringify(inputForm);
         let result = await FORM.sendData('POST', json);
         new Task(result);
+        if(!notebookData.isTask && result._id){
+            notebookData.isTask = true
+            NOTEBOOK.handleIsTask(notebookData.isTask, notebookData._id);
+        }
     }
     private static structureHTML(task: IContentTask): string {
         return `
@@ -156,6 +174,7 @@ class Task {
                         </ul>
                     </div>`;
     }
+
 };
 
 

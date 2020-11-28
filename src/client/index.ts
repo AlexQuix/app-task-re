@@ -1,6 +1,6 @@
 // //CSS
 import './style/home.css';
-// import './style/responsive.css'
+import './style/responsive.css'
 
 
 // JS

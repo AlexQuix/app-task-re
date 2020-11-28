@@ -3,7 +3,7 @@ import App from "../app";
 
 // NOTEBOOK
 class Form {
-    private static btnVisible: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#container-task > #btn-create-new-list-task > button");
+    static btnVisible: HTMLButtonElement = document.querySelector<HTMLButtonElement>("#container-task > #btn-create-new-list-task > button");
     private static contParent: HTMLDivElement = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
     private static contForm: HTMLFormElement = Form.contParent.querySelector<HTMLFormElement>("form");
     private static btnClose: HTMLButtonElement = Form.contForm.querySelector<HTMLButtonElement>("#btn-close");
@@ -12,23 +12,46 @@ class Form {
         this.start();
     }
     private start() {
-        Form.btnCreateNotebook.onclick = NOTEBOOK.createNotebook;
+        Form.btnCreateNotebook.onclick = (e)=>{
+            e.preventDefault();
+            NOTEBOOK.createNotebook()
+            App.closeEverything();
+        };
         Form.btnClose.onclick = Form.close;
         Form.btnVisible.onclick = Form.visible
     }
     private static visible() {
-            App.closeEverything();
-            if (getComputedStyle(Form.contParent).left !== "0px") {
-                Form.contParent.style.left = "0px";
-                Form.contParent.style.background = "#000a";
-            }
+        App.closeEverything();
+        Form.Responsive('visible');
     }
     private static close(e) {
-            e.preventDefault();
-            if (getComputedStyle(Form.contParent).left === "0px") {
-                Form.contParent.style.left = "-100%";
-                Form.contParent.style.background = "transparent";
-            }
+        e.preventDefault();
+        Form.Responsive('hidden');
+    }
+    static Responsive(action:'hidden' | 'visible'){
+        let div = Form.contParent.style;
+        let contForm = Form.contForm.style;
+
+        if(action === 'visible'){
+            App.isMatches(()=>{
+                div.display = 'grid';
+                contForm.transform = "scale(1)";
+            }, ()=>{
+                div.display = 'grid';
+                contForm.transform = "scale(1)";
+                div.background = "#000a";
+            }); 
+        }else if(action === 'hidden'){
+            App.isMatches(()=>{
+                div.display = 'none';
+                contForm.transform = "scale(1)";
+                div.background = "transparent";
+            }, ()=>{
+                contForm.transform = "scale(0)";
+                div.display = 'none';
+                div.background = "transparent";
+            }); 
+        }
     }
     static async getForm() {
         let input = Form.contForm.querySelector<HTMLInputElement>("#name");
@@ -60,6 +83,7 @@ class Form {
         let json = await res.json();
         return json;
     }
+
 }
 
 export default Form;

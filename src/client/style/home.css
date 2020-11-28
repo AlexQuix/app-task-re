@@ -221,15 +221,24 @@ body{
 
 #cont-not-result{
     width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 #cont-not-result > h1{
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-style: italic;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: var(--dark-color-second);
 }
+#cont-not-result > svg{
+    width: 400px;
+}
 #cont-not-result > span{
-    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 40px;
+    font-size: 1.1rem;
     font-weight: bold;
     text-decoration: underline;
     color: var(--medium-color-theme);
@@ -255,6 +264,15 @@ body{
     position: relative;
 }
 
+
+#container-task > #cont-all-task-lists #cont-img-empty{
+    width: 260px;
+    padding: 0px 40px;
+}
+#container-task > #cont-all-task-lists #cont-img-empty > svg{
+    width: 100%;
+    height: 100%;
+}
 
 /* CONT NAME THE NOTEBOOK */
 #container-task > #cont-all-task-lists .cont-list-task > #name-list-task{
@@ -560,9 +578,9 @@ body{
 }
 #container-task > #btn-create-new-list-task > hr{
     width: 100%;
-    border: 2px solid var(--dark-color-theme);
+    border-top: 3px solid var(--dark-color-theme);
     position: absolute;
-    top: 0.9rem;
+    top: 1rem;
     left: 0px;
     z-index: -1;
 }
@@ -609,11 +627,11 @@ body{
 /* FORM CREATE NEW TASK */
 #container-task > #form-create-new-task{
     position: fixed;
-    bottom: 0px;
-    right: -50%;
+    right: 40px;
     bottom: 30px;
     z-index: 500;
-    transition: 0.5s;
+    transform: scale(0);
+    transition: 0.3s;
     transition-timing-function: ease-in-out;
 }
 #container-task > #form-create-new-task > form{
@@ -626,6 +644,12 @@ body{
     background: #fff;
 }
 /* INPUTS OF FORM */
+#container-task > #form-create-new-task > form > #form-inputs > header > h1{
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--medium-color-second);
+    text-align: center;
+}
 #container-task > #form-create-notebook > form > #form-inputs,
 #container-task > #form-create-new-task > form > #form-inputs{
     display: flex;
@@ -747,11 +771,11 @@ body{
     background: transparent;
     position: fixed;
     top: 0px;
-    left: -100%;
-    display: grid;
+    left: 0px;
+    display: none;
     place-content: center;
     z-index: 600;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 #container-task > #form-create-notebook > form{
     height: fit-content;
@@ -759,21 +783,42 @@ body{
     border-radius: 20px;
     position: relative;
     display: flex;
+    align-items: center;
     flex-direction: column;
     background: var(--color-theme);
+    transition: 0.3s;
+    transform: scale(0);
+    overflow: hidden;
 }
 #container-task > #form-create-notebook > form > header > h1{
-    margin-bottom: 40px;
+    margin-bottom: 190px;
     font-size: 1.7rem;
     font-weight: 500;
     color: var(--dark-color-theme);
     text-align: center;
 }
+#container-task > #form-create-notebook > form > #form-inputs{
+    width: 100%;
+}
 #container-task > #form-create-notebook > form > #form-inputs label{
     border-radius: 50px;
 }
 #container-task > #form-create-notebook > form > #btn-add-notebook{
+    width: 100%;
     padding: 8px;
     margin-top: 10px;
     font-size: 0.9em;
+    border: 2px solid #fff;
+}
+#container-task > #form-create-notebook > form > #cont-img{
+    width: 100%;
+    margin-bottom: 20px;
+    position: absolute;
+    left: 0px;
+    bottom: -33px;
+    z-index: -1;
+}
+#container-task > #form-create-notebook > form > #cont-img > svg{
+    width: 100%;
+    height: 100%;
 }

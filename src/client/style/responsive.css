@@ -110,6 +110,14 @@
 
 
 
+
+    /* NOT RESULT */
+    #cont-not-result > svg{
+        width: 300px;
+    }
+    
+
+
     
 
     /* CONTAINER TASKS */
@@ -206,5 +214,47 @@
     #container-task > #form-create-new-task > form > #btn-close > svg{
         width: 1.7rem;
         height: 1.7rem;
+    }
+
+
+
+        /* CREATE NOTEBOOK */   
+        #container-task > #form-create-notebook{
+            place-content: normal;
+            background: transparent;
+        }
+        #container-task > #form-create-notebook > form > #btn-close{
+            top: 30px;
+            right: 30px;
+            transform: scale(1.2);
+        }
+    #container-task > #form-create-notebook > form{
+        width: 100%;
+        height: 100%;
+        padding: 0px 20px;
+        border-radius: 0px;
+        justify-content: center;
+        transform: scale(1);
+    }
+    #container-task > #form-create-notebook > form > header > h1{
+        margin-bottom: 190px;
+        font-size: 1.7rem;
+        font-weight: 500;
+        color: var(--dark-color-theme);
+        text-align: center;
+    }
+    #container-task > #form-create-notebook > form > #cont-img{
+        width: 100%;
+        transform: translateY(71%);
+        bottom: 50%;
+    }
+    #container-task > #form-create-notebook > form > #cont-img::before {
+        content: '';
+        width: 100%;
+        height: 50vh;
+        background: #5647af;
+        position: absolute;
+        top: 177px;
+        z-index: -1;
     }
 }

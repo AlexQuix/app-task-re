@@ -34,7 +34,7 @@ class Form {
     }
     private start() {
         this.btnVisibleForm.onclick = this.visible.bind(this);
-        Form.btnClose.onclick = Form.hidden
+        Form.btnClose.onclick = Form.hidden;
     }
     private visible(e): void {
         e.preventDefault();
@@ -43,19 +43,32 @@ class Form {
         if (!Form.isVisible) {
             Form.isVisible = true;
             App.closeEverything();
-            Form.Responsive();;
+            Form.Responsive('visible');;
         }
     }
-    static Responsive(){
-        // if(getComputedStyle(Form.contParent).right === "0px" || getComputedStyle(Form.contParent).right === "40px"){
-        //     Form.contParent.style.right = "-110%";
-        // }else{
-            if(matchMedia("(max-width:500px)").matches){
-                Form.contParent.style.right = "0px";
-            }else{
-                Form.contParent.style.right = "40px";
-            }
-        //  }
+    static Responsive(action: 'visible' | 'hidden'){
+        let div = Form.contParent.style
+        if(action === 'visible'){
+            App.isMatches(
+                ()=>{
+                    div.right = '0px';
+                    div.transform = 'scale(1)';
+                },
+                ()=>{
+                    div.right = '40px';
+                    div.transform = 'scale(1)';
+            });
+        }else if(action === 'hidden'){
+            App.isMatches(
+                ()=>{
+                    div.right = '-110%';
+                    div.transform = 'scale(1)';
+                },
+                ()=>{
+                    div.right = '40px';
+                    div.transform = 'scale(0)';
+            });
+        }
     }
     static getValuesForm(id: string): IContentTask {
         let title = Form.contForm.querySelector<HTMLInputElement>("#title").value;
@@ -92,15 +105,14 @@ class Form {
     }
     private static hidden(e?) {
         (e.target)?e.preventDefault():undefined;
-        Form.contParent.style.right = "-110%";
         Form.isVisible = false;
+        Form.Responsive('hidden')
     }
     private static handleBtnCreateTask(this,e){
-        console.log(this)
         e.preventDefault();
         TASK.createTask(this.notebookData);
         Form.isVisible = false;
-        Form.hidden();
+        Form.Responsive('hidden');
     }
 }
 

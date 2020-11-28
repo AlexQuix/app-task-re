@@ -43,7 +43,6 @@ class App {
                 }
             }
         } else if (json.task && json.task[0]) {
-            console.log(json.task);
             let datanotebook = {
                 _id: "test",
                 name: "Results"
@@ -55,23 +54,26 @@ class App {
         }
     }
     static adaptViewport() {
+        TASK.Responsive('hidden');
+        NOTEBOOK.Responsive('hidden');
         if (matchMedia("(max-width: 500px)").matches) {
-            //TASK.Responsive();
             FILTER.Responsive();
             NAVEGATION.Responsive();
         }
     }
+    static isMatches(callTrue, callfalse){
+        if(matchMedia("(max-width: 500px)").matches){
+            callTrue();
+        }else{
+            callfalse();
+        }
+    }
     static closeEverything(): void {
         //NOTEBOOKS
-        let contForm = document.querySelector<HTMLDivElement>("#container-task > #form-create-new-task");
-        contForm.style.right = "-110%";
-
-        let contFormCreate = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
-        contFormCreate.style.left = "-100%";
-        contFormCreate.style.background = "transparent";
-
+        NOTEBOOK.Responsive('hidden');
 
         //TASKS
+        TASK.Responsive('hidden');
         let ulPriorityArray = document.querySelectorAll<HTMLUListElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task > #cont-btns-config > #list-options-priority");
         for (let ulPriority of ulPriorityArray) {
             ulPriority.style.right = "-500px";
@@ -82,7 +84,6 @@ class App {
             for (let contTask of contTaskArray) {
                 if (contTask.dataset.isEnabled !== 'true') {
                     let contTaskConfig = (contTask.children[2] as HTMLDivElement);
-                    console.log(contTaskConfig);
                     if (getComputedStyle(contTask).marginBottom !== "0px") {
                         contTaskConfig.style.zIndex = "-1";
                         contTask.style.marginBottom = "0px";
