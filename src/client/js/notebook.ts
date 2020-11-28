@@ -62,18 +62,14 @@ class Notebook {
     static removeAll() {
         Notebook.contentStorageNotebooks.innerHTML = '';
     }
-    static showNotResult(){
-        let div = document.createElement('div');
-        div.id = 'cont-not-result';
-        div.innerHTML = '<h1>Not Result</h1>'
-        let span = document.createElement('span');
-        span.innerHTML = 'Do you want to show all Notebook?';
-        span.onclick = ()=>{
+    static showNotResult() {
+        let div: HTMLDivElement = document.querySelector('#cont-not-result');
+
+        let span: HTMLSpanElement = document.querySelector('#cont-not-result > span');
+        span.onclick = () => {
             Notebook.consultData();
             div.remove();
         }
-        div.appendChild(span);
-        this.contentStorageNotebooks.appendChild(div);
     }
     static async createNotebook(e) {
         e.preventDefault();

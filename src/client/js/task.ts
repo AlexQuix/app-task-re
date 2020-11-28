@@ -54,9 +54,6 @@ class Task {
             this.contTask.remove();
         }
     }
-    static Responsive() {
-        //BtnOptions.enableWorkButtons();
-    }
     static async consultData(notebook: IContentNotebook) {
         Task.isTestNotebook = false;
         let result = await FORM.fetchData('GET', notebook._id);

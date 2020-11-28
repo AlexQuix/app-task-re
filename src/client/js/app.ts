@@ -56,7 +56,6 @@ class App {
     }
     static adaptViewport() {
         if (matchMedia("(max-width: 500px)").matches) {
-            //TASK.Responsive();
             FILTER.Responsive();
             NAVEGATION.Responsive();
         }
