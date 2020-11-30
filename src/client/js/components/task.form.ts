@@ -1,5 +1,5 @@
 import App from "../app";
-import Task from "../task";
+import Notebook from "../notebook";
 import TASK from '../task';
 
 // INTERFACES
@@ -25,8 +25,7 @@ class Form {
     private static isVisible: boolean = false;
     private static btnCreateTask: HTMLButtonElement = Form.contForm.querySelector<HTMLButtonElement>("#btn-add-task");;
 
-    constructor(notebook: IContentNotebook) {
-        console.log('form: \n' + JSON.stringify(notebook, null, 2));
+    constructor(notebook: IContentNotebook, private Notebook:Notebook) {
         this.notebookData = notebook;
         this.contNotebook = document.getElementById('notebook-' + this.notebookData._id) as HTMLDivElement;
         this.btnVisibleForm = this.contNotebook.querySelector<HTMLButtonElement>("#btn-create-new-task");
@@ -61,7 +60,7 @@ class Form {
         }else if(action === 'hidden'){
             App.isMatches(
                 ()=>{
-                    div.right = '-110%';
+                    div.right = '-130%';
                     div.transform = 'scale(1)';
                 },
                 ()=>{
@@ -110,7 +109,7 @@ class Form {
     }
     private static handleBtnCreateTask(this,e){
         e.preventDefault();
-        TASK.createTask(this.notebookData);
+        TASK.createTask(this.notebookData, this.Notebook);
         Form.isVisible = false;
         Form.Responsive('hidden');
     }

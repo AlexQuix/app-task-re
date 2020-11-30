@@ -2,6 +2,7 @@ import NOTEBOOK from "./notebook";
 import TASK from './task';
 import FILTER from './filter';
 import NAVEGATION from './navegation';
+import Notebook from "./notebook";
 
 
 type SendData = {
@@ -32,36 +33,46 @@ class App {
         new NAVEGATION();
         App.adaptViewport();
     }
+    static showNotResult(){
+        let btnCreateNotebook:HTMLDivElement = document.querySelector('#container-task > #btn-create-new-list-task');
+        btnCreateNotebook.style.display = 'none';
+        let div: HTMLDivElement = document.querySelector('#cont-not-result');
+        div.style.display = 'flex';
+        let span: HTMLSpanElement = document.querySelector('#cont-not-result > span');
+        span.onclick = () => {
+            Notebook.consultData();
+            btnCreateNotebook.style.display = 'block';
+            div.style.display = 'none'
+        }
+    }
+    static removeNotResult(){
+        let div: HTMLDivElement = document.querySelector('#cont-not-result');
+        div.style.display = 'none'
+    }
     static evaluationForInsert(json: SendData) {
         NOTEBOOK.removeAll();
         if (json.notebook && json.notebook[0]) {
-            for (let datanotebook of json.notebook) {
-                NOTEBOOK.appendChild(datanotebook);
-                new NOTEBOOK(datanotebook, false);
-                if (datanotebook.list_task && datanotebook.list_task[0]) {
-                    TASK.insertTask(datanotebook.list_task, datanotebook);
-                }
-            }
+            Notebook.insertNotebook(json);
         } else if (json.task && json.task[0]) {
             let datanotebook = {
                 _id: "test",
                 name: "Results"
             };
             NOTEBOOK.appendChild(datanotebook);
-            TASK.insertTask(json.task, datanotebook);
+            TASK.insertTask(json.task, datanotebook, null);
         } else {
-            NOTEBOOK.showNotResult();
+            App.showNotResult();
         }
     }
     static adaptViewport() {
         TASK.Responsive('hidden');
         NOTEBOOK.Responsive('hidden');
+        FILTER.Responsive('hidden');
         if (matchMedia("(max-width: 500px)").matches) {
-            FILTER.Responsive();
             NAVEGATION.Responsive();
         }
     }
-    static isMatches(callTrue, callfalse){
+    static isMatches(callTrue?, callfalse?){
         if(matchMedia("(max-width: 500px)").matches){
             callTrue();
         }else{
@@ -69,9 +80,9 @@ class App {
         }
     }
     static closeEverything(): void {
+        FILTER.Responsive('hidden');
         //NOTEBOOKS
         NOTEBOOK.Responsive('hidden');
-
         //TASKS
         TASK.Responsive('hidden');
         let ulPriorityArray = document.querySelectorAll<HTMLUListElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task > #cont-btns-config > #list-options-priority");

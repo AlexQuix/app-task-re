@@ -13,6 +13,7 @@ class Navegation {
 	private static async handleClick() {
 		let nametask = Navegation.getValue();
 		if (nametask) {
+			App.removeNotResult();
 			let uri = `/api/search?name_task=${nametask}`;
 			let json = await Navegation.searchData(uri);
 			App.evaluationForInsert(json);
@@ -29,9 +30,8 @@ class Navegation {
 	static Responsive(): void {
 		let {input, btnSearch} = Navegation;
 		btnSearch.onclick = () => {
-			input.style.width = "200px";
-			input.style.padding = "5px 20px";
-			input.style.paddingRight = "70px";
+			input.style.width = "150px";
+			input.style.padding = "3px 35px 3px 5px";
 			Navegation.handleClick();
 		}
 

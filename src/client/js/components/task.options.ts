@@ -146,10 +146,10 @@ class BtnOptions extends Priority {
         App.closeEverything();
         if (e) {
             if (getComputedStyle(this.contTask).marginBottom === "0px") {
-                this.contTask.style.marginBottom = "50px";
-                this.contConfig.style.top = "40px";
+                this.contTask.style.marginBottom = "40px";
+                this.contConfig.style.top = "30px";
                 setTimeout(() => {
-                    if (this.contConfig.style.top === "40px") {
+                    if (this.contConfig.style.top === "30px") {
                         this.contConfig.style.zIndex = "initial";
                     }
                 }, 500);

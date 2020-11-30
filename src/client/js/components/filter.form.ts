@@ -1,3 +1,4 @@
+import App from '../app';
 import FILTER from '../filter';
 
 
@@ -20,6 +21,8 @@ class Form {
         this.btnSend.onclick = this.sendData.bind(this);
     }
     async sendData() {
+        App.removeNotResult();
+        App.closeEverything();
         let data = this.getForm();
         let uri = `/api/search?name_notebook=${data.namenotebook}${(data.priority) ? '&priority=' + data.priority : ''}`;
         let res = await fetch(uri);

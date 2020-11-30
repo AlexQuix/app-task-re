@@ -1,4 +1,5 @@
 import { debug } from 'webpack';
+import App from './app';
 import FORM from './components/task.form';
 import BtnOptions from './components/task.options';
 import NOTEBOOK from './notebook';
@@ -23,47 +24,58 @@ class Task {
     private contTask: HTMLDivElement;
     private contentStorageTasks: HTMLDivElement
     constructor(
-        private values: IContentTask
+        private datatask: IContentTask,
+        private Notebook: NOTEBOOK
     ) {
-        let uri = (Task.isTestNotebook) ? 'test' : values._id_notebook;
+        let uri = (Task.isTestNotebook) ? 'test' : datatask._id_notebook;
         this.contNotebook = document.getElementById('notebook-' + uri) as HTMLDivElement;
         this.contentStorageTasks = this.contNotebook.querySelector<HTMLDivElement>(`#cont-all-task`);
         this.appendChild();
         this.start();
     }
     start() {
-        new BtnOptions(this.contTask, this.values, this.updateData.bind(this), this.deleteData.bind(this));
+        new BtnOptions(this.contTask, this.datatask, this.updateData.bind(this), this.deleteData.bind(this));
     }
     private appendChild() {
         let contTask = (document.createElement("task") as HTMLDivElement);
 
         contTask.className = "cont-task";
-        contTask.id = 'task-' + this.values._id;
-        contTask.innerHTML = Task.structureHTML(this.values);
+        contTask.id = 'task-' + this.datatask._id;
+        contTask.innerHTML = Task.structureHTML(this.datatask);
         this.contentStorageTasks.appendChild(contTask);
 
-        this.contTask = document.getElementById('task-' + this.values._id) as HTMLDivElement;
+        this.contTask = document.getElementById('task-' + this.datatask._id) as HTMLDivElement;
     }
     static Responsive(action:'visible' | 'hidden'){
         FORM.Responsive(action);
     }
-    static insertTask(list_task, datanotebook) {
-        if (datanotebook._id !== 'test') {
-            new FORM(datanotebook);
-        } else {
+    static insertTask(list_task, datanotebook, Notebook?) {
+        new FORM(datanotebook, Notebook);
+        if (datanotebook._id === 'test') {
             Task.isTestNotebook = true;
-        };
-        for (let datatask of list_task) {
-            new Task(datatask);
+        }
+
+        if(list_task && list_task[0]){
+            for (let datatask of list_task) {
+                new Task(datatask, Notebook);
+            }
+            Notebook.handleIsTask(true);
+        }else{
+            Notebook.handleIsTask(false);
         }
     }
     private checkIsTask(){
         if(!this.contentStorageTasks.innerText){
-            NOTEBOOK.handleIsTask(false, this.values._id_notebook);
+            if(Task.isTestNotebook){
+                this.contNotebook.remove();
+                App.showNotResult();
+            }else{
+                this.Notebook.handleIsTask(false);   
+            }
         }
     }
     private async updateData(tasks: IContentTask) {
-        this.values = tasks;
+        this.datatask = tasks;
         let body = JSON.stringify(tasks);
         let result = await FORM.sendData('PUT', body);
     }
@@ -75,32 +87,29 @@ class Task {
             this.checkIsTask();
         }
     }
-    static async consultData(notebook: IContentNotebook) {
+    static async consultData(datanotebook: IContentNotebook, Notebook:NOTEBOOK) {
         Task.isTestNotebook = false;
-        let result = await FORM.fetchData('GET', notebook._id);
+        let result = await FORM.fetchData('GET', datanotebook._id);
         if (result[0]) {
             for (let json of result) {
-                new Task(json);
+                new Task(json, Notebook);
             }
-            notebook.isTask = true;
-            new FORM(notebook);
-            return true;
+            Notebook.handleIsTask(true);
         }else{
-            notebook.isTask = false;
-            new FORM(notebook);
-            return false;
+            Notebook.handleIsTask(false);
         }
-        
+        new FORM(datanotebook, Notebook);
     }
-    static async createTask(notebookData: IContentNotebook) {
+    static async createTask(notebookData: IContentNotebook, Notebook:NOTEBOOK) {
         Task.isTestNotebook = false;
         let inputForm = FORM.getValuesForm(notebookData._id);
         let json = JSON.stringify(inputForm);
         let result = await FORM.sendData('POST', json);
-        new Task(result);
-        if(!notebookData.isTask && result._id){
-            notebookData.isTask = true
-            NOTEBOOK.handleIsTask(notebookData.isTask, notebookData._id);
+        new Task(result, Notebook);
+
+        // it check if there is task
+        if(result._id){
+            Notebook.handleIsTask(true);
         }
     }
     private static structureHTML(task: IContentTask): string {
