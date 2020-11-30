@@ -25,7 +25,7 @@ class Form {
     private static isVisible: boolean = false;
     private static btnCreateTask: HTMLButtonElement = Form.contForm.querySelector<HTMLButtonElement>("#btn-add-task");;
 
-    constructor(notebook: IContentNotebook, private Notebook:Notebook) {
+    constructor(notebook: IContentNotebook, private Notebook: Notebook) {
         this.notebookData = notebook;
         this.contNotebook = document.getElementById('notebook-' + this.notebookData._id) as HTMLDivElement;
         this.btnVisibleForm = this.contNotebook.querySelector<HTMLButtonElement>("#btn-create-new-task");
@@ -45,28 +45,28 @@ class Form {
             Form.Responsive('visible');;
         }
     }
-    static Responsive(action: 'visible' | 'hidden'){
+    static Responsive(action: 'visible' | 'hidden') {
         let div = Form.contParent.style
-        if(action === 'visible'){
+        if (action === 'visible') {
             App.isMatches(
-                ()=>{
+                () => {
                     div.right = '0px';
                     div.transform = 'scale(1)';
                 },
-                ()=>{
+                () => {
                     div.right = '40px';
                     div.transform = 'scale(1)';
-            });
-        }else if(action === 'hidden'){
+                });
+        } else if (action === 'hidden') {
             App.isMatches(
-                ()=>{
+                () => {
                     div.right = '-130%';
                     div.transform = 'scale(1)';
                 },
-                ()=>{
+                () => {
                     div.right = '40px';
                     div.transform = 'scale(0)';
-            });
+                });
         }
     }
     static getValuesForm(id: string): IContentTask {
@@ -78,7 +78,7 @@ class Form {
         Form.deleteValuesForm();
         return { _id_notebook, title, priority, description };
     }
-    static deleteValuesForm(){
+    static deleteValuesForm() {
         Form.contForm.reset();
     }
     static async fetchData(method: string, params: string = '', uri = '/api/notebooks/') {
@@ -103,11 +103,11 @@ class Form {
         return json.ops[0];
     }
     private static hidden(e?) {
-        (e.target)?e.preventDefault():undefined;
+        (e.target) ? e.preventDefault() : undefined;
         Form.isVisible = false;
         Form.Responsive('hidden')
     }
-    private static handleBtnCreateTask(this,e){
+    private static handleBtnCreateTask(this, e) {
         e.preventDefault();
         TASK.createTask(this.notebookData, this.Notebook);
         Form.isVisible = false;

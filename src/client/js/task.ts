@@ -46,31 +46,35 @@ class Task {
 
         this.contTask = document.getElementById('task-' + this.datatask._id) as HTMLDivElement;
     }
-    static Responsive(action:'visible' | 'hidden'){
+    static Responsive(action: 'visible' | 'hidden') {
         FORM.Responsive(action);
     }
-    static insertTask(list_task, datanotebook, Notebook?) {
-        new FORM(datanotebook, Notebook);
+    static insertTask(list_task, datanotebook, Notebook: NOTEBOOK) {
+        //this function is for iteration of list_task, it is call by function evaluationForInsert or insertNotebook
         if (datanotebook._id === 'test') {
             Task.isTestNotebook = true;
+        } else {
+            new FORM(datanotebook, Notebook);
         }
 
-        if(list_task && list_task[0]){
+        if (list_task && list_task[0]) {
             for (let datatask of list_task) {
                 new Task(datatask, Notebook);
             }
-            Notebook.handleIsTask(true);
-        }else{
+            if (Notebook) {
+                Notebook.handleIsTask(true);
+            }
+        } else if (Notebook) {
             Notebook.handleIsTask(false);
         }
     }
-    private checkIsTask(){
-        if(!this.contentStorageTasks.innerText){
-            if(Task.isTestNotebook){
+    private checkIsTask() {
+        if (!this.contentStorageTasks.innerText) {
+            if (Task.isTestNotebook) {
                 this.contNotebook.remove();
                 App.showNotResult();
-            }else{
-                this.Notebook.handleIsTask(false);   
+            } else {
+                this.Notebook.handleIsTask(false);
             }
         }
     }
@@ -87,7 +91,7 @@ class Task {
             this.checkIsTask();
         }
     }
-    static async consultData(datanotebook: IContentNotebook, Notebook:NOTEBOOK) {
+    static async consultData(datanotebook: IContentNotebook, Notebook: NOTEBOOK) {
         Task.isTestNotebook = false;
         let result = await FORM.fetchData('GET', datanotebook._id);
         if (result[0]) {
@@ -95,12 +99,12 @@ class Task {
                 new Task(json, Notebook);
             }
             Notebook.handleIsTask(true);
-        }else{
+        } else {
             Notebook.handleIsTask(false);
         }
         new FORM(datanotebook, Notebook);
     }
-    static async createTask(notebookData: IContentNotebook, Notebook:NOTEBOOK) {
+    static async createTask(notebookData: IContentNotebook, Notebook: NOTEBOOK) {
         Task.isTestNotebook = false;
         let inputForm = FORM.getValuesForm(notebookData._id);
         let json = JSON.stringify(inputForm);
@@ -108,7 +112,7 @@ class Task {
         new Task(result, Notebook);
 
         // it check if there is task
-        if(result._id){
+        if (result._id) {
             Notebook.handleIsTask(true);
         }
     }

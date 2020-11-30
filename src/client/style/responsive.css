@@ -315,15 +315,15 @@
     #contaner-filter-search > ul li,
     #contaner-filter-search > ul > #select-priority{
         width: 100%;
-        margin: 10px 0px 20px;
+        margin: 5px 0px;
         border-right: none;
     }
     #contaner-filter-search > ul li > input,
     #contaner-filter-search > ul > #select-priority > label{
         font-size: 1rem;
-        padding: 4px 0px;
+        padding: 5px 0px;
         padding-left: 10px;
-        margin: 7px 0px;
+        margin: 0px;
     }
     #contaner-filter-search > ul > #select-priority > label > select{
         padding: 3px;
@@ -403,7 +403,11 @@
         margin-left: 10px;
         margin: 0px;
     }
+    #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task > #cont-task-inf > #cont-title > header{
+        overflow: hidden;
+    }
     #container-task > #cont-all-task-lists .cont-list-task > #cont-all-task > .cont-task > #cont-task-inf > #cont-title > header > h1{
+        width: 1000%;
         font-size: 1rem;
     }
     /* BUTTON VISIBLE CONTENT CONFIGURATION */
@@ -458,7 +462,12 @@
 
     /* FORM CREATE NOTEBOOKS */
     #container-task > #form-create-notebook{
-        width: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 0px;
+    }
+    #container-task > #form-create-new-task > form{
+        padding: 0px 20px;
     }
     #container-task > #form-create-notebook > form > header > h1{
         margin-bottom: 133px;
@@ -482,8 +491,10 @@
 
     /* FORM CREATE TASK */
     #container-task > #form-create-new-task{
-        width: 100vh;
-        padding: 10px 20px;
+        width: 100%;
+        padding: 0px;
+        position: absolute;
+        top: 0px;
     }
     #container-task > #form-create-new-task > form > #form-inputs > header > h1{
         margin-bottom: 20px;

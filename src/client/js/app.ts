@@ -33,8 +33,8 @@ class App {
         new NAVEGATION();
         App.adaptViewport();
     }
-    static showNotResult(){
-        let btnCreateNotebook:HTMLDivElement = document.querySelector('#container-task > #btn-create-new-list-task');
+    static showNotResult() {
+        let btnCreateNotebook: HTMLDivElement = document.querySelector('#container-task > #btn-create-new-list-task');
         btnCreateNotebook.style.display = 'none';
         let div: HTMLDivElement = document.querySelector('#cont-not-result');
         div.style.display = 'flex';
@@ -45,7 +45,7 @@ class App {
             div.style.display = 'none'
         }
     }
-    static removeNotResult(){
+    static removeNotResult() {
         let div: HTMLDivElement = document.querySelector('#cont-not-result');
         div.style.display = 'none'
     }
@@ -72,10 +72,10 @@ class App {
             NAVEGATION.Responsive();
         }
     }
-    static isMatches(callTrue?, callfalse?){
-        if(matchMedia("(max-width: 500px)").matches){
+    static isMatches(callTrue?, callfalse?) {
+        if (matchMedia("(max-width: 500px)").matches && callTrue) {
             callTrue();
-        }else{
+        } else if (callfalse) {
             callfalse();
         }
     }

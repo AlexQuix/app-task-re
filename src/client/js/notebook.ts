@@ -32,13 +32,13 @@ class Notebook {
         this.btnEdit.onclick = this.updateData.bind(this);
         this.btnDelete.onclick = this.deleteData.bind(this);
     }
-    public handleIsTask(isTask:boolean){
-        if(isTask){
+    public handleIsTask(isTask: boolean) {
+        if (isTask) {
             let contSVGEmpty = this.contNotebook.querySelector('#cont-img-empty');
-            if(contSVGEmpty){
+            if (contSVGEmpty) {
                 contSVGEmpty.remove();
             }
-        }else{
+        } else {
             let contStorageAllTask = this.contNotebook.querySelector('#cont-all-task');
             let contImgEmpty = Notebook.SVGEmptyHTML();
             contStorageAllTask.innerHTML = contImgEmpty;
@@ -74,15 +74,14 @@ class Notebook {
     static removeAll() {
         Notebook.contentStorageNotebooks.innerHTML = '';
     }
-    static Responsive(action:'visible'|'hidden'){
+    static Responsive(action: 'visible' | 'hidden') {
         FORM.Responsive(action);
     }
-    static insertNotebook(json){
-        let NOTEBOOK = Notebook;
+    static insertNotebook(json) {
         for (let datanotebook of json.notebook) {
-            NOTEBOOK.appendChild(datanotebook);
-            let Notebook = new NOTEBOOK(datanotebook, false);
-            TASK.insertTask(datanotebook.list_task, datanotebook, Notebook);
+            Notebook.appendChild(datanotebook);
+            let instance = new Notebook(datanotebook, false);
+            TASK.insertTask(datanotebook.list_task, datanotebook, instance);
             new FORM();
         }
     }
@@ -141,7 +140,7 @@ class Notebook {
             }
         `
     }
-    private static SVGEmptyHTML(){
+    private static SVGEmptyHTML() {
         return `
             <div id='cont-img-empty'>
                 <svg width="560" height="428" viewBox="0 0 560 428" fill="none" xmlns="http://www.w3.org/2000/svg">

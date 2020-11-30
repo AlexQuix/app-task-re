@@ -23,7 +23,6 @@
 body{
     background: var(--ligh-color-second);
     overflow-x: hidden;
-    overflow: hidden;
 }
 
 
