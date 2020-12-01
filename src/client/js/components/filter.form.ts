@@ -19,12 +19,13 @@ class Form {
     }
     start() {
         this.btnSend.onclick = this.sendData.bind(this);
+        this.inputDate.placeholder = new Date().toLocaleString();
     }
     async sendData() {
         App.removeNotResult();
         App.closeEverything();
         let data = this.getForm();
-        let uri = `/api/search?name_notebook=${data.namenotebook}${(data.priority) ? '&priority=' + data.priority : ''}`;
+        let uri = `/api/search?name_notebook=${data.namenotebook}${(data.priority) ? '&priority=' + data.priority : ''}${(data.date) ? '&date=' + data.date : ''}`;
         let res = await fetch(uri);
         let json = await res.json();
 

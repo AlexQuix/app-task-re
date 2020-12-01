@@ -3,6 +3,7 @@ import App from './app';
 import FORM from './components/task.form';
 import BtnOptions from './components/task.options';
 import NOTEBOOK from './notebook';
+import TextBox from './textbox';
 
 interface IContentTask {
     _id: string;
@@ -33,8 +34,24 @@ class Task {
         this.appendChild();
         this.start();
     }
-    start() {
-        new BtnOptions(this.contTask, this.datatask, this.updateData.bind(this), this.deleteData.bind(this));
+    public start() {
+        new BtnOptions(this.contTask, this.datatask, this);
+    }
+    public async updateData(tasks: IContentTask) {
+        this.datatask = tasks;
+        let body = JSON.stringify(tasks);
+        let result = await FORM.sendData('PUT', body);
+    }
+    public async deleteData(id: string) {
+        let uri = '/api/tasks/'
+        let result = await FORM.fetchData('DELETE', id, uri);
+        if (result.n && result.ok) {
+            this.contTask.remove();
+            this.checkIsTask();
+        }
+    }
+    public async readData(json:IContentTask){
+        this.Notebook.readTask(json);
     }
     private appendChild() {
         let contTask = (document.createElement("task") as HTMLDivElement);
@@ -76,19 +93,6 @@ class Task {
             } else {
                 this.Notebook.handleIsTask(false);
             }
-        }
-    }
-    private async updateData(tasks: IContentTask) {
-        this.datatask = tasks;
-        let body = JSON.stringify(tasks);
-        let result = await FORM.sendData('PUT', body);
-    }
-    private async deleteData(id: string) {
-        let uri = '/api/tasks/'
-        let result = await FORM.fetchData('DELETE', id, uri);
-        if (result.n && result.ok) {
-            this.contTask.remove();
-            this.checkIsTask();
         }
     }
     static async consultData(datanotebook: IContentNotebook, Notebook: NOTEBOOK) {
