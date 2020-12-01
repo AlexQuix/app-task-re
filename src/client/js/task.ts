@@ -3,6 +3,7 @@ import App from './app';
 import FORM from './components/task.form';
 import BtnOptions from './components/task.options';
 import NOTEBOOK from './notebook';
+import TextBox from './textbox';
 
 interface IContentTask {
     _id: string;

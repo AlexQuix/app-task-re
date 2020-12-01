@@ -1,7 +1,7 @@
 // //CSS
 import './style/home.css';
 import './style/responsive.css'
-
+console.log('Hola')
 
 // JS
 import App from './js/app';
