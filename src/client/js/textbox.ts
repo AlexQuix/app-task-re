@@ -11,13 +11,13 @@ interface IContentTask {
 
 class TextBox{
     private static container:HTMLDivElement = document.querySelector('#cont-text-box');
-    private static contImg:HTMLDivElement = TextBox.container.querySelector('#cont-img');
-    private static contTitle:HTMLDivElement = TextBox.container.querySelector('#cont-title > h1');
-    private static contMsg:HTMLParagraphElement = TextBox.container.querySelector('#cont-msg');
-    private static contText:HTMLDivElement = TextBox.container.querySelector('#cont-read-text');
-    private static input:HTMLInputElement = TextBox.container.querySelector('input');
-    private static aceptBtn:HTMLButtonElement = TextBox.container.querySelector('#btn-acept');
-    private static closeBtn:HTMLButtonElement = TextBox.container.querySelector('#btn-close');
+    private static contImg:HTMLDivElement = TextBox.container.querySelector('div > #cont-img');
+    private static contTitle:HTMLDivElement = TextBox.container.querySelector('div > #cont-title > h1');
+    private static contMsg:HTMLParagraphElement = TextBox.container.querySelector('div > #cont-msg');
+    private static contText:HTMLDivElement = TextBox.container.querySelector('div > #cont-read-text');
+    private static input:HTMLInputElement = TextBox.container.querySelector('div > input');
+    private static aceptBtn:HTMLButtonElement = TextBox.container.querySelector('div > #btn-acept');
+    private static closeBtn:HTMLButtonElement = TextBox.container.querySelector('div > #btn-close');
     static async showMsg(action:Actions, json?:string | IContentTask):Promise<string | undefined>{
         App.closeEverything();
         TextBox.Responsive('visible');
@@ -45,9 +45,13 @@ class TextBox{
       if(display === 'visible'){
         App.isMatches(()=>{
           TextBox.container.style.display = 'flex';
+        }, ()=>{
+          TextBox.container.style.display = 'flex';
         })
       }else if(display === 'hidden'){
         App.isMatches(()=>{
+          TextBox.container.style.display = 'none';
+        }, ()=>{
           TextBox.container.style.display = 'none';
         })
       }

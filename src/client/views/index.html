@@ -52,17 +52,18 @@
                     <input type="text" placeholder="Name Notebook">
                 </li>
                 <li id="date">
-                    <input type="text">
+                    <input type="text" placeholder="2020-12-1 0:0:0">
                 </li>
                 <li id="select-priority">
                     <label for="priority">
                         Priority:
                         <select name="priority" id="priority">
-                            <option value="">Urgent</option>
-                            <option value="">Hight</option>
-                            <option value="">Medium</option>
-                            <option value="">Low</option>
-                            <option value="" selected>Not import</option>
+                            <option value selected>none</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="hight">Hight</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                            <option value="none">Not import</option>
                         </select>
                     </label>
                 </li>
@@ -232,6 +233,7 @@
     </section>
 
     <section id="cont-text-box">
+        <div>
             <header id="cont-title"><h1></h1></header>
             <div id="cont-img">
             </div>
@@ -242,6 +244,7 @@
                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
             </button>
             <button id="btn-acept">Acept</button>
+        </div>
     </section>
 
 <script src="/js/bundle.js"></script>

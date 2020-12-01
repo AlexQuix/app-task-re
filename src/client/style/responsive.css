@@ -525,92 +525,41 @@
 
 
     #cont-text-box{
-        width: 100%;
-        height: 100vh;
-        padding: 0px 20px;
-        display: none;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        position: absolute;
-        top: 0px;
-        left: 0px;
         background: #fff;
     }
-    #cont-text-box > #cont-title > h1{
+    #cont-text-box > div{
+        width: 100%;
+        height: 100%;
+        padding: 0px;
+    }
+    #cont-text-box > div > #cont-title > h1{
         font-size: 1.4rem;
         color: var(--dark-color-theme);
     }
-    #cont-text-box > #cont-img{
+    #cont-text-box > div > #cont-img{
         width: 120px;
         height: 150px;
         margin: 10px 0px;
     }
-    #cont-text-box > #cont-img > svg{
-        width: 100%;
-        height: 100%;
+    #cont-text-box > div > #cont-msg{
+        font-size: 1rem;
     }
-    #cont-text-box > #cont-msg{
-        letter-spacing: 0.5px;
-        font-weight: 500;
-        margin-bottom: 15px;
-        color: var(--medium-color-second);
-    }
-    #cont-text-box > input{
-        display: none;
-        width: 100%;
+    #cont-text-box > div > input{
         font-size: 0.9rem;
-        font-weight: 500;
-        padding: 5px 20px;
-        color: var(--medium-color-theme);
-        background: #eee;
-        outline: none;
-        border: none;
-        border-radius: 25px;
     }
-    #cont-text-box > #btn-close{
+    #cont-text-box > div > #btn-close{
         width: 15px;
         height: 15px;
-        border: none;
-        outline: none;
-        background: none;
-        position: absolute;
-        top: 10px;
-        right: 15px;
     }
-    #cont-text-box > #btn-acept{
-        width: 100%;
+    #cont-text-box > div > input{
+        padding: 5px 20px;
+    }
+    #cont-text-box > div > #btn-acept{
         padding: 5px;
         margin-top: 20px;
-        font-size: 1.1rem;
-        font-weight: 500;
-        color: #fff;
-        background: var(--medium-color-theme);
-        border: none;
-        outline: none;
-        border-radius: 50px;
     }
-    #cont-text-box > #cont-read-text{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    #cont-text-box > #cont-read-text > header > h1{
-        width: 100%;
-        padding: 5px 15px;
-        margin-bottom: 5px;
-        font-size: 1.1rem;
-        color: var(--medium-color-theme);
-        background: #efefef;
-        border-radius: 50px;
-    }
-    #cont-text-box > #cont-read-text > span{
-        width: 100%;
+    #cont-text-box > div > #cont-read-text > span{
         padding: 5px 15px;
         margin: 3px 0px;
-        font-size: 0.9rem;
-        color: var(--dark-color-second);
-        background: #efefef;
-        border-radius: 50px;
     }
 }
