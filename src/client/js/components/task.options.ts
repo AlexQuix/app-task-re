@@ -20,6 +20,7 @@ class Read {
     constructor(
         contTask: HTMLDivElement,
         protected taskData: ITaskData,
+        protected Task:TASK
     ) {
         this.btn = contTask.querySelector('#cont-btns-config > #btn-read-task');
         this.start();
@@ -28,7 +29,7 @@ class Read {
         this.btn.onclick = this.readTask.bind(this);
     }
     private readTask() {
-        console.log(this.taskData);
+        this.Task.readData(this.taskData);
     }
 }
 
@@ -37,7 +38,7 @@ class Completed {
     constructor(
         contTask: HTMLDivElement,
         protected taskData: ITaskData,
-        protected deleteData: (id: string) => Promise<void>
+        protected Task:TASK
     ) {
         this.btn = contTask.querySelector('#cont-task-inf > #btn-complete-task');
         this.init();
@@ -46,11 +47,11 @@ class Completed {
         this.btn.onclick = this.taskCompleted.bind(this);
     }
     private async taskCompleted() {
-        this.deleteData(this.taskData._id);
+        this.Task.deleteData(this.taskData._id);
     }
 }
 
-class Priority extends Completed {
+class Priority{
     private contPriorityTag: HTMLDivElement;
     private btnPriority: HTMLButtonElement;
     private contPriorityOptions: HTMLUListElement;
@@ -59,10 +60,8 @@ class Priority extends Completed {
     constructor(
         protected contTask: HTMLDivElement,
         protected taskData: ITaskData,
-        protected update: (data: ITaskData) => Promise<void>,
-        protected deleteData: (id: string) => Promise<void>
+        protected Task: TASK
     ) {
-        super(contTask, taskData, deleteData);
         this.contPriorityTag = contTask.querySelector<HTMLDivElement>("#cont-task-inf > #cont-tag-color");
         this.contPriorityOptions = contTask.querySelector<HTMLUListElement>("#cont-btns-config > #list-options-priority");
         this.btnPriority = contTask.querySelector<HTMLButtonElement>("#cont-btns-config > #btn-priority-task");
@@ -118,7 +117,7 @@ class Priority extends Completed {
                 this.contPriorityOptions.style.right = "-500px";
 
                 this.taskData.priority = li.dataset.priority;
-                await this.update(this.taskData);
+                await this.Task.updateData(this.taskData);
             }
         }
     }
@@ -126,17 +125,17 @@ class Priority extends Completed {
 
 
 // OPTIONS OF TASKS
-class BtnOptions extends Priority {
+class BtnOptions{
     private contConfig: HTMLDivElement;
     private btnConfig: HTMLButtonElement;
     constructor(
         public contTask: HTMLDivElement,
-        taskData: ITaskData,
-        update: (data: ITaskData) => Promise<void>,
-        deleteData: (id: string) => Promise<void>
+        protected taskData: ITaskData,
+        protected Task:TASK
     ) {
-        super(contTask, taskData, update, deleteData);
-        new Read(contTask, taskData);
+        new Read(contTask, taskData, Task);
+        new Priority(contTask, taskData, Task);
+        new Completed(contTask, taskData, Task);
         this.contConfig = contTask.querySelector('#cont-btns-config');
         this.btnConfig = contTask.querySelector('#cont-btn-visible-configuration');
         this.contTask.dataset.isEnabled = 'false';

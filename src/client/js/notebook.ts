@@ -1,6 +1,8 @@
 import { debug } from 'webpack';
 import TASK from './task';
 import FORM from './components/notebook.form';
+import TextBox from './textbox';
+import { json } from 'express';
 
 interface IContentNotebook {
     _id: string;
@@ -44,8 +46,8 @@ class Notebook {
             contStorageAllTask.innerHTML = contImgEmpty;
         }
     }
-    private async updateData(e) {
-        let value = prompt('Change the name notebook');
+    public async updateData(e) {
+        let value = await TextBox.showMsg('rename');
         if (value) {
             this.json.name = value;
             let body = JSON.stringify(this.json);
@@ -56,8 +58,8 @@ class Notebook {
             }
         }
     }
-    private async deleteData(e) {
-        let value = prompt(`Estas seguro que quieres eliminar este Notebook \n Escribe "${this.json.name}" para confirmar`);
+    public async deleteData(e) {
+        let value = await TextBox.showMsg('delete', this.json.name);
         if (this.json.name === 'My task') {
             alert('Este notebook no se eliminar');
         } else {
@@ -70,6 +72,10 @@ class Notebook {
             }
         }
 
+    }
+    public async readTask(json){
+        json.name = this.json.name
+        TextBox.showMsg('read', json);
     }
     static removeAll() {
         Notebook.contentStorageNotebooks.innerHTML = '';
