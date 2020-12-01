@@ -6,6 +6,7 @@ interface Task {
     title: string,
     priority: string,
     description: string,
+    date: string;
     _id_notebook: string
 }
 
@@ -24,6 +25,7 @@ class Tasks {
     }
     async create(req: Request, res: Response) {
         const [tasks,] = await collections;
+        req.body.date = new Date().toLocaleString();
         const result = await tasks.insertOne(req.body);
         res.send(result);
     }

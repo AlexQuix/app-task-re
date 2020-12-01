@@ -4,7 +4,7 @@
     ],
     "ext": ".ts",
     "watch": [
-        "src/client/*"
+        "src/server/*"
     ],
-    "exec": "npm run build"
+    "exec": "npm run build && npm start"
 }

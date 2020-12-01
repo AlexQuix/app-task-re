@@ -6,6 +6,7 @@ type RequestQuery = {
     name_notebook?: string;
     name_task?: string;
     priority?: string;
+    date?:string;
 }
 type SendData = {
     notebook: DataNotebook[];
@@ -40,7 +41,12 @@ class Filter {
                 },
                 {
                     priority: {
-                        $regex: ""
+                        $regex: (resQuery.priority)?resQuery.priority:""
+                    }
+                },
+                {
+                    date: {
+                        $regex: (resQuery.date)?resQuery.date:""
                     }
                 }
             ]
@@ -65,7 +71,7 @@ class Filter {
                 sendData.notebook = datanotebook;
             }
         }
-        else if (resQuery.name_task || resQuery.priority) {
+        else if (resQuery.name_task || resQuery.priority || resQuery.date) {
             sendData.task = await Filter.executeAction('task', queryTask);
         }
 
@@ -80,7 +86,6 @@ class Filter {
         }
     }
     static async checkOutTask(queryTask) {
-        console.log(queryTask)
         const [task] = await collections;
         let cursor = await task.find(queryTask);
         let taskArray = await cursor.toArray();
