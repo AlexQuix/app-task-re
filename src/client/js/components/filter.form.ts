@@ -24,7 +24,7 @@ class Form {
         App.removeNotResult();
         App.closeEverything();
         let data = this.getForm();
-        let uri = `/api/search?${(data.namenotebook)?'name_notebook' + data.namenotebook:''}${(data.priority) ? '&priority=' + data.priority : ''}${(data.date) ? '&date=' + data.date : ''}`;
+        let uri = `/api/search?${(data.namenotebook)?'name_notebook=' + data.namenotebook:''}${(data.priority) ? '&priority=' + data.priority : ''}${(data.date) ? '&date=' + data.date : ''}`;
         let res = await fetch(uri);
         let json = await res.json();
 
