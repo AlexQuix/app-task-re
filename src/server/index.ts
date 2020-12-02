@@ -3,7 +3,6 @@ import 'core-js';
 
 import express from "express";
 import path from "path";
-import morgan from "morgan";
 import cors from "cors";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -23,7 +22,6 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(morgan("dev"));
 app.use(cors());
 
 
