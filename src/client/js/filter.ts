@@ -28,10 +28,12 @@ class Filter {
     static Responsive(action:'visible'|'hidden') {
         if(action === 'visible'){
             App.isMatches(()=>{
+                App.lockScroll();
                 Filter.contInputs.style.left = "0%";
             })
         }else if(action === 'hidden'){
             App.isMatches(()=>{
+                App.unlockScroll();
                 Filter.contInputs.style.left = "-100%";
             });
         }

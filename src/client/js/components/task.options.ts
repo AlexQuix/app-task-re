@@ -8,6 +8,7 @@ interface ITaskData {
     priority: string;
     description: string;
     _id_notebook: string;
+    date: string;
 }
 interface IDataNotebook {
     _id: string;
@@ -139,6 +140,7 @@ class BtnOptions{
         this.contConfig = contTask.querySelector('#cont-btns-config');
         this.btnConfig = contTask.querySelector('#cont-btn-visible-configuration');
         this.contTask.dataset.isEnabled = 'false';
+        this.contTask.style.marginBottom = "0px";
         this.btnConfig.onclick = this.enableWorkButton.bind(this);
     }
     private enableWorkButton(e) {

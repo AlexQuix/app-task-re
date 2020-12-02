@@ -24,6 +24,7 @@ type DataTask = {
 
 
 class App {
+    static body:HTMLBodyElement = document.querySelector('body');
     constructor() {
         this.start();
     }
@@ -65,6 +66,7 @@ class App {
         }
     }
     static adaptViewport() {
+        App.unlockScroll();
         TASK.Responsive('hidden');
         NOTEBOOK.Responsive('hidden');
         FILTER.Responsive('hidden');
@@ -103,6 +105,27 @@ class App {
                 }
             }
         }
+    }
+    static unlockScroll(){
+        App.body.style.overflowY = 'visible';
+    }
+    static lockScroll(){
+        App.body.style.overflowY = 'hidden';
+        App.animation(()=>{
+            if(scrollY > 0){
+                let y = scrollY - 50;
+                scrollTo(0, y);
+                return true;
+            }
+        })
+    }
+    static animation(call:()=>boolean){
+        requestAnimationFrame(()=>{
+            let isAnimation = call();
+            if(isAnimation){
+                App.animation(call);
+            }
+        });
     }
 }
 

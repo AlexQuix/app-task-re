@@ -19,7 +19,9 @@ class TextBox{
     private static aceptBtn:HTMLButtonElement = TextBox.container.querySelector('div > #btn-acept');
     private static closeBtn:HTMLButtonElement = TextBox.container.querySelector('div > #btn-close');
     static async showMsg(action:Actions, json?:string | IContentTask):Promise<string | undefined>{
+        TextBox.input.value = '';
         App.closeEverything();
+        App.lockScroll();
         TextBox.Responsive('visible');
         TextBox.cleanBox(action);
         TextBox.runAction(action, json);
@@ -28,14 +30,17 @@ class TextBox{
             if(action !== 'read'){
               let text = TextBox.input.value;
               if(text){
+                App.unlockScroll();
                 TextBox.Responsive('hidden');
                 resolve(text);
               }
             }else{
+              App.unlockScroll();
               TextBox.Responsive('hidden');
             }
           };
           TextBox.closeBtn.onclick = ()=>{
+            App.unlockScroll();
             TextBox.Responsive('hidden');
             resolve(undefined);
           }
@@ -58,7 +63,7 @@ class TextBox{
     }
     public static cleanBox(action:Actions){
       if(action !== 'read'){
-        TextBox.contText.innerHTML = '';
+        TextBox.contText.style.display = 'none';
         TextBox.contImg.style.display = 'block';
         TextBox.input.style.display = 'block';
       }else{
@@ -84,6 +89,7 @@ class TextBox{
     private static readTaskMsg(json:IContentTask){
       let title = 'Read Notebook';
 
+      TextBox.contText.style.display = 'flex';
       TextBox.contTitle.innerHTML = title;
       TextBox.contText.innerHTML = TextBox.readHTML(json);
     }
@@ -96,7 +102,12 @@ class TextBox{
         TextBox.contImg.innerHTML = img;
         TextBox.contMsg.innerHTML = text;
 
-        TextBox.contImg.style.height = '120px';
+        
+        App.isMatches(()=>{
+          TextBox.contImg.style.height = '120px';
+        }, ()=>{
+          TextBox.contImg.style.height = '150px';
+        })
     }
     private static renameMsg(name:string){
       let title = 'Rename Notebook';
@@ -107,14 +118,19 @@ class TextBox{
       TextBox.contImg.innerHTML = img;
       TextBox.contMsg.innerHTML = text;
 
-      TextBox.contImg.style.height = '150px';
+      App.isMatches(()=>{
+        TextBox.contImg.style.height = '150px';
+      }, ()=>{
+        TextBox.contImg.style.height = '190px';
+      })
     }
     private static readHTML(json){
       return `
-        <header><h1>${json.name}</h1></header>
-        <span id="title">${json.title}</span>
-        <span id="priority">${json.priority}</span>
-        <span id="description">${(json.description)?json.description:'<b>undefined</b>'}</span>
+        <header><h1><b style='color:#676767;'>Name Notebook: </b>${json.name}</h1></header>
+        <span id="title"><b>Title: </b>${json.title}</span>
+        <span id="priority"><b>Date: </b>${json.date}</span>
+        <span id="priority"><b>Priority: </b>${json.priority}</span>
+        <span id="description"><b>Description: </b>${(json.description)?json.description:'<b>undefined</b>'}</span>
       `
     }
     private static deleteHTML(){

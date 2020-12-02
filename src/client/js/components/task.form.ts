@@ -50,6 +50,7 @@ class Form {
         if (action === 'visible') {
             App.isMatches(
                 () => {
+                    App.lockScroll();
                     div.right = '0px';
                     div.transform = 'scale(1)';
                 },
@@ -60,6 +61,7 @@ class Form {
         } else if (action === 'hidden') {
             App.isMatches(
                 () => {
+                    App.unlockScroll();
                     div.right = '-130%';
                     div.transform = 'scale(1)';
                 },
