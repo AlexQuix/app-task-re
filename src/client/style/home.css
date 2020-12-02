@@ -148,7 +148,7 @@ body{
     width: 100%;
     padding: 5px 10px;
     border-radius: 50px;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     font-weight: 500;
     border: none;
     outline: none;
@@ -159,12 +159,15 @@ body{
     width: auto;
 }
 #contaner-filter-search > ul > #select-priority > label{
+    padding-left: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 12px;
     font-size: 0.8rem;
     font-weight: 500;
     color: #000;
+    background: #f1f1f1;
 }
 #contaner-filter-search > ul > #select-priority > label > select{
     width: 130px;
@@ -186,7 +189,7 @@ body{
     width: 100%;
     padding: 5px 20px;
     border-radius: 50px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     outline: none;
     border: none;
@@ -671,6 +674,7 @@ body{
 }
 #container-task > #form-create-notebook > form > #form-inputs label > input,
 #container-task > #form-create-new-task > form > #form-inputs label > input{
+    width: 100%;
     margin-left: 15px;
     border: none;
     outline: none;
@@ -855,12 +859,13 @@ body{
 }
 #cont-text-box > div > #cont-title > h1{
     font-size: 1.5rem;
+    margin-bottom: 20px;
     color: var(--dark-color-theme);
 }
 #cont-text-box > div > #cont-img{
     width: 170px;
     height: 180px;
-    margin: 10px 0px;
+    margin-bottom: 20px;
 }
 #cont-text-box > div > #cont-img > svg{
     width: 100%;
@@ -897,9 +902,10 @@ body{
     right: 15px;
 }
 #cont-text-box > div > #btn-acept{
+    cursor: pointer;
     width: 100%;
     padding: 10px;
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 1.1rem;
     font-weight: 500;
     color: #fff;
@@ -907,11 +913,27 @@ body{
     border: none;
     outline: none;
     border-radius: 50px;
+    transition: 0.5s;
 }
 #cont-text-box > div > #cont-read-text{
     width: 100%;
+    padding: 20px 10px 10px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
+    background: #efefef;
+    position: relative;
+}
+#cont-text-box > div > #cont-read-text::before {
+    content: '';
+    width: 170px;
+    height: 30px;
+    border-radius: 24px;
+    background: #B3A8F9;
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 #cont-text-box > div > #cont-read-text > header > h1{
     width: 100%;
@@ -930,4 +952,12 @@ body{
     color: var(--dark-color-second);
     background: #efefef;
     border-radius: 50px;
+}
+
+#cont-text-box > div > #btn-close:hover > svg{
+    fill: #ed1a72;
+}
+#cont-text-box > div > #btn-acept:hover{
+    color: var(--medium-color-theme);
+    background: var(--ligh-color-second);;
 }

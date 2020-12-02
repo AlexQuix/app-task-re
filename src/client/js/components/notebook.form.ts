@@ -8,6 +8,7 @@ class Form {
     private static contForm: HTMLFormElement = Form.contParent.querySelector<HTMLFormElement>("form");
     private static btnClose: HTMLButtonElement = Form.contForm.querySelector<HTMLButtonElement>("#btn-close");
     private static btnCreateNotebook: HTMLButtonElement = Form.contForm.querySelector("#btn-add-notebook");
+    private static input = Form.contForm.querySelector<HTMLInputElement>("#name")
     constructor() {
         this.start();
     }
@@ -15,17 +16,21 @@ class Form {
         Form.btnCreateNotebook.onclick = (e)=>{
             e.preventDefault();
             NOTEBOOK.createNotebook()
+            App.unlockScroll();
             App.closeEverything();
         };
         Form.btnClose.onclick = Form.close;
         Form.btnVisible.onclick = Form.visible
     }
     private static visible() {
+        Form.input.value = '';
         App.closeEverything();
+        App.lockScroll();
         Form.Responsive('visible');
     }
     private static close(e) {
         e.preventDefault();
+        App.unlockScroll();
         Form.Responsive('hidden');
     }
     static Responsive(action:'hidden' | 'visible'){

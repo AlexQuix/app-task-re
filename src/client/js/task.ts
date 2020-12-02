@@ -1,3 +1,4 @@
+import { json } from 'express';
 import { debug } from 'webpack';
 import App from './app';
 import FORM from './components/task.form';
@@ -11,6 +12,7 @@ interface IContentTask {
     priority: string;
     description: string;
     _id_notebook: string;
+    date: string;
 }
 interface IContentNotebook {
     _id: string;
@@ -143,7 +145,7 @@ class Task {
                     </button>
                     <div id="cont-btns-config">
                         <!-- CONTENT DATE THE CREATE -->
-                        <div id="cont-date"><p>10/10/10</p></div>
+                        <div id="cont-date"><p>${task.date}</p></div>
                         <div id="btn-read-task">
                             <svg viewBox="0 0 118 91" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M110.635 0.0110309C99.5366 0.642747 77.4783 2.94211 63.861 11.3027C62.9213 11.8796 62.3887 12.9053 62.3887 13.9778V87.8886C62.3887 90.2346 64.9465 91.7175 67.1033 90.6287C81.1135 83.5559 101.375 81.6263 111.394 81.0981C114.815 80.9174 117.474 78.1671 117.474 74.8703V6.24694C117.476 2.64961 114.365 -0.200218 110.635 0.0110309ZM54.4378 11.3027C40.8225 2.94211 18.7643 0.644778 7.66626 0.0110309C3.93587 -0.200218 0.825195 2.64961 0.825195 6.24694V74.8724C0.825195 78.1711 3.48426 80.9214 6.90479 81.1002C16.9274 81.6283 37.1995 83.56 51.2097 90.6368C53.3604 91.7235 55.9101 90.2428 55.9101 87.9028V13.9413C55.9101 12.8667 55.3796 11.8816 54.4378 11.3027Z"/>
