@@ -1,0 +1,194 @@
+/* CONTAINER FILTER SEARCH */
+#container-filter {
+    width: 100%;
+    padding: 10px 60px;
+    margin-bottom: 29px;
+    background: hsl(0, 0%, 95%);
+    display: flex;
+    align-items: center;
+}
+
+/* CONTAINER BUTTON FILTER */
+#container-filter > #btn-filter-toggle {
+    cursor: pointer;
+    height: 100%;
+    margin-right: 30px;
+    display: flex;
+    align-items: center;
+}
+
+#container-filter > #btn-filter-toggle > svg {
+    width: 1rem;
+    height: 1rem;
+    fill: #000;
+}
+
+#container-filter > #btn-filter-toggle > p {
+    margin-left: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* FORM */
+#container-filter form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: 0.5s;
+    background: hsl(0, 0%, 95%);
+}
+
+
+#container-filter form header {
+    display: none;
+}
+#container-filter form header h1{
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+#container-filter form .form-input{
+    position: relative;
+    width: 100%;
+    max-width: 250px;
+}
+
+#container-filter form .form-input label{
+    width: 100%;
+    padding: 5px 15px;
+    border-radius: 12px;
+    color: hsl(0, 0%, 62%);
+    background: hsl(0, 0%, 100%);
+    font-weight: 400;
+
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    position: relative;
+}
+
+#container-filter form .form-input label span{
+    font-size: 0.8rem;
+}
+
+#container-filter form .form-input input {
+    width: 100%;
+    font-size: 0.9rem;
+    font-weight: 400;
+    border: none;
+    outline: none;
+}
+
+#container-filter form .form-input select {
+    width: 100%;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 400;
+    border: none;
+    outline: none;
+}
+
+#container-filter form #btn-filter-search {
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+    padding: 5px 20px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    outline: none;
+    border: none;
+    color: #fff;
+    background: var(--dark-color-theme);
+    display: none;
+    position: relative;
+    transition: 0.5s;
+}
+
+#container-filter form #btn-filter-search svg {
+    width: 1rem;
+    height: 1rem;
+    fill: #fff;
+    position: absolute;
+    left: 20px;
+}
+
+#container-filter form #btn-filter-search:hover {
+    background: var(--medium-color-theme);
+}
+
+/* CLOSE BUTTON */
+#container-filter form #btn-close {
+    display: none;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    outline: none;
+    background: none;
+    border: none;
+}
+
+#container-filter form #btn-close svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--dark-color-second);
+    transition: 0.5s;
+}
+
+#container-filter form #btn-close:hover svg {
+    fill: #ED1A72;
+}
+
+
+
+
+
+@media screen and (max-width: 768px){
+    #container-filter{
+        padding: 5px 1rem;
+    }
+
+    #container-filter form {
+        width: 100%;
+        height: 100vh;
+        padding: 20px 30px;
+
+        justify-content: center;
+        flex-direction: column;
+
+        position: absolute;
+        top: 0px;
+        left: -100%;
+        z-index: 900;
+    }
+
+    #container-filter form header {
+        display: block;
+    }
+
+    #container-filter form .form-input,
+    #container-filter form #btn-filter-search{
+        max-width: 350px;
+    }
+    
+    #container-filter form #btn-close{
+        display: block;
+    }
+
+    #container-filter form #btn-filter-search {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
+@media screen and (max-width: 576px){
+    #container-filter{
+        margin-bottom: 10px;
+    }
+}

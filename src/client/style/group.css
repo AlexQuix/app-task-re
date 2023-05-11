@@ -1,0 +1,56 @@
+/* NOTEBOOK GROUP */
+.group-notebook{
+    width: 100%;
+}
+
+/* TASKS GROUP */
+#group-task{
+    width: 100%;
+    padding: 20px 40px;
+    position: relative;
+}
+#group-task::before{
+    content: "";
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1.8rem;
+    border: 3px solid var(--dark-color-theme);
+    border-radius: 20px;
+    position: absolute;
+    top: -1rem;
+    left: -3px;
+    z-index: -1;
+}
+
+#group-task #empty-notebook{
+    width: 320px;
+    padding: 0px 40px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#group-task #empty-notebook svg{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+@media screen and (max-width: 576px){
+    #group-task{
+        padding: 20px 10px;
+    }
+
+    #group-task::before{
+        padding-bottom: 2.3rem;
+        border: none;
+        border-top: 2px solid var(--dark-color-theme);
+        border-bottom: 2px solid var(--dark-color-theme);
+        top: -1.3rem;
+        border-radius: 0px;
+    }
+
+    #group-task #empty-notebook{
+        width: 250px;
+    }
+}

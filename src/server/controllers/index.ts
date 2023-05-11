@@ -1,11 +1,4 @@
-import { Request, Response } from "express";
+import TaskController from "./task";
+import NotebookController from "./notebook";
 
-
-
-    async function index(req: Request, res: Response) {
-        res.render("index");
-    }
-
-
-
-export default index;
+export { TaskController, NotebookController };

@@ -1,133 +1,101 @@
-import NOTEBOOK from "./notebook";
-import TASK from './task';
-import FILTER from './filter';
-import NAVEGATION from './navegation';
-import Notebook from "./notebook";
+import FilterForm from './components/FilterForm';
+import NotebookCreationForm from './components/NotebookCreationForm';
+import GroupNotebook from "./components/GroupNotebook";
+import Search from './components/Search';
+import TaskService from "./services/task";
+import SearchResult from './components/SearchResult';
+import { Visibility, isTablet } from './utils';
+import { INotebook } from './services/notebook';
+import ScrollManager from './components/ScrollManager';
 
+class ButtonNotebookCreation{
+    public element: HTMLButtonElement;
 
-type SendData = {
-    notebook: DataNotebook[];
-    task: DataTask[];
+    /**
+     * This method is call when the button is clicked
+     */
+    public onClick: ()=>void;
+
+    constructor(){
+        this.element = document.querySelector<HTMLButtonElement>("#container-task #btn-new-notebook button");
+        this.element.onclick = (function(){
+            if(this.onClick) this.onClick();
+        }).bind(this);
+    }
+
+    changeVisibility(visibilily:Visibility){
+        if(visibilily === "hidden")
+            return this.element.style.display = "none";
+
+        this.element.style.display = "block";
+    }
 }
-type DataNotebook = {
-    _id: string;
-    name: string;
-    list_task?: DataTask[];
-}
-type DataTask = {
-    _id: string;
-    title: string;
-    priority: string;
-    description: string;
-    _id_notebook: string;
-}
 
+export default class App {
+    private static single: App;
 
-class App {
-    static body:HTMLBodyElement = document.querySelector('body');
-    constructor() {
-        this.start();
-    }
-    private async start() {
-        await NOTEBOOK.consultData();
-        new FILTER();
-        new NAVEGATION();
-        App.adaptViewport();
-    }
-    static showNotResult() {
-        let btnCreateNotebook: HTMLDivElement = document.querySelector('#container-task > #btn-create-new-list-task');
-        btnCreateNotebook.style.display = 'none';
-        let div: HTMLDivElement = document.querySelector('#cont-not-result');
-        div.style.display = 'flex';
-        let span: HTMLSpanElement = document.querySelector('#cont-not-result > span');
-        span.onclick = () => {
-            Notebook.consultData();
-            btnCreateNotebook.style.display = 'block';
-            div.style.display = 'none'
-        }
-    }
-    static removeNotResult() {
-        let div: HTMLDivElement = document.querySelector('#cont-not-result');
-        div.style.display = 'none'
-    }
-    static evaluationForInsert(json: SendData) {
-        NOTEBOOK.removeAll();
-        if (json.notebook && json.notebook[0]) {
-            Notebook.insertNotebook(json);
-        } else if (json.task && json.task[0]) {
-            let datanotebook = {
-                _id: "test",
-                name: "Results"
-            };
-            NOTEBOOK.appendChild(datanotebook);
-            TASK.insertTask(json.task, datanotebook, null);
-        } else {
-            App.showNotResult();
-        }
-    }
-    static adaptViewport() {
-        App.unlockScroll();
-        TASK.Responsive('hidden');
-        NOTEBOOK.Responsive('hidden');
-        FILTER.Responsive('hidden');
-        if (matchMedia("(max-width: 500px)").matches) {
-            NAVEGATION.Responsive();
-        }
-    }
-    static isMatches(callTrue?, callfalse?) {
-        if (matchMedia("(max-width: 500px)").matches && callTrue) {
-            callTrue();
-        } else if (callfalse) {
-            callfalse();
-        }
-    }
-    static closeEverything(): void {
-        FILTER.Responsive('hidden');
-        //NOTEBOOKS
-        NOTEBOOK.Responsive('hidden');
-        //TASKS
-        TASK.Responsive('hidden');
-        let ulPriorityArray = document.querySelectorAll<HTMLUListElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task > #cont-btns-config > #list-options-priority");
-        for (let ulPriority of ulPriorityArray) {
-            ulPriority.style.right = "-500px";
-        }
+    private body: HTMLElement;
+    private search: Search;
+    private filterForm: FilterForm;
+    private searchResult: SearchResult;
+    private groupNotebook: GroupNotebook;
+    private btnNotebookCreation: ButtonNotebookCreation;
+    private notebookForm: NotebookCreationForm;
+    private btnFilterTogle: HTMLButtonElement;
+    private containerTaskElement: HTMLDivElement;
 
-        if (matchMedia("(max-width: 500px)").matches) {
-            let contTaskArray = document.querySelectorAll<HTMLDivElement>("#container-task > #cont-all-task-lists .cont-list-task > #cont-all-task .cont-task");
-            for (let contTask of contTaskArray) {
-                if (contTask.dataset.isEnabled !== 'true') {
-                    let contTaskConfig = (contTask.children[2] as HTMLDivElement);
-                    if (getComputedStyle(contTask).marginBottom !== "0px") {
-                        contTaskConfig.style.zIndex = "-1";
-                        contTask.style.marginBottom = "0px";
-                        contTaskConfig.style.top = "0px";
-                    }
-                }
-            }
+    private constructor() {
+        this.body = document.body;
+        this.containerTaskElement = document.querySelector<HTMLDivElement>("#container-task");
+        this.btnFilterTogle = document.querySelector<HTMLButtonElement>("#btn-filter-toggle");
+        this.btnNotebookCreation = new ButtonNotebookCreation();
+        this.search = new Search();
+        this.filterForm = new FilterForm();
+        this.searchResult = new SearchResult();
+        this.groupNotebook = new GroupNotebook();
+        this.notebookForm = new NotebookCreationForm();
+
+        // load data
+        this.groupNotebook.fetchAndPopulate();
+
+        this.search.onSearch = this.handleSearch.bind(this);
+        this.filterForm.onSubmit = this.handleFilterSubmit.bind(this);
+        
+        this.btnNotebookCreation.onClick = ()=>{
+            ScrollManager.lockScroll();
+            this.notebookForm.changeVisibility("visible");
+        }
+        this.notebookForm.onClose = ()=> ScrollManager.unlockScroll();
+        this.notebookForm.onCompletedSubmit = (notebookData:INotebook)=>{
+            ScrollManager.unlockScroll();
+            this.groupNotebook.createAndAppendNotebook(notebookData)
+        }
+        this.btnFilterTogle.onclick = ()=>{
+            let self = this;
+            isTablet(()=>{
+                self.filterForm.changeVisibily("visible");
+            })
         }
     }
-    static unlockScroll(){
-        App.body.style.overflowY = 'visible';
+
+    private async handleFilterSubmit(fm:FormData){
+        let { priority, created_date } = Object.fromEntries(fm);
+        console.log(fm);
+        // this.filterForm.changeVisibily("hidden");
     }
-    static lockScroll(){
-        App.body.style.overflowY = 'hidden';
-        App.animation(()=>{
-            if(scrollY > 0){
-                let y = scrollY - 50;
-                scrollTo(0, y);
-                return true;
-            }
-        })
-    }
-    static animation(call:()=>boolean){
-        requestAnimationFrame(()=>{
-            let isAnimation = call();
-            if(isAnimation){
-                App.animation(call);
-            }
+
+    /**
+     * Handles the onSearch event and request the task with the taskname provided
+     * @param taskName - The taskname to search
+     */
+    private async handleSearch(taskName:string){
+        let { result } = await TaskService.filter({
+            title: taskName
         });
+
+        this.searchResult.populate(result);
+        this.searchResult.changeVisibility("visible");
+        this.btnNotebookCreation.changeVisibility("hidden");        
+        this.containerTaskElement.classList.add("container-task--hidden");
     }
 }
-
-export type { SendData }
-export default App;

@@ -1,0 +1,146 @@
+.notebook{
+    display: block;
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.notebook #notebook-name{
+    display: inline-block;
+    margin-left: 40px;
+}
+.notebook #notebook-name #notebook-name-flex{
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    border: 3px solid var(--medium-color-theme);
+    background: var(--ligh-color-second);
+}
+.notebook #notebook-name #notebook-name-flex header h1{
+    padding: 0px 20px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--dark-color-second);
+}
+.notebook #notebook-config{
+    display: flex;
+    position: relative;
+}
+.notebook #notebook-config button{
+    cursor: pointer;
+    width: 1.2rem;
+    height: 1.2rem;
+    padding: 5px 20px;
+    border-radius: 50px;
+    background: #000000;
+    border: none;
+    outline: none;
+    box-sizing: content-box;
+    transition: 0.5s;
+}
+.notebook #notebook-config button:nth-child(1){
+    position: absolute;
+    left: 0px;
+    background: var(--soft-color-theme);
+}
+.notebook #notebook-config button:nth-child(2){
+    padding-left: 4rem;
+    padding-right: 20px;
+    background: var(--dark-color-theme);
+}
+.notebook #notebook-name #notebook-name-flex #notebook-config button svg{
+    width: 100%;
+    height: 100%;
+    fill: #fff;
+}
+
+
+.notebook #notebook-name #notebook-name-flex #notebook-config button:nth-child(1):hover{
+    position: absolute;
+    left: 0px;
+    background: #1ADE97;
+}
+.notebook #notebook-name #notebook-name-flex #notebook-config button:nth-child(2):hover{
+    padding-left: 4rem;
+    padding-right: 20px;
+    background: #ED1A72;
+}
+
+
+
+/* NEW TASK BUTTON */
+.notebook #btn-new-task{
+    cursor: pointer;
+    padding: 7px 30px;
+    margin-left: 40px;
+    background: var(--medium-color-theme);
+    outline: none;
+    border: 2px solid var(--medium-color-theme);
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: content-box;
+    transition: 0.5s;
+}
+.notebook #btn-new-task svg{
+    width: 1rem;
+    height: 1rem;
+    fill: #fff;
+    transition: 0.5s;
+}
+.notebook #btn-new-task p{
+    margin-left: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+    transition: 0.5s;
+}
+.notebook #btn-new-task:hover{
+    background: var(--ligh-color-second);
+    border: 2px solid var(--dark-color-theme);
+}
+.notebook #btn-new-task:hover svg{
+    fill: var(--dark-color-theme);
+}
+.notebook #btn-new-task:hover p{
+    color: var(--dark-color-theme);
+}
+
+
+
+@media screen and (max-width: 576px){
+    /* CONT NAME THE LIST TASK */
+    .notebook #notebook-name{
+        margin-left: 10px;
+    }
+    .notebook #notebook-name #notebook-name-flex{
+        border: 2px solid var(--medium-color-theme);
+    }
+    .notebook #notebook-name header h1{
+        padding-left: 19px!important;
+        padding-right: 14px!important;
+        font-size: 0.8rem!important;
+    }
+    .notebook #btn-new-task{
+        padding: 5px 20px;
+        margin-left: 10px;
+    }
+    .notebook #btn-new-task svg{
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+    .notebook #btn-new-task p{
+        font-size: 0.8rem!important;
+    }
+    .notebook #notebook-config button:nth-child(1){
+        width: 50px;
+        height: 100%;
+        padding: 7px 10px;
+        box-sizing: border-box;
+    }
+    .notebook #notebook-config button:nth-child(2){
+        padding-left: 3rem!important;
+        padding-right: 15px!important;
+    }
+}

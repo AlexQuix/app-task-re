@@ -1,0 +1,116 @@
+/* CREATE NOTEBOOK */   
+#form-create-notebook{
+    width: 100%;
+    height: 100vh;
+    background: transparent;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: none;
+    place-content: center;
+    z-index: 750;
+    transition: 0.3s;
+}
+#form-create-notebook > form{
+    height: fit-content;
+    padding: 40px 60px 30px;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: var(--color-theme);
+    transition: 0.3s;
+    transform: scale(0);
+    overflow: hidden;
+}
+#form-create-notebook > form > header > h1{
+    margin-bottom: 210px;
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: var(--dark-color-theme);
+    text-align: center;
+}
+#form-create-notebook > form > #form-inputs{
+    width: 100%;
+}
+#form-create-notebook > form > #form-inputs label{
+    border-radius: 50px;
+}
+#form-create-notebook > form > #btn-add-notebook{
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    font-size: 0.9em;
+    border: 2px solid #fff;
+}
+#form-create-notebook > form > #cont-img{
+    width: 100%;
+    margin-bottom: 20px;
+    position: absolute;
+    left: 0px;
+    bottom: -33px;
+    z-index: -1;
+}
+#form-create-notebook > form > #cont-img > svg{
+    width: 100%;
+    height: 100%;
+}
+
+
+@media screen and (max-width: 768px){
+    /* FORM CREATE NOTEBOOKS */
+    #form-create-notebook{
+        width: 100%;
+        position: absolute;
+        top: 0px;
+        place-content: normal;
+        background: transparent;
+    }
+    #form-create-notebook form{
+        width: 100%;
+        height: 100%;
+        padding: 0px 20px;
+        border-radius: 0px;
+        justify-content: center;
+        transform: scale(1);
+    }
+    #form-create-notebook form header h1{
+        margin-bottom: 133px;
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: var(--dark-color-theme);
+        text-align: center;
+    }
+    #form-create-notebook form #btn-close{
+        top: 15px;
+        right: 15px;
+        transform: scale(1.2);
+    }
+    #form-create-notebook form #form-inputs{
+        width: 100%;
+        max-width: 300px;
+    }
+    #form-create-notebook form #form-inputs label{
+        margin-bottom: 10px;
+    }
+    #form-create-notebook form #btn-add-notebook{
+        max-width: 300px;
+        margin-top: 5px;
+        font-size: 1rem;
+    }
+    #form-create-notebook form #cont-img{
+        width: 100%;
+        transform: translateY(71%);
+        bottom: 50%;
+    }
+    #form-create-notebook form #cont-img::before{
+        content: '';
+        width: 100%;
+        height: 50vh;
+        background: var(--dark-color-theme);
+        position: absolute;
+        top: 216px;
+        z-index: -1;
+    }
+}

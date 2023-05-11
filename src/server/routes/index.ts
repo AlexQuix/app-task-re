@@ -1,17 +1,4 @@
-import {Router} from "express";
+import taskRoute from "./task";
+import notebookRoute from "./notebook";
 
-// CONTROLLER
-import index from "../controllers/index";
-
-const route = Router();
-
-
-
-// ROUTES
-route.get("/", index);
-
-
-
-
-
-export default route;
+export default [ taskRoute, notebookRoute ];

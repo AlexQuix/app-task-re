@@ -1,0 +1,91 @@
+/* CONTAINER TASKS */
+#container-task{
+    width: 100%;
+    padding: 20px 60px;
+}
+#container-task.container-task--hidden{
+    display: none;
+}
+
+
+/* NEW NOTEBOOK BUTTON */
+#container-task > #btn-new-notebook{
+    width: 100%;
+    margin-bottom: 60px;
+    position: relative;
+}
+#container-task > #btn-new-notebook > hr{
+    width: 100%;
+    border-top: 3px solid var(--dark-color-theme);
+    position: absolute;
+    top: 1rem;
+    left: 0px;
+    z-index: -1;
+}
+#container-task > #btn-new-notebook > button{
+    cursor: pointer;
+    margin-left: 40px;
+    padding: 5px 40px;
+    outline: none;
+    background: var(--ligh-color-second);
+    border: 3px solid var(--dark-color-theme);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    transition: 0.5s;
+}
+#container-task #btn-new-notebook svg{
+    width: 1rem;
+    height: 1rem;
+    margin-bottom: 3px;
+    fill: var(--dark-color-theme);
+    transition: 0.5s;
+}
+#container-task #btn-new-notebook p{
+    margin-left: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--dark-color-theme);
+    transition: 0.5s;
+}
+
+#container-task #btn-new-notebook button:hover{
+    background: var(--dark-color-theme);
+}
+#container-task #btn-new-notebook button:hover svg{
+    fill: #fff;
+}
+#container-task #btn-new-notebook button:hover p{
+    color: #fff;
+}
+
+
+
+@media screen and (max-width: 768px){
+    /* CONTAINER TASKS */
+    #container-task{
+        padding: 20px 20px;
+    }
+}
+
+@media screen and (max-width: 576px){
+    #container-task{
+        padding: 20px 0px;
+    }
+    #container-task #btn-new-notebook{
+        margin-bottom: 30px;
+    }
+    #container-task #btn-new-notebook button{
+        padding: 4px 15px;
+        margin-left: 15px;
+        border: 2px solid var(--dark-color-theme);
+    }
+    #container-task #btn-new-notebook button p{
+        margin-left: 5px;
+        font-size: 0.8rem;
+    }
+    #container-task #btn-new-notebook button svg{
+        width: 0.9rem;
+    }
+}

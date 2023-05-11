@@ -1,136 +1,137 @@
-import App from "./app";
+import { ITask } from "../services/task";
+import App from "../app";
+import ScrollManager from "./ScrollManager";
+import { isMobile } from "../utils";
 
-type Actions = 'delete'|'rename'|'read';
-interface IContentTask {
-  _id: string;
-  title: string;
-  priority: string;
-  description: string;
-  _id_notebook: string;
-}
+export type Actions = 'delete'|'rename'|'read';
 
-class TextBox{
-    private static container:HTMLDivElement = document.querySelector('#cont-text-box');
-    private static contImg:HTMLDivElement = TextBox.container.querySelector('div > #cont-img');
-    private static contTitle:HTMLDivElement = TextBox.container.querySelector('div > #cont-title > h1');
-    private static contMsg:HTMLParagraphElement = TextBox.container.querySelector('div > #cont-msg');
-    private static contText:HTMLDivElement = TextBox.container.querySelector('div > #cont-read-text');
-    private static input:HTMLInputElement = TextBox.container.querySelector('div > input');
-    private static aceptBtn:HTMLButtonElement = TextBox.container.querySelector('div > #btn-acept');
-    private static closeBtn:HTMLButtonElement = TextBox.container.querySelector('div > #btn-close');
-    static async showMsg(action:Actions, json?:string | IContentTask):Promise<string | undefined>{
-        TextBox.input.value = '';
-        App.closeEverything();
-        App.lockScroll();
-        TextBox.Responsive('visible');
-        TextBox.cleanBox(action);
-        TextBox.runAction(action, json);
+export default class Dialog{
+    private static container:HTMLDivElement = document.querySelector('#dialog');
+    private static contImg:HTMLDivElement = Dialog.container.querySelector('div > #cont-img');
+    private static contTitle:HTMLDivElement = Dialog.container.querySelector('div > #cont-title > h1');
+    private static contMsg:HTMLParagraphElement = Dialog.container.querySelector('div > #cont-msg');
+    private static contText:HTMLDivElement = Dialog.container.querySelector('div > #cont-read-text');
+    private static input:HTMLInputElement = Dialog.container.querySelector('div > input');
+    private static aceptBtn:HTMLButtonElement = Dialog.container.querySelector('div > #btn-acept');
+    private static closeBtn:HTMLButtonElement = Dialog.container.querySelector('div > #btn-close');
+    
+
+    
+    static async show(action:Actions, json?:string | ITask):Promise<string | undefined>{
+        Dialog.input.value = '';
+
+        // App.closeEverything();
+        ScrollManager.lockScroll();
+
+        Dialog.Responsive('visible');
+        Dialog.cleanBox(action);
+        Dialog.runAction(action, json);
+
         return new Promise((resolve, reject)=>{
-          TextBox.aceptBtn.onclick = ()=>{
+          Dialog.aceptBtn.onclick = ()=>{
             if(action !== 'read'){
-              let text = TextBox.input.value;
+              let text = Dialog.input.value;
               if(text){
-                App.unlockScroll();
-                TextBox.Responsive('hidden');
+                ScrollManager.unlockScroll();
+                Dialog.Responsive('hidden');
                 resolve(text);
               }
             }else{
-              App.unlockScroll();
-              TextBox.Responsive('hidden');
+              ScrollManager.unlockScroll();
+              Dialog.Responsive('hidden');
             }
           };
-          TextBox.closeBtn.onclick = ()=>{
-            App.unlockScroll();
-            TextBox.Responsive('hidden');
+          Dialog.closeBtn.onclick = ()=>{
+            ScrollManager.unlockScroll();
+            Dialog.Responsive('hidden');
             resolve(undefined);
           }
         })
     }
     public static Responsive(display:'hidden' | 'visible'){
       if(display === 'visible'){
-        App.isMatches(()=>{
-          TextBox.container.style.display = 'flex';
+        isMobile(()=>{
+          Dialog.container.style.display = 'flex';
         }, ()=>{
-          TextBox.container.style.display = 'flex';
+          Dialog.container.style.display = 'flex';
         })
       }else if(display === 'hidden'){
-        App.isMatches(()=>{
-          TextBox.container.style.display = 'none';
+        isMobile(()=>{
+          Dialog.container.style.display = 'none';
         }, ()=>{
-          TextBox.container.style.display = 'none';
+          Dialog.container.style.display = 'none';
         })
       }
     }
     public static cleanBox(action:Actions){
       if(action !== 'read'){
-        TextBox.contText.style.display = 'none';
-        TextBox.contImg.style.display = 'block';
-        TextBox.input.style.display = 'block';
+        Dialog.contText.style.display = 'none';
+        Dialog.contImg.style.display = 'block';
+        Dialog.input.style.display = 'block';
       }else{
-        TextBox.contImg.style.display = 'none';
-        TextBox.contImg.style.height = '0px';
-        TextBox.input.style.display = 'none';
-        TextBox.contMsg.innerHTML = '';
+        Dialog.contImg.style.display = 'none';
+        Dialog.contImg.style.height = '0px';
+        Dialog.input.style.display = 'none';
+        Dialog.contMsg.innerHTML = '';
       }
     }
-    private static runAction(action:Actions, json?:string | IContentTask){
+    private static runAction(action:Actions, json?:string | ITask){
       switch(action){
         case 'delete':
-            TextBox.deleteMsg(json as string);
+            Dialog.deleteMsg(json as string);
         break;
         case 'rename':
-            TextBox.renameMsg(json as string);
+            Dialog.renameMsg(json as string);
         break;
         case 'read':
-          TextBox.readTaskMsg(json as IContentTask);
+          Dialog.readTaskMsg(json as ITask);
         break;
       }
     }
-    private static readTaskMsg(json:IContentTask){
+    private static readTaskMsg(json:ITask){
       let title = 'Read Notebook';
 
-      TextBox.contText.style.display = 'flex';
-      TextBox.contTitle.innerHTML = title;
-      TextBox.contText.innerHTML = TextBox.readHTML(json);
+      Dialog.contText.style.display = 'flex';
+      Dialog.contTitle.innerHTML = title;
+      Dialog.contText.innerHTML = Dialog.readHTML(json);
     }
     private static deleteMsg(name:string){
         let title = 'Delete Notebook';
-        let img = TextBox.deleteHTML();
-        let text = `Are you sure that it wants to delete this notebook?</br>It write "${name}" for confirg`;
+        let img = Dialog.deleteHTML();
+        let text = `Are you sure that you want to delete this notebook? Please write "${name}" to confirm`;
 
-        TextBox.contTitle.innerHTML = title;
-        TextBox.contImg.innerHTML = img;
-        TextBox.contMsg.innerHTML = text;
+        Dialog.contTitle.innerHTML = title;
+        Dialog.contImg.innerHTML = img;
+        Dialog.contMsg.innerHTML = text;
 
         
-        App.isMatches(()=>{
-          TextBox.contImg.style.height = '120px';
+        isMobile(()=>{
+          Dialog.contImg.style.height = '120px';
         }, ()=>{
-          TextBox.contImg.style.height = '150px';
+          Dialog.contImg.style.height = '150px';
         })
     }
     private static renameMsg(name:string){
       let title = 'Rename Notebook';
-      let img = TextBox.renameHTML();
+      let img = Dialog.renameHTML();
       let text = 'Change the name notebook';
 
-      TextBox.contTitle.innerHTML = title;
-      TextBox.contImg.innerHTML = img;
-      TextBox.contMsg.innerHTML = text;
+      Dialog.contTitle.innerHTML = title;
+      Dialog.contImg.innerHTML = img;
+      Dialog.contMsg.innerHTML = text;
 
-      App.isMatches(()=>{
-        TextBox.contImg.style.height = '150px';
+      isMobile(()=>{
+        Dialog.contImg.style.height = '150px';
       }, ()=>{
-        TextBox.contImg.style.height = '190px';
+        Dialog.contImg.style.height = '190px';
       })
     }
-    private static readHTML(json){
+    private static readHTML(task:ITask){
       return `
-        <header><h1><b style='color:#676767;'>Name Notebook: </b>${json.name}</h1></header>
-        <span id="title"><b>Title: </b>${json.title}</span>
-        <span id="priority"><b>Date: </b>${json.date}</span>
-        <span id="priority"><b>Priority: </b>${json.priority}</span>
-        <span id="description"><b>Description: </b>${(json.description)?json.description:'<b>undefined</b>'}</span>
+        <span id="title"><b>Title: </b>${task.title}</span>
+        <span id="priority"><b>Date: </b>${task.created_date}</span>
+        <span id="priority"><b>Priority: </b>${task.priority}</span>
+        <span id="description"><b>Description: </b>${(task.description)?task.description:'<b>undefined</b>'}</span>
       `
     }
     private static deleteHTML(){
@@ -259,5 +260,3 @@ class TextBox{
         `;
     }
 }
-
-export default TextBox;

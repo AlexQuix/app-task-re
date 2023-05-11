@@ -10,7 +10,7 @@ const JsLoader = {
   exclude: [/node_modules/, /client/],
 };
 
-const Server = {
+module.exports = {
   mode: process.env.MODE,
   target: "node",
   externals: [nodeExternals()],
@@ -28,6 +28,4 @@ const Server = {
   resolve: {
     extensions: [".js", ".ts"],
   },
-};
-
-exports.Server = Server;
+}
