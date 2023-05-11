@@ -23,6 +23,7 @@ module.exports = {
     path: path.resolve(__dirname, "../", "dist"),
     filename: "public/js/bundle.js",
     publicPath: "/assets/",
+    clean: true
   },
   devtool: "inline-source-map",
   devServer: {
@@ -42,8 +43,8 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: "./src/client/index.html",
-      filename: "./index.html",
-      inject: true,
+      filename: "./public/index.html",
+      inject: false,
     }),
     new MiniCSSExtractPlugin({
       filename: "/public/style/bundle.css",
