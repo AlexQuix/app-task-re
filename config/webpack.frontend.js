@@ -4,7 +4,6 @@ const path = require("path");
 // PLUGINS
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
-const Analyzer = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 // LOADERS
 const CSSLoader = {
@@ -42,14 +41,13 @@ module.exports = {
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: "./src/client/views/index.html",
+      template: "./src/client/index.html",
       filename: "./index.html",
       inject: true,
     }),
     new MiniCSSExtractPlugin({
       filename: "/public/style/bundle.css",
-    }),
-    // new Analyzer({ analyzerPort: "auto" })
+    })
   ],
   resolve: {
     extensions: [".js", ".ts"],
