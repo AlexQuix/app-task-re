@@ -1,11 +1,11 @@
 import NotebookService, { INotebook } from "../services/notebook";
 import {BreakPoints, Visibility} from "../utils";
 
-const ContainerForm = document.querySelector<HTMLDivElement>("#container-task > #form-create-notebook");
-const Form = document.querySelector<HTMLFormElement>("#form-create-notebook form");
-const BtnClose = document.querySelector<HTMLButtonElement>("#form-create-notebook #btn-close");
-const BtnNewNotebook = document.querySelector<HTMLButtonElement>("#form-create-notebook #btn-add-notebook");
-const Input = document.querySelector<HTMLInputElement>("#name");
+const ContainerForm = document.querySelector<HTMLDivElement>("#new-notebook-form");
+const Form = document.querySelector<HTMLFormElement>("#new-notebook-form form");
+const BtnClose = document.querySelector<HTMLButtonElement>("#new-notebook-form #btn-close");
+const BtnNewNotebook = document.querySelector<HTMLButtonElement>("#new-notebook-form #btn-add-notebook");
+
 
 export default class NotebookCreationForm{
     /**
@@ -51,29 +51,10 @@ export default class NotebookCreationForm{
     }
 
     hide(){
-        // if the viewport is less than mobile, add this style
-        if(matchMedia(BreakPoints.MOBILE)){
-            Form.style.transform = "scale(1)";
-            ContainerForm.style.display = 'none';
-            ContainerForm.style.background = "transparent";
-            return;
-        }
-
-        Form.style.transform = "scale(0)";
-        ContainerForm.style.display = 'none';
-        ContainerForm.style.background = "transparent";
+        ContainerForm.classList.remove("visible");
     }
 
     show(){    
-        // if the viewport is less than mobile, add this style
-        if(matchMedia(BreakPoints.MOBILE)){
-            ContainerForm.style.display = 'grid';
-            Form.style.transform = "scale(1)";
-            return;
-        }
-
-        Form.transform = "scale(1)";
-        ContainerForm.style.display = 'grid';
-        ContainerForm.style.background = "#000a";
+        ContainerForm.classList.add("visible");
     }
 }

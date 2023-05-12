@@ -9,7 +9,7 @@
 }
 
 @media(max-width: 300px){
-    #container-task > #form-create-notebook > form > #cont-img::before{
+    #container-task > #new-notebook-form > form > #cont-img::before{
         top: 135px;
     }
 }

@@ -89,7 +89,7 @@ export default class Dialog{
       }
     }
     private static readTaskMsg(json:ITask){
-      let title = 'Read Notebook';
+      let title = 'Task Information';
 
       Dialog.contText.style.display = 'flex';
       Dialog.contTitle.innerHTML = title;

@@ -9,6 +9,7 @@ export default class TaskForm{
     private element: HTMLDivElement;
     private btnClose: HTMLButtonElement;
     private form: HTMLFormElement;
+    private formWrapper: HTMLDivElement;
 
     /**
      * A method to be called when the form is closed.
@@ -25,8 +26,9 @@ export default class TaskForm{
 
 
     constructor() {
-        this.element = document.querySelector<HTMLDivElement>("#container-task > #form-new-task")
-        this.form = this.element.querySelector<HTMLFormElement>("#container-task > #form-new-task form")
+        this.element = document.querySelector<HTMLDivElement>("#new-task-form")
+        this.formWrapper = this.element.querySelector<HTMLDivElement>("#new-task-form .form-wrapper")
+        this.form = this.element.querySelector<HTMLFormElement>("#new-task-form form")
         this.btnClose = this.element.querySelector<HTMLButtonElement>("#btn-close");
 
         this.btnClose.addEventListener("click", this.handleClose.bind(this));
@@ -61,26 +63,10 @@ export default class TaskForm{
     }
 
     hide(){
-        // if the viewport is less than mobile, add this style
-        if(matchMedia(BreakPoints.MOBILE)){
-            this.element.style.right = '-130%';
-            this.element.style.transform = 'scale(1)';
-            return;
-        }
-
-        this.element.style.right = '40px';
-        this.element.style.transform = 'scale(0)';
+        this.element.classList.remove("visible");
     }
 
     show(){
-        // if the viewport is less than mobile, add this style
-        if(matchMedia(BreakPoints.MOBILE)){
-            this.element.style.right = '0px';
-            this.element.style.transform = 'scale(1)';
-            return;
-        }
-
-        this.element.style.right = '40px';
-        this.element.style.transform = 'scale(1)';
+        this.element.classList.add("visible");
     }
 }
