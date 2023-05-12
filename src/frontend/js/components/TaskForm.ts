@@ -1,8 +1,5 @@
-import App from "../app";
-import TaskServices, { ITaskCreation } from "../services/task";
 import { BreakPoints, IResult, Visibility } from "../utils";
-import { ITask } from "../../../server/models";
-import ScrollManager from "./ScrollManager";
+import TaskServices, { ITaskCreation, ITask } from "../services/task";
 
 export type OnCompletedSubmit = (result:IResult<ITask>)=>Promise<void> | null;
 

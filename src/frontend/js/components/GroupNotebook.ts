@@ -1,8 +1,8 @@
-import { INotebook } from "../services/notebook";
-import NotebookService from "../services/notebook";
 import { Visibility } from "../utils";
 import Notebook from "./Notebook";
 
+import { INotebook } from "../services/notebook";
+import NotebookService from "../services/notebook";
 
 /**
  * Represents the group notebok element.

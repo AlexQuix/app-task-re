@@ -1,9 +1,6 @@
-import { Visibility, isTablet } from '../utils';
-import { isMobile } from '../utils';
-
-import App from '../app';
 import ScrollManager from './ScrollManager';
 
+import { Visibility, isTablet } from '../utils';
 
 
 export default class FilterForm {

@@ -1,31 +1,38 @@
-require("dotenv").config();
 const path = require("path");
-const nodeExternals = require("webpack-node-externals");
-
-const Analyzer = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-
-const JsLoader = {
-  test: /\.ts$/,
-  use: ["babel-loader"],
-  exclude: [/node_modules/, /client/],
-};
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
-  mode: process.env.MODE,
-  target: "node",
-  externals: [nodeExternals()],
-  entry: ["./src/server/index.ts"],
+  mode: "production",
+  entry: {
+    server: "./src/backend/index.ts"
+  },
   output: {
     filename: "index.js",
-    path: path.join(__dirname, "../", "dist"),
+    path: path.resolve(__dirname, "../dist"),
+    libraryTarget: 'commonjs',
+    libraryExport: 'default',
+    library: 'index'
   },
   module: {
-    rules: [JsLoader],
+    rules: [
+      {
+        test: /\.ts$/,
+        use: "ts-loader",
+        exclude: [/node_modules/, path.resolve(__dirname, "../", "src/frontend")]
+      }
+    ]
+  },
+  resolve: {
+    extensions: [".ts", ".js"]
   },
   plugins: [
-    //new Analyzer({ analyzerPort: "auto" })
+    new ForkTsCheckerWebpackPlugin()
   ],
-  resolve: {
-    extensions: [".js", ".ts"],
-  },
-}
+  target: "node",
+  externals: [
+    {
+      mongodb: "commonjs mongodb",
+      mongoose: "commonjs mongoose"
+    }
+  ]
+};

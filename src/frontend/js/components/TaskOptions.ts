@@ -1,6 +1,5 @@
 import PriorityTask from "./PriorityTask";
-import App from "../app";
-import task, { ITask } from "../services/task";
+import { ITask } from "../services/task";
 
 export enum TaskEvents {
     READ = "read",

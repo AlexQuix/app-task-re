@@ -1,5 +1,7 @@
-import { ITask } from "../services/task";
 import Task from "./Task";
+
+import { ITask } from "../services/task";
+
 
 export class EmptyTask {
     public element: HTMLDivElement;

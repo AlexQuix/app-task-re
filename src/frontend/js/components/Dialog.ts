@@ -1,6 +1,6 @@
-import { ITask } from "../services/task";
-import App from "../app";
 import ScrollManager from "./ScrollManager";
+
+import { ITask } from "../services/task";
 import { isMobile } from "../utils";
 
 export type Actions = 'delete'|'rename'|'read';

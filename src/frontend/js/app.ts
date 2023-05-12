@@ -32,8 +32,6 @@ class ButtonNotebookCreation{
 }
 
 export default class App {
-    private static single: App;
-
     private body: HTMLElement;
     private search: Search;
     private filterForm: FilterForm;
@@ -44,7 +42,7 @@ export default class App {
     private btnFilterTogle: HTMLButtonElement;
     private containerTaskElement: HTMLDivElement;
 
-    private constructor() {
+    constructor() {
         this.body = document.body;
         this.containerTaskElement = document.querySelector<HTMLDivElement>("#container-task");
         this.btnFilterTogle = document.querySelector<HTMLButtonElement>("#btn-filter-toggle");

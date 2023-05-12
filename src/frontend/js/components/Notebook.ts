@@ -1,12 +1,13 @@
 import Dialog from './Dialog';
-import NotebookServices from "../services/notebook";
 import TaskForm from './TaskForm';
 import GroupTask from './GroupTask';
 import Task from './Task';
-import { INotebook } from '../services/notebook';
+import ScrollManager from './ScrollManager';
+
 import { IResult } from '../utils';
 import { ITask } from '../services/task';
-import ScrollManager from './ScrollManager';
+import NotebookServices, { INotebook } from "../services/notebook";
+
 
 export default class Notebook {
     private id: string;

@@ -18,7 +18,7 @@ const JsLoader = {
 
 module.exports = {
   mode: process.env.MODE,
-  entry: ["regenerator-runtime", "./src/client/index.ts"],
+  entry: ["regenerator-runtime", "./src/frontend/index.ts"],
   output: {
     path: path.resolve(__dirname, "../", "dist"),
     filename: "public/js/bundle.js",
@@ -42,7 +42,7 @@ module.exports = {
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: "./src/client/index.html",
+      template: "./src/frontend/index.html",
       filename: "./public/index.html",
       inject: false,
     }),

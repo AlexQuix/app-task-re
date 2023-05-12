@@ -1,4 +1,3 @@
-import App from "../app";
 import Priority, { PriorityLevel, PriorityLevelColor } from "./Priority";
 import PriorityCollection from "./PriorityCollection";
 import { TaskEvents } from "./TaskOptions";

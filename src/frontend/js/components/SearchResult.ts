@@ -1,4 +1,4 @@
-import task, { ITask } from "../services/task";
+import { ITask } from "../services/task";
 import { Visibility } from "../utils";
 import GroupTask from "./GroupTask";
 import NotResult from "./NotResult";
