@@ -10,7 +10,7 @@ export default class Dialog{
     private static contImg:HTMLDivElement = Dialog.container.querySelector('div > #cont-img');
     private static contTitle:HTMLDivElement = Dialog.container.querySelector('div > #cont-title > h1');
     private static contMsg:HTMLParagraphElement = Dialog.container.querySelector('div > #cont-msg');
-    private static contText:HTMLDivElement = Dialog.container.querySelector('div > #cont-read-text');
+    private static contText:HTMLDivElement = Dialog.container.querySelector('div > #read-notebook');
     private static input:HTMLInputElement = Dialog.container.querySelector('div > input');
     private static aceptBtn:HTMLButtonElement = Dialog.container.querySelector('div > #btn-acept');
     private static closeBtn:HTMLButtonElement = Dialog.container.querySelector('div > #btn-close');

@@ -25,8 +25,9 @@
 }
 #dialog > div > #cont-title > h1{
     font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: var(--dark-color-theme);
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: hsl(0, 0%, 40%);
 }
 #dialog > div > #cont-img{
     width: 170px;
@@ -81,43 +82,21 @@
     border-radius: 50px;
     transition: 0.5s;
 }
-#dialog > div > #cont-read-text{
+#dialog > div > #read-notebook{
     width: 100%;
-    padding: 20px 10px 10px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    background: #efefef;
     position: relative;
 }
-#dialog > div > #cont-read-text::before {
-    content: '';
-    width: 170px;
-    height: 30px;
-    border-radius: 24px;
-    background: #B3A8F9;
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-#dialog > div > #cont-read-text > header > h1{
+#dialog > div > #read-notebook > span{
     width: 100%;
-    padding: 5px 15px;
-    margin-bottom: 5px;
-    font-size: 1.1rem;
-    color: var(--medium-color-theme);
-    background: #efefef;
-    border-radius: 50px;
-}
-#dialog > div > #cont-read-text > span{
-    width: 100%;
-    padding: 7px 20px;
+    padding: 7px 14px;
     margin:  5px 0px;
     font-size: 1rem;
+    border-radius: 7px;
     color: var(--dark-color-second);
-    background: #efefef;
-    border-radius: 50px;
+    background: hsl(0, 0%, 97%);
 }
 
 #dialog > div > #btn-close:hover > svg{
@@ -140,7 +119,6 @@
     }
     #dialog > div > #cont-title > h1{
         font-size: 1.6rem;
-        color: var(--dark-color-theme);
     }
     #dialog > div > #cont-img{
         width: 120px;
@@ -166,10 +144,10 @@
         padding: 5px;
         margin-top: 15px;
     }
-    #dialog > div > #cont-read-text{
+    #dialog > div > #read-notebook{
         max-width: 300px;
     }
-    #dialog > div > #cont-read-text > span{
+    #dialog > div > #read-notebook > span{
         padding: 5px 15px;
         margin: 3px 0px;
     }
