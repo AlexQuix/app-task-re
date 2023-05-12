@@ -16,7 +16,7 @@
 }
 #container-task > #btn-new-notebook > hr{
     width: 100%;
-    border-top: 3px solid var(--dark-color-theme);
+    border-top: 2px solid hsl(249 100% 90% / 1);
     position: absolute;
     top: 1rem;
     left: 0px;

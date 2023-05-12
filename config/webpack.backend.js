@@ -11,7 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, "../dist"),
     libraryTarget: 'commonjs',
     libraryExport: 'default',
-    library: 'index'
+    library: 'index',
   },
   module: {
     rules: [

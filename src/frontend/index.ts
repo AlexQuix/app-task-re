@@ -1,10 +1,6 @@
-// //CSS
-import './style/home.css';
-
-// JS
+import './style/main.css';
 import App from './js/app';
 
-// INITIALIZER APP
 function initApp() {
     new App();
 }

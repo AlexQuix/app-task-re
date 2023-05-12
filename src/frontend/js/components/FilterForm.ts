@@ -24,14 +24,14 @@ export default class FilterForm {
         e.preventDefault();
         this.changeVisibily("hidden");
         
-        if(this.onClose) this.onClose();
+        if(this.onSubmit) this.onSubmit(this.getFormData());
     }
 
     handleCloseClick(e){
         e.preventDefault();
         this.changeVisibily("hidden");
 
-        if(this.onSubmit) this.onSubmit(this.getFormData());
+        if(this.onClose) this.onClose();
     }
 
     changeVisibily(visibilily:Visibility) {

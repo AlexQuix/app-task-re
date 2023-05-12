@@ -18,6 +18,14 @@ export default class Search {
 		this.searchBtn.onclick = this.handleSearchClick.bind(this);
 	}
 
+	/**
+	 * Returns the value of the search input
+	 * @returns {string} The value of the search input
+	 */
+	public getSearchValue(): string {
+		return this.searchInput.value;
+	}
+
 	private async handleSearchClick() {
         // Adds style if the current viewport have a mobile size
         if(matchMedia(BreakPoints.MOBILE)){

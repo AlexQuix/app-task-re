@@ -27,7 +27,6 @@ export default class PriorityCollection{
      * @param prioritySelected - The priority selected value
      */
     handleSelected(prioritySelected: Priority){
-        console.log("bind");
         if(this.onSelected) this.onSelected(prioritySelected);
     }
 

@@ -25,7 +25,6 @@ export default class NotebookController {
     static async create(req: Request, res: Response) {
         try{
             let {name} = req.body as INotebook;
-            console.log(req.body)
             let createTask = new Notebook({ name });
     
             await createTask.save();

@@ -9,7 +9,7 @@
     "build:frontend": "webpack --config config/webpack.frontend.js",
     "build:backend": "webpack --config config/webpack.backend.js",
     "dev:frontend": "webpack serve --config config/webpack.frontend.js",
-    "dev:backend": "ts-node-dev --respawn src/server/server.ts"
+    "dev:backend": "ts-node-dev --respawn src/backend/index.ts"
   },
   "keywords": [],
   "author": "",

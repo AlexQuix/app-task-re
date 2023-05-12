@@ -2,19 +2,19 @@ import { Request, Response } from "express";
 import { Task, ITask } from "../models";
 
 function buildQuery(rawQuery){
-    console.log(rawQuery);
-    const query = { $or: [] };
+    const query = { $and: [] };
 
-    if (rawQuery.hasOwnProperty('priority')) {
-        query.$or.push({priority: rawQuery.priority});
+    if (rawQuery.priority) {
+        query.$and.push({priority: rawQuery.priority});
     }
 
-    if (rawQuery.hasOwnProperty('title')) {
-        query.$or.push({ title: { $regex: rawQuery.title, $options: 'i' } });
+    if (rawQuery.title) {
+        query.$and.push({ title: { $regex: rawQuery.title, $options: 'i' } });
     }
 
-    if(rawQuery.hasOwnProperty("created_date")){
-        query.$or.push({ created_date: rawQuery.created_date });
+    if(rawQuery.created_date){
+        console.log(new Date(rawQuery.created_date).toISOString());
+        query.$and.push({ created_date: {$gte: new Date(rawQuery.created_date).toISOString()} });
     }
 
     return query;
@@ -33,7 +33,7 @@ export default class TaskController {
     static async find(req: Request, res: Response) {
         try{
             let query = buildQuery(req.query);
-            console.log(query);
+            console.log(query)
             let tasks = await Task.find(query);
             res.send({result: tasks});
         }catch(e){

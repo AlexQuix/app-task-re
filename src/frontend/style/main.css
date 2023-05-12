@@ -32,9 +32,18 @@
     font-size: 20px;
     box-sizing: border-box;
 }
+
 body{
     background: var(--ligh-color-second);
     overflow-x: hidden;
+}
+
+
+main{
+    max-width: 1600px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 

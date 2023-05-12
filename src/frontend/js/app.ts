@@ -2,7 +2,7 @@ import FilterForm from './components/FilterForm';
 import NotebookCreationForm from './components/NotebookCreationForm';
 import GroupNotebook from "./components/GroupNotebook";
 import Search from './components/Search';
-import TaskService from "./services/task";
+import TaskService, { ITaskSearch } from "./services/task";
 import SearchResult from './components/SearchResult';
 import { Visibility, isTablet } from './utils';
 import { INotebook } from './services/notebook';
@@ -32,7 +32,6 @@ class ButtonNotebookCreation{
 }
 
 export default class App {
-    private body: HTMLElement;
     private search: Search;
     private filterForm: FilterForm;
     private searchResult: SearchResult;
@@ -43,7 +42,6 @@ export default class App {
     private containerTaskElement: HTMLDivElement;
 
     constructor() {
-        this.body = document.body;
         this.containerTaskElement = document.querySelector<HTMLDivElement>("#container-task");
         this.btnFilterTogle = document.querySelector<HTMLButtonElement>("#btn-filter-toggle");
         this.btnNotebookCreation = new ButtonNotebookCreation();
@@ -57,13 +55,12 @@ export default class App {
         this.groupNotebook.fetchAndPopulate();
 
         this.search.onSearch = this.handleSearch.bind(this);
-        this.filterForm.onSubmit = this.handleFilterSubmit.bind(this);
-        
+        this.filterForm.onSubmit = this.handleFilterFormSubmit.bind(this);
+        this.notebookForm.onClose = ()=> ScrollManager.unlockScroll();
         this.btnNotebookCreation.onClick = ()=>{
             ScrollManager.lockScroll();
             this.notebookForm.changeVisibility("visible");
         }
-        this.notebookForm.onClose = ()=> ScrollManager.unlockScroll();
         this.notebookForm.onCompletedSubmit = (notebookData:INotebook)=>{
             ScrollManager.unlockScroll();
             this.groupNotebook.createAndAppendNotebook(notebookData)
@@ -76,24 +73,40 @@ export default class App {
         }
     }
 
-    private async handleFilterSubmit(fm:FormData){
-        let { priority, created_date } = Object.fromEntries(fm);
-        console.log(fm);
-        // this.filterForm.changeVisibily("hidden");
+    /**
+     * Handles the onSubmit event and request the task
+     */
+    private async handleFilterFormSubmit(){
+        let taskName = this.search.getSearchValue();
+        let filterFormData = this.filterForm.getFormData();
+        let {created_date, priority} = Object.fromEntries(filterFormData.entries());
+
+        let { result } = await TaskService.filter({ created_date, priority, title: taskName } as any);
+
+        this.searchResult.populate(result);
+        this.showSearchResults();
     }
 
     /**
-     * Handles the onSearch event and request the task with the taskname provided
+     * Handles the onSearch event and request the task
      * @param taskName - The taskname to search
      */
-    private async handleSearch(taskName:string){
-        let { result } = await TaskService.filter({
-            title: taskName
-        });
+    private async handleSearch(taskName:string){        
+        let formdata = this.filterForm.getFormData();
+        let {created_date, priority} = Object.fromEntries(formdata.entries());
+
+        let { result } = await TaskService.filter({ created_date, priority, title: taskName } as any);
 
         this.searchResult.populate(result);
+        this.showSearchResults();
+    }
+
+    /**
+     * Shows the search results and hides the task container and notebook creation button
+     */
+    private showSearchResults() {
         this.searchResult.changeVisibility("visible");
-        this.btnNotebookCreation.changeVisibility("hidden");        
+        this.btnNotebookCreation.changeVisibility("hidden");
         this.containerTaskElement.classList.add("container-task--hidden");
     }
 }

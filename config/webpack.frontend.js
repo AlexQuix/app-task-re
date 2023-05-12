@@ -1,4 +1,3 @@
-require("dotenv").config();
 const path = require("path");
 
 // PLUGINS
@@ -13,22 +12,20 @@ const CSSLoader = {
 const JsLoader = {
   test: /\.ts$/,
   use: ["babel-loader"],
-  exclude: [/node_modules/, /server/],
+  exclude: [/node_modules/],
 };
 
 module.exports = {
-  mode: process.env.MODE,
+  mode: "production",
   entry: ["regenerator-runtime", "./src/frontend/index.ts"],
   output: {
-    path: path.resolve(__dirname, "../", "dist"),
-    filename: "public/js/bundle.js",
-    publicPath: "/assets/",
-    clean: true
+    path: path.resolve(__dirname, "../", "dist", "public"),
+    filename: "js/bundle.js",
+    publicPath: "/"
   },
-  devtool: "inline-source-map",
   devServer: {
     static: {
-      directory: path.resolve(__dirname, "../", "dist"),
+      directory: path.resolve(__dirname, "../", "dist", "public"),
     },
     port: 9000,
     compress: true,
@@ -43,11 +40,11 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: "./src/frontend/index.html",
-      filename: "./public/index.html",
-      inject: false,
+      filename: "/index.html",
+      inject: true,
     }),
     new MiniCSSExtractPlugin({
-      filename: "/public/style/bundle.css",
+      filename: "style/bundle.css",
     })
   ],
   resolve: {

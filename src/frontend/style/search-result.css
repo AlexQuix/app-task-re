@@ -9,7 +9,6 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    overflow: hidden;
 }
 #search-result .not-result{
     max-width: 500px;
@@ -39,6 +38,11 @@
 #search-result .not-result span:hover{
     color: var(--dark-color-theme);
 }
+
+#search-result #group-task::before{
+    display: none;
+}
+
 
 @media screen and (max-width: 576px){
     #search-result .not-result h1{
