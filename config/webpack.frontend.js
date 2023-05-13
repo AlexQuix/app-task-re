@@ -40,7 +40,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: "./src/frontend/index.html",
-      filename: "/index.html",
+      filename: "index.html",
       inject: true,
     }),
     new MiniCSSExtractPlugin({

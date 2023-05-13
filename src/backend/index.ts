@@ -22,7 +22,7 @@ app.use(express.json());
 //ROUTES
 app.get("/home", (req, res)=>{
     let filePath = path.join(__dirname, "public", "index.html");
-    console.log(filePath)
+    console.log(__dirname, filePath)
     res.sendFile(filePath);
 })
 
