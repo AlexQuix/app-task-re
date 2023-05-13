@@ -15,20 +15,21 @@ const app = express();
 // MIDDLEWARE
 app.use(morgan("dev"));
 app.use(cors());
-app.use(express.static(path.join(process.cwd(), "dist", "public")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 //ROUTES
-app.get("/", (req, res)=>{
-    let filePath = path.join(process.cwd(), "dist", "public", "index.html");
+app.get("/home", (req, res)=>{
+    let filePath = path.join(__dirname, "public", "index.html");
+    console.log(filePath)
     res.sendFile(filePath);
 })
 
 app.use("/api", routes);
 
 app.use((req, res)=>{
-    res.redirect("/");
+    res.redirect("/home");
 })
 
 app.listen(process.env.PORT || 3000, ()=>{
