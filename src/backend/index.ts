@@ -21,6 +21,10 @@ app.use(express.json());
 
 
 //ROUTES
+app.get("/", (req, res)=>{
+    let filePath = path.join(__dirname, "/public", "index.html");
+    res.sendFile(filePath);
+})
 app.use("/api", routes);
 
 
